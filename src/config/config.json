@@ -1,0 +1,15 @@
+{
+    "title": "IOST IDE",
+    "TESTNET": {
+        "host": "http://...",
+        "port": 30002
+    },
+    "MAINNET": {
+        "host": "http://...",
+        "port": 30002
+    },
+    "LOCALNET": {
+        "host": "http://...",
+        "port": 30002
+    }
+}
