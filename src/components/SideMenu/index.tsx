@@ -45,8 +45,8 @@ const SideMenu: React.FC<Props> = ({ isOpen, handleDrawerChange }) => {
         <Divider />
         <List>
           {menuListItems.map(({ name, path, Icon }) => (
-            <Link to={`/${path}`} className={classes.link}>
-              <ListItem button key={name}>
+            <Link to={`/${path}`} key={name} className={classes.link}>
+              <ListItem button>
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>

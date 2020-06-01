@@ -1,0 +1,21 @@
+{
+    "title": "IOST IDE",
+    "TESTNET": {
+        "name": "Test net",
+        "scheme": "http",
+        "host": "13.52.105.102",
+        "port": 30001
+    },
+    "MAINNET": {
+        "name": "Main net",
+        "scheme": "https",
+        "host": "test.api.iost.io",
+        "port": 30001
+    },
+    "LOCALNET": {
+        "name": "Local net",
+        "scheme": "http",
+        "host": "localhost",
+        "port": 30001
+    }
+}

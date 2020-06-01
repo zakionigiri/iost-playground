@@ -5,7 +5,20 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       background: '#282c34',
       minHeight: '100vh',
+      display: 'flex'
+    },
+    content: {
+      flexGrow: 1,
+      overflowX: 'scroll',
+      padding: theme.spacing(3),
       color: 'white'
+    },
+    toolbar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      padding: theme.spacing(0, 1),
+      ...theme.mixins.toolbar
     }
   })
 )

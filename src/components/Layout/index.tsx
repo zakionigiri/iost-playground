@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Header from '../Header'
-import Body from '../Body'
 import SideMenu from '../SideMenu'
 import useStyles from './styles'
 
@@ -16,8 +15,10 @@ const Layout: React.FC<{ children: React.ReactElement }> = ({ children }) => {
     <div className={classes.container}>
       <Header isOpen={isDrawerOpen} handleDrawerChange={handleDrawerChange} />
       <SideMenu isOpen={isDrawerOpen} handleDrawerChange={handleDrawerChange} />
-      <Body />
-      {children}
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {children}
+      </main>
     </div>
   )
 }

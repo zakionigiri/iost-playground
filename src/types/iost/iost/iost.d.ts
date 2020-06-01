@@ -1,7 +1,7 @@
 declare namespace IOSTJS {
   class IOST {
     public rpc?: RPC
-    public account?: string
+    public account?: Account
     public serverTimeDif: number
     public config: Config
 
@@ -24,8 +24,8 @@ declare namespace IOSTJS {
       initialGasPledge: number
     ) => Tx
     signAndSend: (tx: Tx) => CallBack
-    currentAccount: () => string
-    currentRPC: () => RPC
+    currentAccount: Account
+    currentRPC: RPC
     setRPC: (rpc: RPC) => Promise<void>
     setAccount: (account: Account) => void
   }

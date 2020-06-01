@@ -1,71 +1,136 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction
+} from 'react'
 import IOST from 'iost'
+import { getApiUrl } from '../lib/index'
+import axios, { AxiosResponse } from 'axios'
 
-export type AccountInfo = {
-  isExtensionInstalled: boolean | null
+type AccountInfo = {
+  account?: IOSTJS.Response.AccountInfo
+  isDataFetched: boolean
+} & IwalletIOST
+
+export type IwalletIOST = {
+  extensionState: {
+    isInstalled: boolean | null
+    isEnabled?: boolean
+  }
+  network: Network
   iost: IOSTJS.IOST | null
+  setIost: Dispatch<SetStateAction<IwalletIOST['iost']>> | Function
   isDataLoaded: boolean
-  reloadAccoun?: () => Promise<void>
+  loadAccount?: () => Promise<void>
 }
 
 export const useIOST = () => useContext<AccountInfo>(AccountContext)
 
-const iwallet = window.IWalletJS
-
 const AccountContext = createContext<AccountInfo>({
-  isExtensionInstalled: null,
+  extensionState: {
+    isInstalled: null
+  },
+  network: 'TESTNET',
   iost: null,
-  isDataLoaded: false
+  setIost: new Function(),
+  isDataLoaded: false,
+  isDataFetched: false
 })
 
 const AccountProvider: React.FC = ({ children }) => {
-  const [isExtensionInstalled, setIsExtensionInstalled] = useState<
-    boolean | null
-  >(null)
-  const [iost, setIost] = useState<IOST.IOST | null>(null)
+  const [extensionState, setExtensionState] = useState<
+    IwalletIOST['extensionState']
+  >({ isInstalled: null })
+  const [account, setAccount] = useState<IOSTJS.Response.AccountInfo>()
+  const [network, setNetwork] = useState<Network>('TESTNET')
+  const [iost, setIost] = useState<IOSTJS.IOST | null>(null)
   const [isDataLoaded, setIsDataLoaded] = useState(false)
+  const [isDataFetched, setIsDataFetched] = useState(false)
+
+  window.addEventListener('load', () =>
+    loadAccount().then(() => setIsDataLoaded(true))
+  )
 
   useEffect(() => {
     const f = async () => {
-      if (iwallet == null) {
-        console.log('No iwallet found')
-        return setIsExtensionInstalled(false)
+      if (iost === null) {
+        return
       }
 
-      await reloadAccount()
+      const url = getApiUrl(network, true)
+      const res: AxiosResponse<
+        IOSTJS.Response.AccountInfo
+      > | void = await axios
+        .get(`${url}/getAccount/${iost.account?.getID()}/true`)
+        .catch(e => {
+          console.log(
+            'Request to %s/getAccount/%s/true failed',
+            url,
+            iost.account?.getID()
+          )
+          console.error(e)
+        })
+
+      if (!res) {
+        setIsDataFetched(true)
+        return
+      }
+
+      setAccount(res.data)
+      setIsDataFetched(true)
     }
 
+    setIsDataFetched(false)
+    setAccount(undefined)
     f()
-  }, [])
+  }, [iost])
 
-  const reloadAccount = async () => {
-    if (iwallet == null) {
-      return setIsExtensionInstalled(false)
+  const loadAccount = async (networkInfo?: string) => {
+    window.postMessage({ action: 'GET_ACCOUNT' }, '*') // Reload iWallet info
+    const iwallet = window.IWalletJS
+
+    if (iwallet === undefined) {
+      return setExtensionState({ isInstalled: false })
     }
 
     const account: IOSTJS.Account | void = await iwallet
       .enable()
-      .catch((e: Error) => {
+      .catch((e: { type: string }) => {
         console.log(e)
+        if (e.type === 'locked') {
+          setExtensionState({
+            isInstalled: true,
+            isEnabled: false
+          })
+        }
       })
-    const iost = iwallet.newIOST(IOST) as IOSTJS.IOST
 
     if (!account) {
       return
     }
 
+    const url = networkInfo ? networkInfo : getApiUrl(iwallet.network, true)
+
+    const iost = iwallet.newIOST(IOST) as IOSTJS.IOST
     iost.setAccount(account)
-    // const rpc = new IOST.RPC(new IOST.HTTPProvider(`${host}:${port}`))
-    // iost.setRPC(rpc)
+    const rpc = new IOST.RPC(new IOST.HTTPProvider(url))
+    iost.setRPC(rpc)
+    setNetwork(iwallet.network)
     setIost(iost)
-    setIsDataLoaded(true)
   }
 
   const value = {
-    isExtensionInstalled,
+    extensionState,
+    network,
     iost,
+    setIost,
     isDataLoaded,
-    reloadAccount
+    isDataFetched,
+    account,
+    loadAccount
   }
 
   return (
