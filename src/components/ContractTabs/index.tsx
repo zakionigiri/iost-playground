@@ -10,7 +10,7 @@ import NewContractModal from '../NewContractModal'
 import defaultContract from '../../lib/contracts/default'
 import ApiHostSelect from '../ApiHostSelect'
 import { Host } from '../../types/types'
-import { getApiUrl, nets, getNetName } from '../../lib'
+import { getApiUrl, nets, getNetName, restoreContract } from '../../lib'
 import axios, { AxiosResponse } from 'axios'
 
 interface TabPanelProps {
@@ -82,22 +82,21 @@ const ContractTabs = () => {
     const fileNameWithExtension =
       extension === 'js' ? fileName : `${fileName}.js`
 
-    if (fileList.includes(fileNameWithExtension)) {
-      return alert('File with the same name already exists')
-    }
+    updateFileList(fileNameWithExtension)
 
     window.localStorage.setItem(
       `iost_playground_${fileNameWithExtension}`,
       defaultContract
     )
-
-    updateFileList(fileNameWithExtension)
     setShowDialog(false)
   }
 
   const updateFileList = (fileNameWithExtension: string) => {
-    const newFileList = [...fileList, fileNameWithExtension]
+    if (fileList.includes(fileNameWithExtension)) {
+      return alert('File with the same name already exists')
+    }
 
+    const newFileList = [...fileList, fileNameWithExtension]
     window.localStorage.setItem(
       'iost_playground_files',
       JSON.stringify(newFileList)
@@ -127,7 +126,10 @@ const ContractTabs = () => {
       abi: abis
     }
 
-    window.localStorage.setItem(`iost_playground_${id}.js`, code)
+    window.localStorage.setItem(
+      `iost_playground_${id}.js`,
+      restoreContract(code)
+    )
     window.localStorage.setItem(
       `iost_playground_${id}.js.abi`,
       JSON.stringify(abiJson, undefined, 2)
@@ -164,6 +166,20 @@ const ContractTabs = () => {
     }
   })
 
+  const handleDeleteFile = (fileName: string) => {
+    const newFileList = fileList.filter(f => f !== fileName)
+
+    window.localStorage.removeItem(`iost_playground_${fileName}`)
+    window.localStorage.removeItem(`iost_playground_${fileName}.abi`)
+    window.localStorage.setItem(
+      'iost_playground_files',
+      JSON.stringify(newFileList)
+    )
+
+    setFileList(newFileList)
+    setValue(-1)
+  }
+
   return (
     <div className={classes.root}>
       <Tabs
@@ -193,9 +209,12 @@ const ContractTabs = () => {
           Create / Import a contract
         </Button>
       </Tabs>
-      {fileList.map((fileName, index) => (
+      {fileList.map((fileNameWithExtension, index) => (
         <TabPanel value={value} index={index}>
-          <ContractTab fileName={fileName} />
+          <ContractTab
+            fileNameWithExtension={fileNameWithExtension}
+            handleDeleteFile={handleDeleteFile}
+          />
         </TabPanel>
       ))}
       {showDialog && (

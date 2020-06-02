@@ -28,17 +28,23 @@ const AccountPage = () => {
   }
 
   if (extensionState.isInstalled === false) {
-    return <NoExtensionMessage />
+    return (
+      <Layout>
+        <NoExtensionMessage />
+      </Layout>
+    )
   }
 
   const refreshPage = () => window.location.reload()
 
   if (extensionState.isEnabled === false) {
     return (
-      <div className={classes.itemContainer}>
-        <NotEnabledMessage />
-        <ReloadButton loadFunction={refreshPage} />
-      </div>
+      <Layout>
+        <div className={classes.itemContainer}>
+          <NotEnabledMessage />
+          <ReloadButton loadFunction={refreshPage} />
+        </div>
+      </Layout>
     )
   }
 

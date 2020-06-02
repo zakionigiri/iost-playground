@@ -3,9 +3,11 @@ import NoFileExistsMessage from '../Messages/NoFileExists'
 import Editor from '../Editor'
 import { Tabs, Tab, Box, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
+import DeleteFileModal from 'components/DeleteFileModal'
 
 type Props = {
-  fileName: string
+  fileNameWithExtension: string
+  handleDeleteFile: (fileNameWithExtension: string) => void
 }
 
 interface TabPanelProps {
@@ -41,13 +43,21 @@ const a11yProps = (index: any) => {
   }
 }
 
-const Contract: React.FC<Props> = ({ fileName }) => {
+const Contract: React.FC<Props> = ({
+  fileNameWithExtension,
+  handleDeleteFile
+}) => {
   const [doesFileExist, setDoesFileExit] = useState<boolean>()
   const [code, setCode] = useState('')
   const [abi, setAbi] = useState('')
+  const [value, setValue] = useState(0)
+  const [showDialog, setShowDialog] = useState(false)
 
   const classes = useStyles()
-  const [value, setValue] = React.useState(0)
+
+  const handleShowDialog = () => {
+    setShowDialog(!showDialog)
+  }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
@@ -55,8 +65,12 @@ const Contract: React.FC<Props> = ({ fileName }) => {
 
   useEffect(() => {
     // Loading default contract
-    const contract = window.localStorage.getItem(`iost_playground_${fileName}`)
-    const abi = window.localStorage.getItem(`iost_playground_${fileName}.abi`)
+    const contract = window.localStorage.getItem(
+      `iost_playground_${fileNameWithExtension}`
+    )
+    const abi = window.localStorage.getItem(
+      `iost_playground_${fileNameWithExtension}.abi`
+    )
 
     if (contract == null) {
       return setDoesFileExit(false)
@@ -68,12 +82,20 @@ const Contract: React.FC<Props> = ({ fileName }) => {
   }, [])
 
   const handleCodeChange = (value: string, event?: any) => {
-    window.localStorage.setItem(`iost_playground_${fileName}`, value)
+    window.localStorage.setItem(
+      `iost_playground_${fileNameWithExtension}`,
+      value
+    )
     setCode(value)
   }
 
+  const deleteFile = () => {
+    handleDeleteFile(fileNameWithExtension)
+    setShowDialog(false)
+  }
+
   if (doesFileExist === false) {
-    return <NoFileExistsMessage fileName={fileName} />
+    return <NoFileExistsMessage fileName={fileNameWithExtension} />
   }
 
   return (
@@ -86,18 +108,30 @@ const Contract: React.FC<Props> = ({ fileName }) => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab className={classes.tab} label={`${fileName}`} {...a11yProps(0)} />
         <Tab
           className={classes.tab}
-          label={`${fileName}.abi`}
+          label={`${fileNameWithExtension}`}
+          {...a11yProps(0)}
+        />
+        <Tab
+          className={classes.tab}
+          label={`${fileNameWithExtension}.abi`}
           {...a11yProps(1)}
         />
         <Button
           className={classes.compileButton}
           variant="contained"
-          color="secondary"
+          color="primary"
         >
           Compile
+        </Button>
+        <Button
+          className={classes.compileButton}
+          variant="contained"
+          color="secondary"
+          onClick={handleShowDialog}
+        >
+          Delete
         </Button>
       </Tabs>
       <TabPanel value={value} index={0}>
@@ -110,6 +144,13 @@ const Contract: React.FC<Props> = ({ fileName }) => {
       <TabPanel value={value} index={1}>
         <Editor code={abi} mode="json" handleCodeChange={handleCodeChange} />
       </TabPanel>
+      {showDialog && (
+        <DeleteFileModal
+          closeFn={handleShowDialog}
+          handleDeleteFile={deleteFile}
+          fileName={fileNameWithExtension}
+        />
+      )}
     </div>
   )
 }

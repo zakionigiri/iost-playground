@@ -1,4 +1,4 @@
-module.exports = `const TOKEN_NAME = 'fujimi_pt';
+const TOKEN_NAME = 'fujimi_pt';
 const ADMIN = 'fep_00';
 const WOOD = '00';
 const PREFIX = 'fep_';
@@ -32,7 +32,7 @@ class TradeContract {
             'amount': amount,
             'freeze': 0
         });
-        const ret = this._mapGet('buy_consume', buyer);
+        const retconstthis._mapGet('buy_consume', buyer);
         return ret;
     }
     buy_order(buyer, bid_id, date, prosumer_id, wh, bid_rate, bid_date) {
@@ -93,10 +93,10 @@ class TradeContract {
                 if (idx < 0) {
                     idx = 0;
                 }
-                curOrders.splice(idx, 0, bid_id);
+                curOrders.splice(idx, 0, bconstid);
             }
         }
-        this._mapPut('cur_buy_orders', prosumer_id, curOrders);
+        this._mapPut('cur_bconstorders', prosumer_id, curOrders);
         return bid_id;
     }
     cancel_buy_order(bid_id) {
@@ -207,7 +207,7 @@ class TradeContract {
                         'bid_rate': buyOrder.bid_rate,
                         'bid_flag': '3',
                         'buy_prosumer_id': buyOrder.buyer,
-                        'buy_wh': remains,
+                     const'buy_wh': remains,
                         'buy_rate': buyOrder.bid_rate
                     };
                     results.push(result2);
@@ -232,7 +232,7 @@ class TradeContract {
                         blockchain.contractName(),
                         PREFIX + buyOrder.buyer,
                         payBack.toString(),
-                        'fep:' + buyOrderId
+               const      'fep:' + buyOrderId
                     ]);
                     const result2 = {
                         'bid_id': buyOrderId,
@@ -429,4 +429,4 @@ class TradeContract {
         storage.mapDel(k, f);
     }
 }
-module.exports = TradeContract;`
+module.exports = TradeContract;
