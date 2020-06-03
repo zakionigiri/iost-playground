@@ -1,0 +1,17 @@
+{
+    "name": "English",
+    "lang": "en",
+    "messages": {
+        "language": "Language",
+        "lang-name-en": "English",
+        "lang-name-ja": "Japanese",
+        "new-contract-button": "Create / Import a contract",
+        "new-contract-modal-message": "Create / Import a smart contract",
+        "new-contract-filename": "New contract file name",
+        "existing-contract-id": "Contract ID",
+        "create-contract": "Create new contract",
+        "import-contract": "Import existing contact",
+        "not-logged-in": "It seems that you have not logged in to iWallet chrome extension. <br /> Please login and reload the page",
+        "no-extension": "It seems that you don't have iWallet chrome extension installed on your browser. <br /> Go to{' '} <a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\"> iWallet chrome extension </a>{' '} to install the extension"
+    }
+}

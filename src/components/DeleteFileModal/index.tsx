@@ -26,8 +26,11 @@ const DeleteFileModal: React.FC<Props> = ({
           {<span className={classes.fileName}>{fileName}</span>} ?
         </DialogTitle>
         <DialogActions>
-          <Button color="primary" onClick={handleDeleteFile}>
+          <Button color="secondary" onClick={handleDeleteFile}>
             Delete
+          </Button>
+          <Button color="primary" onClick={closeFn}>
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

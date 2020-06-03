@@ -118,6 +118,7 @@ const Contract: React.FC<Props> = ({
           label={`${fileNameWithExtension}.abi`}
           {...a11yProps(1)}
         />
+        <Tab className={classes.tab} label={'Functions'} {...a11yProps(1)} />
         <Button
           className={classes.compileButton}
           variant="contained"
@@ -143,6 +144,9 @@ const Contract: React.FC<Props> = ({
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Editor code={abi} mode="json" handleCodeChange={handleCodeChange} />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <div>{JSON.stringify(abi)}</div>
       </TabPanel>
       {showDialog && (
         <DeleteFileModal

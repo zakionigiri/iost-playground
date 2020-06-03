@@ -1,4 +1,0 @@
-{
-    "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
-    "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
-}

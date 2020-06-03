@@ -4,10 +4,12 @@ import TextField from '@material-ui/core/TextField'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import Radio from '@material-ui/core/Radio'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import useStyles from './styles'
+import { useIntl } from '../../provider/IntlProvider'
 
 type Props = {
   closeFn: () => void
@@ -19,6 +21,7 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   const classes = useStyles()
   const [mode, setMode] = useState('create')
   const [userInput, setUserInput] = useState('')
+  const { formatMessage } = useIntl()
 
   const handleRadioChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -43,14 +46,18 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
     <div>
       <Dialog open={true} onClose={closeFn} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
-          Create / Import a smart contract
+          {formatMessage('new-contract-modal-message')}
         </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="userInput"
-            label={mode === 'create' ? 'New contract name' : 'Contract ID'}
+            label={formatMessage(
+              mode === 'create'
+                ? 'new-contract-filename'
+                : 'existing-contract-id'
+            )}
             type="textarea"
             onChange={handleInputChange}
             fullWidth
@@ -63,12 +70,12 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
         >
           <FormControlLabel
             value="create"
-            label="Create new contract"
+            label={formatMessage('create-contract')}
             control={<Radio color="secondary" />}
           />
           <FormControlLabel
             value="import"
-            label="Import existing contract"
+            label={formatMessage('import-contract')}
             control={<Radio color="secondary" />}
           />
         </RadioGroup>

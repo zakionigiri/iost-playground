@@ -1,0 +1,17 @@
+{
+    "name": "日本語",
+    "lang": "ja",
+    "messages": {
+        "language": "言語",
+        "lang-name-en": "英語",
+        "lang-name-ja": "日本語",
+        "new-contract-button": "新規作成 / インポート",
+        "new-contract-modal-message": "コントラクトを新規作成 / インポートする",
+        "new-contract-filename": "コントラクトファイル名",
+        "existing-contract-id": "コントラクトID",
+        "create-contract": "新規作成",
+        "import-contract": "インポート",
+        "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
+        "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
+    }
+}

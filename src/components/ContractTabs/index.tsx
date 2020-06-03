@@ -5,13 +5,14 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import ContractTab from '../ContractTab'
 import useStyles from './styles'
-import { Button } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import NewContractModal from '../NewContractModal'
 import defaultContract from '../../lib/contracts/default'
 import ApiHostSelect from '../ApiHostSelect'
 import { Host } from '../../types/types'
 import { getApiUrl, nets, getNetName, restoreContract } from '../../lib'
 import axios, { AxiosResponse } from 'axios'
+import { useIntl } from '../../provider/IntlProvider'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -56,6 +57,7 @@ const ContractTabs = () => {
   const [isCustomMode, setIsCustomMode] = useState(false)
   const [customHost, setCustomHost] = useState('')
   const [host, setHost] = useState('http://13.52.105.102:30001')
+  const { formatMessage } = useIntl()
 
   useEffect(() => {
     const fileListStr = window.localStorage.getItem('iost_playground_files')
@@ -206,7 +208,7 @@ const ContractTabs = () => {
           color="primary"
           onClick={handleShowModal}
         >
-          Create / Import a contract
+          {formatMessage('new-contract-button')}
         </Button>
       </Tabs>
       {fileList.map((fileNameWithExtension, index) => (

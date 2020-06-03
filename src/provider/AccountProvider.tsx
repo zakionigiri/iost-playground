@@ -50,6 +50,9 @@ const AccountProvider: React.FC = ({ children }) => {
   const [isDataLoaded, setIsDataLoaded] = useState(false)
   const [isDataFetched, setIsDataFetched] = useState(false)
 
+  /**
+   * Extensions become accessible after loading done
+   */
   window.addEventListener('load', () =>
     loadAccount().then(() => setIsDataLoaded(true))
   )
@@ -88,6 +91,10 @@ const AccountProvider: React.FC = ({ children }) => {
     f()
   }, [iost])
 
+  /**
+   * Load account info from iWallet extension
+   * @param {string} networkInfo
+   */
   const loadAccount = async (networkInfo?: string) => {
     window.postMessage({ action: 'GET_ACCOUNT' }, '*') // Reload iWallet info
     const iwallet = window.IWalletJS

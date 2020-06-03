@@ -7,17 +7,20 @@ import GlobalCss from './GlobalCss'
 import ApiPage from './pages/ApiPage'
 import ContractsPage from './pages/ContractsPage'
 import SettingsPage from './pages/SetttingPage'
+import IntlProvider from 'provider/IntlProvider'
 
 const App = () => {
   return (
     <Router>
-      <AccountProvider>
-        <GlobalCss />
-        <Route exact path="/" component={ContractsPage} />
-        <Route exact path="/account" component={AccountPage} />
-        <Route exact path="/api" component={ApiPage} />
-        <Route exact path="/settings" component={SettingsPage} />
-      </AccountProvider>
+      <IntlProvider>
+        <AccountProvider>
+          <GlobalCss />
+          <Route exact path="/" component={ContractsPage} />
+          <Route exact path="/account" component={AccountPage} />
+          <Route exact path="/api" component={ApiPage} />
+          <Route exact path="/settings" component={SettingsPage} />
+        </AccountProvider>
+      </IntlProvider>
     </Router>
   )
 }

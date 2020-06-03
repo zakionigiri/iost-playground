@@ -1,12 +1,11 @@
 import React from 'react'
 import Layout from '../../components/Layout'
+import { useIntl } from 'provider/IntlProvider'
 
 const SettingsPage = () => {
-  return (
-    <Layout>
-      <div>setting page</div>
-    </Layout>
-  )
+  const { langSelect } = useIntl()
+
+  return <Layout>{langSelect()}</Layout>
 }
 
 export default SettingsPage
