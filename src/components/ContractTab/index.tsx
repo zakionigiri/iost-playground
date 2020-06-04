@@ -4,6 +4,10 @@ import Editor from '../Editor'
 import { Tabs, Tab, Box, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
 import DeleteFileModal from 'components/DeleteFileModal'
+import { compileCode } from '../../lib'
+import { useSnackbar } from 'provider/SnackbarProvider'
+import { useIntl } from 'provider/IntlProvider'
+import FunctionTab from 'components/FunctionTab'
 
 type Props = {
   fileNameWithExtension: string
@@ -49,14 +53,16 @@ const Contract: React.FC<Props> = ({
 }) => {
   const [doesFileExist, setDoesFileExit] = useState<boolean>()
   const [code, setCode] = useState('')
-  const [abi, setAbi] = useState('')
+  const [abiStr, setAbiStr] = useState('')
   const [value, setValue] = useState(0)
-  const [showDialog, setShowDialog] = useState(false)
+  const [showDelDialog, setShowDialog] = useState(false)
+  const { showSnackbar } = useSnackbar()
+  const { formatMessage } = useIntl()
 
   const classes = useStyles()
 
   const handleShowDialog = () => {
-    setShowDialog(!showDialog)
+    setShowDialog(!showDelDialog)
   }
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -68,20 +74,20 @@ const Contract: React.FC<Props> = ({
     const contract = window.localStorage.getItem(
       `iost_playground_${fileNameWithExtension}`
     )
-    const abi = window.localStorage.getItem(
-      `iost_playground_${fileNameWithExtension}.abi`
+    const abiStr = window.localStorage.getItem(
+      `iost_playground_${fileNameWithExtension}.abiStr`
     )
 
     if (contract == null) {
       return setDoesFileExit(false)
     }
 
-    setAbi(abi || '')
+    setAbiStr(abiStr || '')
     setCode(contract)
     setDoesFileExit(true)
   }, [])
 
-  const handleCodeChange = (value: string, event?: any) => {
+  const handleCodeChange = (value: string) => {
     window.localStorage.setItem(
       `iost_playground_${fileNameWithExtension}`,
       value
@@ -89,9 +95,29 @@ const Contract: React.FC<Props> = ({
     setCode(value)
   }
 
+  const handleAbiChange = (value: string) => {
+    window.localStorage.setItem(
+      `iost_playground_${fileNameWithExtension}.abiStr`,
+      value
+    )
+    setAbiStr(value)
+  }
+
+  const handleCompile = () => {
+    try {
+      const abiStr: string = compileCode(code)
+      setAbiStr(abiStr)
+      showSnackbar(formatMessage('compile-success'), '', 'success')
+    } catch (e) {
+      const message = (e && e.message) || ''
+      showSnackbar(formatMessage('compile-fail'), message, 'error')
+    }
+  }
+
   const deleteFile = () => {
     handleDeleteFile(fileNameWithExtension)
     setShowDialog(false)
+    showSnackbar(formatMessage('delete-complete'), '', 'success')
   }
 
   if (doesFileExist === false) {
@@ -115,7 +141,7 @@ const Contract: React.FC<Props> = ({
         />
         <Tab
           className={classes.tab}
-          label={`${fileNameWithExtension}.abi`}
+          label={`${fileNameWithExtension}.abiStr`}
           {...a11yProps(1)}
         />
         <Tab className={classes.tab} label={'Functions'} {...a11yProps(1)} />
@@ -123,8 +149,9 @@ const Contract: React.FC<Props> = ({
           className={classes.compileButton}
           variant="contained"
           color="primary"
+          onClick={handleCompile}
         >
-          Compile
+          {formatMessage('compile-code')}
         </Button>
         <Button
           className={classes.compileButton}
@@ -132,7 +159,7 @@ const Contract: React.FC<Props> = ({
           color="secondary"
           onClick={handleShowDialog}
         >
-          Delete
+          {formatMessage('delete-code')}
         </Button>
       </Tabs>
       <TabPanel value={value} index={0}>
@@ -143,12 +170,12 @@ const Contract: React.FC<Props> = ({
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Editor code={abi} mode="json" handleCodeChange={handleCodeChange} />
+        <Editor code={abiStr} mode="json" handleCodeChange={handleAbiChange} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <div>{JSON.stringify(abi)}</div>
+        <FunctionTab abiStr={abiStr} />
       </TabPanel>
-      {showDialog && (
+      {showDelDialog && (
         <DeleteFileModal
           closeFn={handleShowDialog}
           handleDeleteFile={deleteFile}

@@ -13,7 +13,7 @@ type Locales = 'ja' | 'en'
 type IntlValues = {
   lang: Locales
   langSelect: () => JSX.Element
-  formatMessage: (id: string) => string
+  formatMessage: (id: string, ...str: string[]) => string
 }
 
 const isValidLang = (lang: string): boolean =>
@@ -79,11 +79,17 @@ const IntlProvider: React.FC = ({ children }) => {
     </>
   )
 
-  const formatMessage = (id: string) => {
+  const formatMessage = (id: string, ...str: string[]) => {
     const messages = locales[lang].messages as { [key: string]: string }
-    const message = messages[id]
+    let message = messages[id] || id
+    let num = 0
 
-    return message || id
+    while (message.includes('%s') && num < 1000) {
+      message = message.replace(/%s/, str[num] || '')
+      num++
+    }
+
+    return message
   }
 
   const value: IntlValues = {

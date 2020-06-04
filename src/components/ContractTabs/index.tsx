@@ -11,8 +11,9 @@ import defaultContract from '../../lib/contracts/default'
 import ApiHostSelect from '../ApiHostSelect'
 import { Host } from '../../types/types'
 import { getApiUrl, nets, getNetName, restoreContract } from '../../lib'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useIntl } from '../../provider/IntlProvider'
+import { useSnackbar } from 'provider/SnackbarProvider'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -58,6 +59,7 @@ const ContractTabs = () => {
   const [customHost, setCustomHost] = useState('')
   const [host, setHost] = useState('http://13.52.105.102:30001')
   const { formatMessage } = useIntl()
+  const { showSnackbar } = useSnackbar()
 
   useEffect(() => {
     const fileListStr = window.localStorage.getItem('iost_playground_files')
@@ -95,7 +97,7 @@ const ContractTabs = () => {
 
   const updateFileList = (fileNameWithExtension: string) => {
     if (fileList.includes(fileNameWithExtension)) {
-      return alert('File with the same name already exists')
+      return alert(formatMessage('samefile-exists', fileNameWithExtension))
     }
 
     const newFileList = [...fileList, fileNameWithExtension]
@@ -109,16 +111,17 @@ const ContractTabs = () => {
   const importContract = async (contractId: string) => {
     const res: AxiosResponse<ContractResponse> | void = await axios
       .get(`${host}/getContract/${contractId}/true`)
-      .catch(e => {
-        console.log(
-          'Request to %s failed',
-          `${host}/getContract/${contractId}/true`
+      .catch((e: AxiosError) => {
+        const message = e.message || ''
+        showSnackbar(
+          formatMessage('import-failed', contractId),
+          message,
+          'error'
         )
-        console.error(e)
       })
 
     if (res == null) {
-      return alert('Failed to get contract information')
+      return
     }
 
     const { id, abis, code, language, version } = res.data
@@ -138,6 +141,7 @@ const ContractTabs = () => {
     )
     updateFileList(`${id}.js`)
     setShowDialog(false)
+    showSnackbar(formatMessage('import-succeeded'), '', 'success')
   }
 
   const handleHostChange = (

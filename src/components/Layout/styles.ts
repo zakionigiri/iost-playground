@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       overflowX: 'scroll',
       padding: theme.spacing(3),
-      color: 'white'
+      color: 'white',
+      minHeight: '100vh'
     },
     toolbar: {
       display: 'flex',

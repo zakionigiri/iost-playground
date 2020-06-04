@@ -1,5 +1,6 @@
 import config from './config.json'
-import contract from './contracts/default'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const compiler = require('./compiler/contract')
 
 const TESTNET = 'TESTNET'
 const MAINNET = 'MAINNET'
@@ -15,7 +16,7 @@ export const getApiUrl = (network: Network, withScheme?: boolean) => {
 
 export const nets: Network[] = [TESTNET, MAINNET, LOCALNET]
 
-export const getNetName = (net: string) => {
+export const getNetName = (net: Network) => {
   switch (net) {
     case TESTNET:
       return 'Test net'
@@ -23,8 +24,6 @@ export const getNetName = (net: string) => {
       return 'Main net'
     case LOCALNET:
       return 'Local net'
-    default:
-      return ''
   }
 }
 
@@ -60,7 +59,7 @@ export const restoreContract = (code: string) => {
         /_IOSTBinaryOp\(([^(,]*),{1} ([^(,]*),{1} '([^(,]*)'\)/g,
         '$1 $3 $2'
       )
-      console.log(contractCode)
+
       attempts++
     }
     return contractCode
@@ -68,3 +67,5 @@ export const restoreContract = (code: string) => {
     throw new Error(e)
   }
 }
+
+export const compileCode = (code: string) => compiler(code)

@@ -11,6 +11,16 @@
         "existing-contract-id": "コントラクトID",
         "create-contract": "新規作成",
         "import-contract": "インポート",
+        "import-succeeded": "コントラクトのインポートが完了しました",
+        "import-failed": "コントラクト（%s）のインポートに失敗しました",
+        "compile-success": "コンパイルが完了しました",
+        "compile-fail": "コンパイルに失敗しました。",
+        "compile-code": "コンパイル",
+        "delete-confirmation": "%s を削除しますか ?",
+        "delete-complete": "削除が完了しました",
+        "samefile-exists": "すでに同じ名前のファイルが存在します (%s)",
+        "delete-code": "削除",
+        "cancel-action": "キャンセル",
         "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
         "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
     }
