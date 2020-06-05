@@ -75,7 +75,7 @@ const Contract: React.FC<Props> = ({
       `iost_playground_${fileNameWithExtension}`
     )
     const abiStr = window.localStorage.getItem(
-      `iost_playground_${fileNameWithExtension}.abiStr`
+      `iost_playground_${fileNameWithExtension}.abi`
     )
 
     if (contract == null) {
@@ -97,16 +97,21 @@ const Contract: React.FC<Props> = ({
 
   const handleAbiChange = (value: string) => {
     window.localStorage.setItem(
-      `iost_playground_${fileNameWithExtension}.abiStr`,
+      `iost_playground_${fileNameWithExtension}.abi`,
       value
     )
     setAbiStr(value)
   }
 
   const handleCompile = () => {
+    // TODO Show confirmation dialog in cases abi already exists (because this action will override the abi)
     try {
       const abiStr: string = compileCode(code)
       setAbiStr(abiStr)
+      window.localStorage.setItem(
+        `iost_playground_${fileNameWithExtension}.abi`,
+        abiStr
+      )
       showSnackbar(formatMessage('compile-success'), '', 'success')
     } catch (e) {
       const message = (e && e.message) || ''
@@ -141,7 +146,7 @@ const Contract: React.FC<Props> = ({
         />
         <Tab
           className={classes.tab}
-          label={`${fileNameWithExtension}.abiStr`}
+          label={`${fileNameWithExtension}.abi`}
           {...a11yProps(1)}
         />
         <Tab className={classes.tab} label={'Functions'} {...a11yProps(1)} />

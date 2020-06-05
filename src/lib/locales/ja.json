@@ -20,7 +20,10 @@
         "delete-complete": "削除が完了しました",
         "samefile-exists": "すでに同じ名前のファイルが存在します (%s)",
         "delete-code": "削除",
+        "functions": "呼び出し可能な関数",
         "cancel-action": "キャンセル",
+        "import-contract-success": "コントラクトのインポートが完了しました",
+        "create-contract-success": "コントラクトの作成が完了しました",
         "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
         "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
     }

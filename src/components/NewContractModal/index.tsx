@@ -10,6 +10,7 @@ import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import useStyles from './styles'
 import { useIntl } from '../../provider/IntlProvider'
+import { useSnackbar } from 'provider/SnackbarProvider'
 
 type Props = {
   closeFn: () => void
@@ -22,6 +23,7 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   const [mode, setMode] = useState('create')
   const [userInput, setUserInput] = useState('')
   const { formatMessage } = useIntl()
+  const { showSnackbar } = useSnackbar()
 
   const handleRadioChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -33,8 +35,10 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   const handleSubmit = () => {
     if (mode === 'create') {
       createFn(userInput)
+      showSnackbar(formatMessage('create-contract-success'), '', 'success')
     } else {
       importFn(userInput)
+      showSnackbar(formatMessage('import-contract-success'), '', 'success')
     }
   }
 

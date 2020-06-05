@@ -87,6 +87,7 @@ declare namespace IOSTJS {
       name: string
       args: string[]
       amount_limit: AmountLimit[]
+      description?: string
     }
 
     type Storage = {

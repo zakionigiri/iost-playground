@@ -1,6 +1,5 @@
 import config from './config.json'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const compiler = require('./compiler/contract')
+import compiler from './compiler'
 
 const TESTNET = 'TESTNET'
 const MAINNET = 'MAINNET'
