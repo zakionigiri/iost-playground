@@ -23,4 +23,10 @@ $ yarn
 
 $ yarn start
 
-````
+```
+
+### TODOs 
+
+- Show diff abi result when abi already exits to the contract.
+- Show confirmation modal before compile
+- add functionality to invoke contract functions
