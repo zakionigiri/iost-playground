@@ -39,49 +39,45 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   }
 
   return (
-    <div>
-      <Dialog open={true} onClose={closeFn} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
-          {formatMessage('new-contract-modal-message')}
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="userInput"
-            label={formatMessage(
-              mode === 'create'
-                ? 'new-contract-filename'
-                : 'existing-contract-id'
-            )}
-            type="textarea"
-            onChange={handleInputChange}
-            fullWidth
-          />
-        </DialogContent>
-        <RadioGroup
-          value={mode}
-          className={classes.radioContainer}
-          onChange={handleRadioChange}
-        >
-          <FormControlLabel
-            value="create"
-            label={formatMessage('create-contract')}
-            control={<Radio color="secondary" />}
-          />
-          <FormControlLabel
-            value="import"
-            label={formatMessage('import-contract')}
-            control={<Radio color="secondary" />}
-          />
-        </RadioGroup>
-        <DialogActions>
-          <Button color="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+    <Dialog open={true} onClose={closeFn} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
+        {formatMessage('new-contract-modal-message')}
+      </DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="userInput"
+          label={formatMessage(
+            mode === 'create' ? 'new-contract-filename' : 'existing-contract-id'
+          )}
+          type="textarea"
+          onChange={handleInputChange}
+          fullWidth
+        />
+      </DialogContent>
+      <RadioGroup
+        value={mode}
+        className={classes.radioContainer}
+        onChange={handleRadioChange}
+      >
+        <FormControlLabel
+          value="create"
+          label={formatMessage('create-contract')}
+          control={<Radio color="secondary" />}
+        />
+        <FormControlLabel
+          value="import"
+          label={formatMessage('import-contract')}
+          control={<Radio color="secondary" />}
+        />
+      </RadioGroup>
+      <DialogActions>
+        <Button color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 

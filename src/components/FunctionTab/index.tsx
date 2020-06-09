@@ -27,20 +27,18 @@ const FunctionTab: React.FC<Props> = ({ abiStr }) => {
   }
 
   return (
-    <>
-      <div>
-        <p>{formatMessage('functions')}</p>
-        <Select onChange={handleChange}>
-          {abiObj.abi.map(({ name }) => {
-            return (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            )
-          })}
-        </Select>
-      </div>
-    </>
+    <div>
+      <p>{formatMessage('functions')}</p>
+      <Select onChange={handleChange}>
+        {abiObj.abi.map(({ name }) => {
+          return (
+            <MenuItem key={name} value={name}>
+              {name}
+            </MenuItem>
+          )
+        })}
+      </Select>
+    </div>
   )
 }
 

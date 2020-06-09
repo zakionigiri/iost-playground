@@ -26,6 +26,14 @@ const Editor: React.FC<Props> = ({ mode, code, handleCodeChange }) => {
       theme="monokai"
       name="blah2"
       onChange={handleCodeChange}
+      onLoad={editor => {
+        const session = editor.getSession()
+        const undoManager = session.getUndoManager()
+        editor.once('change', () => {
+          editor.session.getUndoManager().reset()
+        })
+        session.setUndoManager(undoManager)
+      }}
       fontSize={14}
       showPrintMargin={true}
       showGutter={true}

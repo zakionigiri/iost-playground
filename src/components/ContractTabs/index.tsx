@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
@@ -15,11 +15,15 @@ import {
   nets,
   getNetName,
   restoreContract,
-  getFileNameWithExtension
+  getFileNameWithExtension,
+  getContractList,
+  setContract,
+  setContractList
 } from '../../lib'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useIntl } from '../../provider/IntlProvider'
 import { useNotification } from '../../provider/NotificationProvider'
+import ContractMenu from '../../components/ContractMenu'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -59,6 +63,8 @@ const a11yProps = (index: any) => {
 const ContractTabs = () => {
   const classes = useStyles()
   const [value, setValue] = useState(0)
+  const [selectedContract, setSelectedContract] = useState('')
+  const [menuAnchorItem, setMenuAnchorItem] = useState<Element>()
   const [showDialog, setShowDialog] = useState(false)
   const [fileList, setFileList] = useState<string[]>([])
   const [isCustomMode, setIsCustomMode] = useState(false)
@@ -68,14 +74,8 @@ const ContractTabs = () => {
   const { showNotification } = useNotification()
 
   useEffect(() => {
-    const fileListStr = window.localStorage.getItem('iost_playground_files')
-
-    if (fileListStr == null) {
-      return setFileList(['helloWorld.js'])
-    }
-
-    const fileList = JSON.parse(fileListStr) as string[]
-    setFileList(fileList)
+    const contractList = getContractList()
+    setFileList(contractList)
   }, [])
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -99,19 +99,13 @@ const ContractTabs = () => {
     }
 
     updateFileList(fileNameWithExtension)
-    window.localStorage.setItem(
-      `iost_playground_${fileNameWithExtension}`,
-      defaultContract
-    )
+    setContract(fileNameWithExtension, defaultContract)
     setShowDialog(false)
   }
 
   const updateFileList = (fileNameWithExtension: string) => {
     const newFileList = [...fileList, fileNameWithExtension]
-    window.localStorage.setItem(
-      'iost_playground_files',
-      JSON.stringify(newFileList)
-    )
+    setContractList(fileNameWithExtension)
     setFileList(newFileList)
   }
 
@@ -147,15 +141,8 @@ const ContractTabs = () => {
       abi: abis
     }
 
-    window.localStorage.setItem(
-      `iost_playground_${contractId}.js`,
-      restoreContract(code)
-    )
-    window.localStorage.setItem(
-      `iost_playground_${contractId}.js.abi`,
-      JSON.stringify(abiJson, undefined, 2)
-    )
-
+    setContract(`${contractId}.js`, restoreContract(code))
+    setContract(`${contractId}.js.abi`, JSON.stringify(abiJson, null, 2))
     updateFileList(`${contractId}.js`)
     setShowDialog(false)
     showNotification(formatMessage('import-succeeded'), '', 'success')
@@ -203,6 +190,15 @@ const ContractTabs = () => {
     setValue(-1)
   }
 
+  const handleRightClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    if (e.button === 2) {
+      setSelectedContract(e.currentTarget.textContent || '')
+      setMenuAnchorItem(e.currentTarget)
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Tabs
@@ -219,6 +215,7 @@ const ContractTabs = () => {
             className={classes.tab}
             label={fileName}
             {...a11yProps(index)}
+            onMouseDown={handleRightClick}
           />
         ))}
         <ApiHostSelect
@@ -254,6 +251,13 @@ const ContractTabs = () => {
           closeFn={handleShowModal}
           createFn={createNewContract}
           importFn={importContract}
+        />
+      )}
+      {!!selectedContract && menuAnchorItem && (
+        <ContractMenu
+          closeFn={() => setSelectedContract('')}
+          fileNameWithExtension={selectedContract}
+          anchor={menuAnchorItem}
         />
       )}
     </div>

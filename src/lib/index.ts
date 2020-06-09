@@ -5,6 +5,8 @@ const TESTNET = 'TESTNET'
 const MAINNET = 'MAINNET'
 const LOCALNET = 'LOCALNET'
 
+const keyPrefix = 'iost_playground_'
+
 export const getApiUrl = (network: Network, withScheme?: boolean) => {
   const { host, port, scheme } = config[network]
 
@@ -74,3 +76,40 @@ export const restoreContract = (code: string) => {
 }
 
 export const compileCode = (code: string) => compiler(code)
+
+export const getContractList = (): string[] => {
+  const contractListStr = window.localStorage.getItem(keyPrefix + 'contracts')
+
+  return contractListStr == null ? [] : JSON.parse(contractListStr)
+}
+
+export const getContract = (fileNameWithExtension: string) => {
+  const fileStr = window.localStorage.getItem(keyPrefix + fileNameWithExtension)
+
+  return fileStr || ''
+}
+
+export const renameContract = (oldName: string, newName: string) => {
+  const code = getContract(oldName)
+  removeContract(oldName)
+  setContract(newName, code)
+}
+
+export const setContract = (fileNameWithExtension: string, code: string) => {
+  window.localStorage.setItem(keyPrefix + fileNameWithExtension, code)
+}
+
+export const setContractList = (fileNameWithExtension: string) => {
+  const contractList = getContractList()
+  contractList.push(fileNameWithExtension)
+  window.localStorage.setItem(
+    keyPrefix + 'contracts',
+    JSON.stringify(contractList)
+  )
+}
+
+export const removeContract = (fileNameWithExtension: string) =>
+  window.localStorage.removeItem(keyPrefix + fileNameWithExtension)
+
+export const setItem = (key: string, item: string) =>
+  window.localStorage.setItem(key, item)
