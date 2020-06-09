@@ -5,7 +5,7 @@ import { Tabs, Tab, Box, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
 import DeleteFileModal from 'components/DeleteFileModal'
 import { compileCode } from '../../lib'
-import { useSnackbar } from 'provider/SnackbarProvider'
+import { useNotification } from '../../provider/NotificationProvider'
 import { useIntl } from 'provider/IntlProvider'
 import FunctionTab from 'components/FunctionTab'
 
@@ -56,7 +56,7 @@ const Contract: React.FC<Props> = ({
   const [abiStr, setAbiStr] = useState('')
   const [value, setValue] = useState(0)
   const [showDelDialog, setShowDialog] = useState(false)
-  const { showSnackbar } = useSnackbar()
+  const { showNotification } = useNotification()
   const { formatMessage } = useIntl()
 
   const classes = useStyles()
@@ -112,17 +112,17 @@ const Contract: React.FC<Props> = ({
         `iost_playground_${fileNameWithExtension}.abi`,
         abiStr
       )
-      showSnackbar(formatMessage('compile-success'), '', 'success')
+      showNotification(formatMessage('compile-success'), '', 'success')
     } catch (e) {
       const message = (e && e.message) || ''
-      showSnackbar(formatMessage('compile-fail'), message, 'error')
+      showNotification(formatMessage('compile-fail'), message, 'error')
     }
   }
 
   const deleteFile = () => {
     handleDeleteFile(fileNameWithExtension)
     setShowDialog(false)
-    showSnackbar(formatMessage('delete-complete'), '', 'success')
+    showNotification(formatMessage('delete-complete'), '', 'success')
   }
 
   if (doesFileExist === false) {

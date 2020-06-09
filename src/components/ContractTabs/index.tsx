@@ -19,7 +19,7 @@ import {
 } from '../../lib'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useIntl } from '../../provider/IntlProvider'
-import { useSnackbar } from 'provider/SnackbarProvider'
+import { useNotification } from '../../provider/NotificationProvider'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -65,7 +65,7 @@ const ContractTabs = () => {
   const [customHost, setCustomHost] = useState('')
   const [host, setHost] = useState('https://test.api.iost.io')
   const { formatMessage } = useIntl()
-  const { showSnackbar } = useSnackbar()
+  const { showNotification } = useNotification()
 
   useEffect(() => {
     const fileListStr = window.localStorage.getItem('iost_playground_files')
@@ -91,7 +91,7 @@ const ContractTabs = () => {
 
     if (fileList.includes(fileNameWithExtension)) {
       setShowDialog(false)
-      return showSnackbar(
+      return showNotification(
         formatMessage('samefile-exists'),
         fileNameWithExtension,
         'error'
@@ -118,14 +118,18 @@ const ContractTabs = () => {
   const importContract = async (contractId: string) => {
     if (fileList.includes(`${contractId}.js`)) {
       setShowDialog(false)
-      return showSnackbar(formatMessage('samefile-exists'), contractId, 'error')
+      return showNotification(
+        formatMessage('samefile-exists'),
+        contractId,
+        'error'
+      )
     }
 
     const res: AxiosResponse<ContractResponse> | void = await axios
       .get(`${host}/getContract/${contractId}/true`)
       .catch((e: AxiosError) => {
         const message = e.message || ''
-        showSnackbar(
+        showNotification(
           formatMessage('import-failed', contractId),
           message,
           'error'
@@ -154,7 +158,7 @@ const ContractTabs = () => {
 
     updateFileList(`${contractId}.js`)
     setShowDialog(false)
-    showSnackbar(formatMessage('import-succeeded'), '', 'success')
+    showNotification(formatMessage('import-succeeded'), '', 'success')
   }
 
   const handleHostChange = (

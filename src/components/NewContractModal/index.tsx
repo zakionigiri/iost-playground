@@ -10,7 +10,6 @@ import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import useStyles from './styles'
 import { useIntl } from '../../provider/IntlProvider'
-import { useSnackbar } from 'provider/SnackbarProvider'
 
 type Props = {
   closeFn: () => void

@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useState } from 'react'
-import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert'
 import { makeStyles, Theme } from '@material-ui/core/styles'
 import { Typography } from '@material-ui/core'
 
-type SnackbarTypes = 'success' | 'error' | 'warning' | 'info'
+type NotificationTypes = 'success' | 'error' | 'warning' | 'info'
 
-type SnackbarValues = {
-  showSnackbar: (title: string, message: string, type: SnackbarTypes) => void
+type NotificationValues = {
+  showNotification: (
+    title: string,
+    message: string,
+    type: NotificationTypes
+  ) => void
 }
 
 const Alert = (props: AlertProps) => {
@@ -24,25 +27,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-const SnackbarCtx = createContext<SnackbarValues>({
-  showSnackbar: () => {
+const NotificationCtx = createContext<NotificationValues>({
+  showNotification: () => {
     //
   }
 })
 
-export const useSnackbar = () => useContext(SnackbarCtx)
+export const useNotification = () => useContext(NotificationCtx)
 
-const SnackbarProvider: React.FC = ({ children }) => {
+const NotificationProvider: React.FC = ({ children }) => {
   const classes = useStyles()
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
-  const [type, setType] = useState<SnackbarTypes>()
+  const [type, setType] = useState<NotificationTypes>()
   const [open, setOpen] = React.useState(false)
 
-  const showSnackbar = (
+  const showNotification = (
     title: string,
     message: string,
-    type: SnackbarTypes
+    type: NotificationTypes
   ) => {
     setOpen(true)
     setType(type)
@@ -65,7 +68,7 @@ const SnackbarProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <SnackbarCtx.Provider value={{ showSnackbar }}>
+    <NotificationCtx.Provider value={{ showNotification }}>
       {open && (
         <div className={classes.root}>
           <Snackbar
@@ -88,8 +91,8 @@ const SnackbarProvider: React.FC = ({ children }) => {
         </div>
       )}
       {children}
-    </SnackbarCtx.Provider>
+    </NotificationCtx.Provider>
   )
 }
 
-export default SnackbarProvider
+export default NotificationProvider

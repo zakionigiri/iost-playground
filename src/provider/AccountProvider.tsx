@@ -129,8 +129,6 @@ const AccountProvider: React.FC = ({ children }) => {
     setIost(iost)
   }
 
-  const rpcHostSelect = () => {}
-
   const value = {
     extensionState,
     network,

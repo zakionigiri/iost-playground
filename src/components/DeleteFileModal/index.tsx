@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import useStyles from './styles'
-import { useIntl } from 'provider/IntlProvider'
+import { useIntl } from '../../provider/IntlProvider'
 
 type Props = {
   closeFn: () => void
