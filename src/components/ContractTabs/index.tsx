@@ -10,7 +10,13 @@ import NewContractModal from '../NewContractModal'
 import defaultContract from '../../lib/contracts/default'
 import ApiHostSelect from '../ApiHostSelect'
 import { Host } from '../../types/types'
-import { getApiUrl, nets, getNetName, restoreContract } from '../../lib'
+import {
+  getApiUrl,
+  nets,
+  getNetName,
+  restoreContract,
+  getFileNameWithExtension
+} from '../../lib'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useIntl } from '../../provider/IntlProvider'
 import { useSnackbar } from 'provider/SnackbarProvider'
@@ -36,7 +42,7 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box p={3} style={{ paddingTop: 0, paddingBottom: 0 }}>
-          <Typography>{children}</Typography>
+          <Typography component={'div'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -57,7 +63,7 @@ const ContractTabs = () => {
   const [fileList, setFileList] = useState<string[]>([])
   const [isCustomMode, setIsCustomMode] = useState(false)
   const [customHost, setCustomHost] = useState('')
-  const [host, setHost] = useState('http://13.52.105.102:30001')
+  const [host, setHost] = useState('https://test.api.iost.io')
   const { formatMessage } = useIntl()
   const { showSnackbar } = useSnackbar()
 
@@ -81,13 +87,18 @@ const ContractTabs = () => {
   }
 
   const createNewContract = (fileName: string) => {
-    const e = fileName.split('.')
-    const extension = e[e.length - 1]
-    const fileNameWithExtension =
-      extension === 'js' ? fileName : `${fileName}.js`
+    const fileNameWithExtension = getFileNameWithExtension(fileName)
+
+    if (fileList.includes(fileNameWithExtension)) {
+      setShowDialog(false)
+      return showSnackbar(
+        formatMessage('samefile-exists'),
+        fileNameWithExtension,
+        'error'
+      )
+    }
 
     updateFileList(fileNameWithExtension)
-
     window.localStorage.setItem(
       `iost_playground_${fileNameWithExtension}`,
       defaultContract
@@ -96,10 +107,6 @@ const ContractTabs = () => {
   }
 
   const updateFileList = (fileNameWithExtension: string) => {
-    if (fileList.includes(fileNameWithExtension)) {
-      return alert(formatMessage('samefile-exists', fileNameWithExtension))
-    }
-
     const newFileList = [...fileList, fileNameWithExtension]
     window.localStorage.setItem(
       'iost_playground_files',
@@ -109,6 +116,11 @@ const ContractTabs = () => {
   }
 
   const importContract = async (contractId: string) => {
+    if (fileList.includes(`${contractId}.js`)) {
+      setShowDialog(false)
+      return showSnackbar(formatMessage('samefile-exists'), contractId, 'error')
+    }
+
     const res: AxiosResponse<ContractResponse> | void = await axios
       .get(`${host}/getContract/${contractId}/true`)
       .catch((e: AxiosError) => {
@@ -124,7 +136,7 @@ const ContractTabs = () => {
       return
     }
 
-    const { id, abis, code, language, version } = res.data
+    const { abis, code, language, version } = res.data
     const abiJson = {
       language,
       version,
@@ -132,14 +144,15 @@ const ContractTabs = () => {
     }
 
     window.localStorage.setItem(
-      `iost_playground_${id}.js`,
+      `iost_playground_${contractId}.js`,
       restoreContract(code)
     )
     window.localStorage.setItem(
-      `iost_playground_${id}.js.abi`,
+      `iost_playground_${contractId}.js.abi`,
       JSON.stringify(abiJson, undefined, 2)
     )
-    updateFileList(`${id}.js`)
+
+    updateFileList(`${contractId}.js`)
     setShowDialog(false)
     showSnackbar(formatMessage('import-succeeded'), '', 'success')
   }
@@ -197,7 +210,12 @@ const ContractTabs = () => {
         className={classes.tabs}
       >
         {fileList.map((fileName, index) => (
-          <Tab className={classes.tab} label={fileName} {...a11yProps(index)} />
+          <Tab
+            key={`contract-tab_${index}`}
+            className={classes.tab}
+            label={fileName}
+            {...a11yProps(index)}
+          />
         ))}
         <ApiHostSelect
           hosts={hosts}
@@ -216,7 +234,11 @@ const ContractTabs = () => {
         </Button>
       </Tabs>
       {fileList.map((fileNameWithExtension, index) => (
-        <TabPanel value={value} index={index}>
+        <TabPanel
+          key={`contract-tab-panel_${index}`}
+          value={value}
+          index={index}
+        >
           <ContractTab
             fileNameWithExtension={fileNameWithExtension}
             handleDeleteFile={handleDeleteFile}

@@ -33,7 +33,7 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component={'div'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -130,7 +130,7 @@ const Contract: React.FC<Props> = ({
   }
 
   return (
-    <div>
+    <>
       <Tabs
         orientation="horizontal"
         variant="scrollable"
@@ -187,7 +187,7 @@ const Contract: React.FC<Props> = ({
           fileName={fileNameWithExtension}
         />
       )}
-    </div>
+    </>
   )
 }
 

@@ -2,15 +2,15 @@
     "title": "IOST Playground",
     "TESTNET": {
         "name": "Test net",
-        "scheme": "http",
-        "host": "13.52.105.102",
-        "port": 30001
+        "scheme": "https",
+        "host": "test.api.iost.io",
+        "port": 0
     },
     "MAINNET": {
         "name": "Main net",
         "scheme": "https",
-        "host": "test.api.iost.io",
-        "port": 30001
+        "host": "api.iost.io",
+        "port": 0
     },
     "LOCALNET": {
         "name": "Local net",

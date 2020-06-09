@@ -23,7 +23,6 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   const [mode, setMode] = useState('create')
   const [userInput, setUserInput] = useState('')
   const { formatMessage } = useIntl()
-  const { showSnackbar } = useSnackbar()
 
   const handleRadioChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -33,13 +32,7 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   }
 
   const handleSubmit = () => {
-    if (mode === 'create') {
-      createFn(userInput)
-      showSnackbar(formatMessage('create-contract-success'), '', 'success')
-    } else {
-      importFn(userInput)
-      showSnackbar(formatMessage('import-contract-success'), '', 'success')
-    }
+    mode === 'create' ? createFn(userInput) : importFn(userInput)
   }
 
   const handleInputChange = (e: any) => {

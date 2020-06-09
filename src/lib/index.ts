@@ -26,6 +26,12 @@ export const getNetName = (net: Network) => {
   }
 }
 
+export const getFileNameWithExtension = (fileName: string) => {
+  const e = fileName.split('.')
+  const extension = e[e.length - 1]
+  return extension === 'js' ? fileName : `${fileName}.js`
+}
+
 export const restoreContract = (code: string) => {
   try {
     let contractCode = code.replace(

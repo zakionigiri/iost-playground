@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, ListItem, Input, Typography, Divider } from '@material-ui/core'
+import { List, ListItem } from '@material-ui/core'
 import useStyles from './styles'
 import RecursiveList from '../RecursiveList'
 

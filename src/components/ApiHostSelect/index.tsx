@@ -17,7 +17,7 @@ type Props = {
   hosts: Host[]
 }
 
-const ApiHost: React.FC<Props> = ({
+const ApiHostSelect: React.FC<Props> = ({
   isCustomMode,
   customHost,
   handleCustomHostChange,
@@ -32,11 +32,11 @@ const ApiHost: React.FC<Props> = ({
       <Select
         onChange={handleHostChange}
         className={classes.hostSelect}
-        defaultValue={'http://13.52.105.102:30001'}
+        defaultValue={`${config.TESTNET.scheme}://${config.TESTNET.host}`}
       >
         {hosts.map(({ name, url }) => {
           return (
-            <MenuItem value={url}>
+            <MenuItem value={url} key={url}>
               {name} ({url})
             </MenuItem>
           )
@@ -56,4 +56,4 @@ const ApiHost: React.FC<Props> = ({
   )
 }
 
-export default ApiHost
+export default ApiHostSelect

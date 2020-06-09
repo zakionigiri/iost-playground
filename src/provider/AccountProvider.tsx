@@ -51,7 +51,7 @@ const AccountProvider: React.FC = ({ children }) => {
   const [isDataFetched, setIsDataFetched] = useState(false)
 
   /**
-   * Extensions become accessible after loading done
+   * iWallet extension becomes accessible after loading done
    */
   window.addEventListener('load', () =>
     loadAccount().then(() => setIsDataLoaded(true))
@@ -96,7 +96,7 @@ const AccountProvider: React.FC = ({ children }) => {
    * @param {string} networkInfo
    */
   const loadAccount = async (networkInfo?: string) => {
-    window.postMessage({ action: 'GET_ACCOUNT' }, '*') // Reload iWallet info
+    window.postMessage({ action: 'GET_ACCOUNT' }, '*') // Reload iWallet extension
     const iwallet = window.IWalletJS
 
     if (iwallet === undefined) {
@@ -122,12 +122,14 @@ const AccountProvider: React.FC = ({ children }) => {
     const url = networkInfo ? networkInfo : getApiUrl(iwallet.network, true)
 
     const iost = iwallet.newIOST(IOST) as IOSTJS.IOST
+    const rpc: IOSTJS.RPC = new IOST.RPC(new IOST.HTTPProvider(url))
     iost.setAccount(account)
-    const rpc = new IOST.RPC(new IOST.HTTPProvider(url))
     iost.setRPC(rpc)
     setNetwork(iwallet.network)
     setIost(iost)
   }
+
+  const rpcHostSelect = () => {}
 
   const value = {
     extensionState,

@@ -2,24 +2,22 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
 import ContractTabs from '../../components/ContractTabs'
 import helloWorldContract from '../../lib/contracts/helloWorld'
-import helloWorldAbi from '../../lib/contracts/helloWorldAbi'
+import { isArray } from 'util'
 
 export type Mode = 'javascript' | 'json'
 
 const ContractsPage = () => {
   useEffect(() => {
-    const defaultContract = window.localStorage.getItem(
-      'iost_playground_helloWorld.js'
-    )
+    const contracts = window.localStorage.getItem('iost_playground_files')
 
-    if (defaultContract == null) {
+    if (contracts == null || contracts === '[]') {
       window.localStorage.setItem(
         'iost_playground_helloWorld.js',
         helloWorldContract
       )
       window.localStorage.setItem(
-        'iost_playground_helloWorld.js.abi',
-        helloWorldAbi
+        'iost_playground_files',
+        JSON.stringify(['helloWorld.js'])
       )
     }
   }, [])

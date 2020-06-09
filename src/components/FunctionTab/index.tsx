@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useIntl } from 'provider/IntlProvider'
+import { Select, MenuItem } from '@material-ui/core'
 
 type Props = {
   abiStr: string
@@ -12,27 +13,32 @@ type Abi = {
 }
 
 const FunctionTab: React.FC<Props> = ({ abiStr }) => {
-  const abiObj: Abi = JSON.parse(abiStr || '{abi: []}')
+  const abiObj: Abi = JSON.parse(abiStr || '{"abi": []}')
+  const [selectedFn, setSelectedFn] = useState<IOSTJS.Response.Abi>()
   const { formatMessage } = useIntl()
+
+  const handleChange = (
+    e: React.ChangeEvent<{
+      name?: string | undefined
+      value: unknown
+    }>
+  ) => {
+    setSelectedFn(abiObj.abi.find(({ name }) => name === e.target.value))
+  }
 
   return (
     <>
       <div>
         <p>{formatMessage('functions')}</p>
-        <ul>
-          {abiObj.abi.map(abi => (
-            <li>
-              <p>{abi.name}</p>
-              <ul>
-                {abi.args.map((arg, i) => (
-                  <li>
-                    第{i + 1}引数: {arg}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <Select onChange={handleChange}>
+          {abiObj.abi.map(({ name }) => {
+            return (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            )
+          })}
+        </Select>
       </div>
     </>
   )

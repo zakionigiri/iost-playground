@@ -100,12 +100,12 @@ export type SwaggerPathProps = {
   summary?: string
   operationId?: string
   responses: {
-    [key: string]: Response
+    [key: string]: SwaggerResponse
   }
-  parameters: Parameter[]
+  parameters: SwaggerParameter[]
 }
 
-type Response = {
+type SwaggerResponse = {
   description: string
   schema: {
     [key: string]: string
@@ -113,7 +113,7 @@ type Response = {
   }
 }
 
-type Parameter = {
+type SwaggerParameter = {
   name: string
   description: string
   in: 'path' | 'query' | 'body'
