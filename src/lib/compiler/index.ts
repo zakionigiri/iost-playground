@@ -340,6 +340,7 @@ const processContract = (source: string) => {
   // const newSource = "'use strict';\n" + handleOperator(ast)
 
   let className
+
   for (const stat of ast.body) {
     if (isClassDecl(stat as Declaration)) {
       //
@@ -350,6 +351,11 @@ const processContract = (source: string) => {
       className = getExportName(stat.expression as AssignmentExpression)
     }
   }
+
+  if (className == null) {
+    throw new Error('You have no exported class in the contract')
+  }
+
   for (const stat of ast.body) {
     const statement = stat as Declaration
     if (isClassDecl(statement)) {

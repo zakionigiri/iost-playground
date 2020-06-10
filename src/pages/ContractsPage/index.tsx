@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../../components/Layout'
 import ContractTabs from '../../components/ContractTabs'
 import helloWorldContract from '../../lib/contracts/helloWorld'
-import { setContract, setContractList } from '../../lib'
+import { setContract, setContractList, getContractList } from '../../lib'
 
 export type Mode = 'javascript' | 'json'
 
 const ContractsPage = () => {
   useEffect(() => {
-    const contracts = window.localStorage.getItem('iost_playground_files')
+    const contractList = getContractList()
 
-    if (contracts == null || contracts === '[]') {
+    if (contractList.length === 0) {
       setContract('helloWorld.js', helloWorldContract)
-      setContractList('helloWorld.js')
+      setContractList(['helloWorld.js'])
     }
   }, [])
 

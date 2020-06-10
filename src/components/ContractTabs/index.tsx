@@ -18,7 +18,8 @@ import {
   getFileNameWithExtension,
   getContractList,
   setContract,
-  setContractList
+  setContractList,
+  removeContract
 } from '../../lib'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useIntl } from '../../provider/IntlProvider'
@@ -66,7 +67,7 @@ const ContractTabs = () => {
   const [selectedContract, setSelectedContract] = useState('')
   const [menuAnchorItem, setMenuAnchorItem] = useState<Element>()
   const [showDialog, setShowDialog] = useState(false)
-  const [fileList, setFileList] = useState<string[]>([])
+  const [contractList, setFileList] = useState<string[]>([])
   const [isCustomMode, setIsCustomMode] = useState(false)
   const [customHost, setCustomHost] = useState('')
   const [host, setHost] = useState('https://test.api.iost.io')
@@ -89,11 +90,11 @@ const ContractTabs = () => {
   const createNewContract = (fileName: string) => {
     const fileNameWithExtension = getFileNameWithExtension(fileName)
 
-    if (fileList.includes(fileNameWithExtension)) {
+    if (contractList.includes(fileNameWithExtension)) {
       setShowDialog(false)
       return showNotification(
-        formatMessage('samefile-exists'),
-        fileNameWithExtension,
+        formatMessage('samefile-exists', fileNameWithExtension),
+        '',
         'error'
       )
     }
@@ -104,17 +105,17 @@ const ContractTabs = () => {
   }
 
   const updateFileList = (fileNameWithExtension: string) => {
-    const newFileList = [...fileList, fileNameWithExtension]
-    setContractList(fileNameWithExtension)
-    setFileList(newFileList)
+    const newContractList = [...contractList, fileNameWithExtension]
+    setContractList(newContractList)
+    setFileList(newContractList)
   }
 
   const importContract = async (contractId: string) => {
-    if (fileList.includes(`${contractId}.js`)) {
+    if (contractList.includes(`${contractId}.js`)) {
       setShowDialog(false)
       return showNotification(
-        formatMessage('samefile-exists'),
-        contractId,
+        formatMessage('samefile-exists', contractId),
+        '',
         'error'
       )
     }
@@ -176,17 +177,16 @@ const ContractTabs = () => {
     }
   })
 
-  const handleDeleteFile = (fileName: string) => {
-    const newFileList = fileList.filter(f => f !== fileName)
-
-    window.localStorage.removeItem(`iost_playground_${fileName}`)
-    window.localStorage.removeItem(`iost_playground_${fileName}.abi`)
-    window.localStorage.setItem(
-      'iost_playground_files',
-      JSON.stringify(newFileList)
+  const handleDeleteFile = (fileNameWithExtension: string) => {
+    const newContractList = contractList.filter(
+      f => f !== fileNameWithExtension
     )
 
-    setFileList(newFileList)
+    removeContract(fileNameWithExtension)
+    removeContract(fileNameWithExtension + '.abi')
+    setContractList(newContractList)
+
+    setFileList(newContractList)
     setValue(-1)
   }
 
@@ -209,7 +209,7 @@ const ContractTabs = () => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        {fileList.map((fileName, index) => (
+        {contractList.map((fileName, index) => (
           <Tab
             key={`contract-tab_${index}`}
             className={classes.tab}
@@ -234,7 +234,7 @@ const ContractTabs = () => {
           {formatMessage('new-contract-button')}
         </Button>
       </Tabs>
-      {fileList.map((fileNameWithExtension, index) => (
+      {contractList.map((fileNameWithExtension, index) => (
         <TabPanel
           key={`contract-tab-panel_${index}`}
           value={value}

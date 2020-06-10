@@ -40,7 +40,7 @@ const NotificationProvider: React.FC = ({ children }) => {
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
   const [type, setType] = useState<NotificationTypes>()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   const showNotification = (
     title: string,
@@ -51,20 +51,22 @@ const NotificationProvider: React.FC = ({ children }) => {
     setType(type)
     setTitle(title)
     setMessage(message)
-    setTimeout(() => {
-      setOpen(false)
-      setTitle('')
-      setMessage('')
-      setType(undefined)
-    }, 10000)
+    setTimeout(close, 10000)
   }
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const close = () => {
+    setOpen(false)
+    setTitle('')
+    setMessage('')
+    setType(undefined)
+  }
+
+  const handleClose = (_: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return
     }
 
-    setOpen(false)
+    close()
   }
 
   return (

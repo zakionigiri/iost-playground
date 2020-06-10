@@ -99,17 +99,16 @@ export const setContract = (fileNameWithExtension: string, code: string) => {
   window.localStorage.setItem(keyPrefix + fileNameWithExtension, code)
 }
 
-export const setContractList = (fileNameWithExtension: string) => {
-  const contractList = getContractList()
-  contractList.push(fileNameWithExtension)
+export const setContractList = (newContractList: string[]) => {
   window.localStorage.setItem(
     keyPrefix + 'contracts',
-    JSON.stringify(contractList)
+    JSON.stringify(newContractList)
   )
 }
 
-export const removeContract = (fileNameWithExtension: string) =>
+export const removeContract = (fileNameWithExtension: string) => {
   window.localStorage.removeItem(keyPrefix + fileNameWithExtension)
+}
 
 export const setItem = (key: string, item: string) =>
   window.localStorage.setItem(key, item)
