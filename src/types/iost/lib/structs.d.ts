@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class Tx {
     public gasRatio: number
     public gasLimit: number

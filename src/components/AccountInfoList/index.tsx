@@ -5,7 +5,7 @@ import NoAccountFound from '../Messages/NoAccountFound'
 import BaseList, { ListItemParams } from '../BaseList'
 
 type Props = {
-  account: IOSTJS.Response.AccountInfo | undefined
+  account: IOST.Response.AccountInfo | undefined
   isDataFetched: boolean
 }
 

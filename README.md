@@ -30,3 +30,5 @@ $ yarn start
 - Show diff abi result when abi already exits to the contract.
 - Show confirmation modal before compile
 - add functionality to invoke contract functions
+- add pouchdb functions
+- alert before user leaves the page with unsaved code change 

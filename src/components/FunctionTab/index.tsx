@@ -10,14 +10,14 @@ type Props = {
 type Abi = {
   language: 'javascript'
   version: '1.0.0'
-  abi: IOSTJS.Response.Abi[]
+  abi: IOST.Response.Abi[]
 }
 
 type ArgPrimitives = string | number | boolean
 
 const FunctionTab: React.FC<Props> = ({ abiStr }) => {
   const abiObj: Abi = JSON.parse(abiStr || '{"abi": []}')
-  const [selectedFn, setSelectedFn] = useState<IOSTJS.Response.Abi>()
+  const [selectedFn, setSelectedFn] = useState<IOST.Response.Abi>()
   const [args, setArgs] = useState<ArgPrimitives[]>([])
   const { formatMessage } = useIntl()
   const classes = useStyles()

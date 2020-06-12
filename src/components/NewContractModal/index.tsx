@@ -14,7 +14,7 @@ import { useIntl } from '../../provider/IntlProvider'
 type Props = {
   closeFn: () => void
   createFn: (fileName: string) => void
-  importFn: (contractId: string) => Promise<void>
+  importFn: (contractId: string) => void
 }
 
 const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {

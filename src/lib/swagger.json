@@ -1215,7 +1215,7 @@
         },
         "protocol_version": {
           "type": "string",
-          "title": "the iost protocol version"
+          "title": "the IOST protocol version"
         },
         "chain_id": {
           "type": "integer",

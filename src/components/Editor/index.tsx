@@ -5,7 +5,8 @@ import useStyles from './styles'
 import 'ace-builds/src-noconflict/mode-javascript'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-monokai'
-import { Mode } from '../../pages/ContractsPage'
+
+type Mode = 'javascript' | 'json'
 
 type Props = {
   mode: Mode
@@ -19,7 +20,7 @@ const Editor: React.FC<Props> = ({ mode, code, handleCodeChange }) => {
   return (
     <AceEditor
       className={classes.editor}
-      width="70vw"
+      width="50vw"
       height="80vh"
       placeholder=""
       mode={mode}

@@ -4,14 +4,22 @@ import Editor from '../Editor'
 import { Tabs, Tab, Box, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
 import DeleteFileModal from 'components/DeleteFileModal'
-import { compileCode } from '../../lib'
+import { compileCode, getContract } from '../../lib'
 import { useNotification } from '../../provider/NotificationProvider'
 import { useIntl } from 'provider/IntlProvider'
 import FunctionTab from 'components/FunctionTab'
+import { Contract } from '../../state/features/contract/types'
 
 type Props = {
-  fileNameWithExtension: string
-  handleDeleteFile: (fileNameWithExtension: string) => void
+  contract: Contract
+  handleDeleteFile: (fileNameWithExtension: Contract['fileName']) => void
+  handleCompile: (uid: Contract['uid'], code: Contract['code']) => void
+  handleCodeChange: (
+    uid: string,
+    data: string,
+    type: 'code' | 'abi'
+  ) => void
+  handleShowDialog: () => 
 }
 
 interface TabPanelProps {
@@ -48,86 +56,51 @@ const a11yProps = (index: any) => {
 }
 
 const Contract: React.FC<Props> = ({
-  fileNameWithExtension,
-  handleDeleteFile
+  contract,
+  handleDeleteFile,
+  handleCompile,
+  handleCodeChange,
 }) => {
-  const [doesFileExist, setDoesFileExit] = useState<boolean>()
-  const [code, setCode] = useState('')
-  const [abiStr, setAbiStr] = useState('')
-  const [value, setValue] = useState(0)
-  const [showDelDialog, setShowDialog] = useState(false)
-  const { showNotification } = useNotification()
-  const { formatMessage } = useIntl()
-
   const classes = useStyles()
+  // const [doesFileExist, setDoesFileExit] = useState<boolean>()
+  // const [code, setCode] = useState('')
+  // const [abiStr, setAbiStr] = useState('')
+  // const [value, setValue] = useState(0)
+  // const [showDelDialog, setShowDialog] = useState(false)
+  // const { showNotification } = useNotification()
+  // const { formatMessage } = useIntl()
 
-  const handleShowDialog = () => {
-    setShowDialog(!showDelDialog)
-  }
+  // const handleShowDialog = () => {
+  //   setShowDialog(!showDelDialog)
+  // }
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue)
-  }
+  // const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  //   setValue(newValue)
+  // }
 
-  useEffect(() => {
-    // Loading default contract
-    const contract = window.localStorage.getItem(
-      `iost_playground_${fileNameWithExtension}`
-    )
-    const abiStr = window.localStorage.getItem(
-      `iost_playground_${fileNameWithExtension}.abi`
-    )
+  // useEffect(() => {
+  //   // Loading default contract
+  //   const contract = getContract(fileNameWithExtension)
+  //   const abiStr = getContract(fileNameWithExtension + '.abi')
 
-    if (contract == null) {
-      return setDoesFileExit(false)
-    }
+  //   if (contract == null) {
+  //     return setDoesFileExit(false)
+  //   }
 
-    setAbiStr(abiStr || '')
-    setCode(contract)
-    setDoesFileExit(true)
-  }, [])
+  //   setAbiStr(abiStr || '')
+  //   setCode(contract)
+  //   setDoesFileExit(true)
+  // }, [])
 
-  const handleCodeChange = (value: string) => {
-    window.localStorage.setItem(
-      `iost_playground_${fileNameWithExtension}`,
-      value
-    )
-    setCode(value)
-  }
+  // const deleteFile = () => {
+  //   handleDeleteFile(fileNameWithExtension)
+  //   setShowDialog(false)
+  //   showNotification(formatMessage('delete-complete'), '', 'success')
+  // }
 
-  const handleAbiChange = (value: string) => {
-    window.localStorage.setItem(
-      `iost_playground_${fileNameWithExtension}.abi`,
-      value
-    )
-    setAbiStr(value)
-  }
-
-  const handleCompile = () => {
-    // TODO Show confirmation dialog in cases abi already exists (because this action will override the abi)
-    try {
-      const abiStr: string = compileCode(code)
-      setAbiStr(abiStr)
-      window.localStorage.setItem(
-        `iost_playground_${fileNameWithExtension}.abi`,
-        abiStr
-      )
-      showNotification(formatMessage('compile-success'), '', 'success')
-    } catch (e) {
-      const message = (e && e.message) || ''
-      showNotification(formatMessage('compile-fail'), message, 'error')
-    }
-  }
-
-  const deleteFile = () => {
-    handleDeleteFile(fileNameWithExtension)
-    setShowDialog(false)
-    showNotification(formatMessage('delete-complete'), '', 'success')
-  }
-
-  if (doesFileExist === false) {
-    return <NoFileExistsMessage fileName={fileNameWithExtension} />
-  }
+  // if (doesFileExist === false) {
+  //   return <NoFileExistsMessage fileName={fileNameWithExtension} />
+  // }
 
   return (
     <>
@@ -141,20 +114,19 @@ const Contract: React.FC<Props> = ({
       >
         <Tab
           className={classes.tab}
-          label={`${fileNameWithExtension}`}
+          label={`${contract.fileName}`}
           {...a11yProps(0)}
         />
         <Tab
           className={classes.tab}
-          label={`${fileNameWithExtension}.abi`}
+          label={`${contract.fileName}.abi`}
           {...a11yProps(1)}
         />
-        <Tab className={classes.tab} label={'Functions'} {...a11yProps(1)} />
         <Button
           className={classes.compileButton}
           variant="contained"
           color="primary"
-          onClick={handleCompile}
+          onClick={() => handleCompile(contract.uid, contract.code)}
         >
           {formatMessage('compile-code')}
         </Button>
@@ -169,22 +141,27 @@ const Contract: React.FC<Props> = ({
       </Tabs>
       <TabPanel value={value} index={0}>
         <Editor
-          code={code}
+          code={contract.code}
           mode="javascript"
-          handleCodeChange={handleCodeChange}
+          handleCodeChange={(data: string) =>
+            handleCodeChange(contract.uid, data, 'code')
+          }
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Editor code={abiStr} mode="json" handleCodeChange={handleAbiChange} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <FunctionTab abiStr={abiStr} />
+        <Editor
+          code={JSON.stringify(contract.abi, null, 2)}
+          mode="json"
+          handleCodeChange={(data: string) =>
+            handleCodeChange(contract.uid, data, 'abi')
+          }
+        />
       </TabPanel>
       {showDelDialog && (
         <DeleteFileModal
           closeFn={handleShowDialog}
           handleDeleteFile={deleteFile}
-          fileName={fileNameWithExtension}
+          fileName={contract.fileName}
         />
       )}
     </>

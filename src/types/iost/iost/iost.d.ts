@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class IOST {
     public rpc?: RPC
     public account?: Account

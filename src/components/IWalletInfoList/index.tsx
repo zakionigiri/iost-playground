@@ -5,7 +5,7 @@ import { IwalletIOST } from '../../provider/AccountProvider'
 import BaseList, { ListItemParams } from '../BaseList/index'
 
 type Props = {
-  iost: IOSTJS.IOST
+  iost: IOST.IOST
   setIost: IwalletIOST['setIost']
   network: Network
 }
@@ -28,9 +28,9 @@ const IWalletAccountInfo: React.FC<Props> = ({ iost, setIost, network }) => {
     const { name, value } = e.target
 
     if (name === 'defaultLimit') {
-      iost.config.defaultLimit = value as IOSTJS.Config['defaultLimit']
+      iost.config.defaultLimit = value as IOST.Config['defaultLimit']
     } else {
-      iost.config[name as keyof IOSTJS.Config] = parseInt(value)
+      iost.config[name as keyof IOST.Config] = parseInt(value)
     }
 
     const i = Object.assign({}, iost)
@@ -66,7 +66,7 @@ const IWalletAccountInfo: React.FC<Props> = ({ iost, setIost, network }) => {
                     type={getInputType(key)}
                     name={key}
                     className={classes.configInput}
-                    value={iost.config[key as keyof IOSTJS.Config]}
+                    value={iost.config[key as keyof IOST.Config]}
                   />
                 </div>
               </ListItem>

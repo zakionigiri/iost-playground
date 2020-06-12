@@ -30,7 +30,7 @@ const IntlProvider: React.FC = ({ children }) => {
   const [lang, setLang] = useState<IntlValues['lang']>(defaultLang)
 
   useEffect(() => {
-    const presetLang = window.localStorage.getItem('iost_playground_locale')
+    const presetLang = window.localStorage.getItem('IOST_playground_locale')
 
     if (presetLang == null) {
       setLang(defaultLang)
@@ -38,7 +38,7 @@ const IntlProvider: React.FC = ({ children }) => {
     }
 
     if (isValidLang(presetLang) === false) {
-      window.localStorage.setItem('iost_playground_locale', defaultLang)
+      window.localStorage.setItem('IOST_playground_locale', defaultLang)
       setLang(defaultLang)
       return
     }
@@ -57,7 +57,7 @@ const IntlProvider: React.FC = ({ children }) => {
     }
 
     window.localStorage.setItem(
-      'iost_playground_locale',
+      'IOST_playground_locale',
       event.target.value as string
     )
     setLang(event.target.value as Locales)

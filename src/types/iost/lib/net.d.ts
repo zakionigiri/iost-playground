@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class Net {
     constructor(rpc: RPC)
 

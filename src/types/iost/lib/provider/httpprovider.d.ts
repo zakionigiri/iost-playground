@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class HTTPProvider {
     constructor(host: string, timeout?: number)
 

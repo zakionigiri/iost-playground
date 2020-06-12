@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   declare namespace Response {
     type NodeInfo = {
       build_time: string

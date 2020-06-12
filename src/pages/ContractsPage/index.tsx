@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../../components/Layout'
-import ContractTabs from '../../components/ContractTabs'
-import helloWorldContract from '../../lib/contracts/helloWorld'
-import { setContract, setContractList, getContractList } from '../../lib'
-
-export type Mode = 'javascript' | 'json'
+import ContractTabs from '../../components/ContractTabs/presentation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getContractState } from 'state/features/contract/selectors'
+import { createContract } from 'state/features/contract/slices'
 
 const ContractsPage = () => {
+  const dispatch = useDispatch()
+  const { isReady, contracts } = useSelector(getContractState)
+
   useEffect(() => {
-    const contractList = getContractList()
-
-    if (contractList.length === 0) {
-      setContract('helloWorld.js', helloWorldContract)
-      setContractList(['helloWorld.js'])
+    if (isReady === true && contracts.length === 0) {
+      dispatch(
+        createContract({
+          uid: 'default',
+          fileName: 'helloWorld'
+        })
+      )
     }
-  }, [])
+  }, [isReady])
 
-  return (
-    <Layout>
-      <ContractTabs />
-    </Layout>
-  )
+  return <Layout>{isReady ? <ContractTabs /> : <></>}</Layout>
 }
 
 export default ContractsPage

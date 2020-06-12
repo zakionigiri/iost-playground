@@ -1,6 +1,6 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class Blockchain {
-    constructor(iost: IOST)
+    constructor(IOST: IOST)
 
     getChainInfo: () => Promise<string>
     getBlockByHash: (hash: string, complete: boolean) => Promise<string>

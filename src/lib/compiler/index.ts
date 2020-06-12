@@ -64,7 +64,7 @@ const genAbi = (
   }
 
   const { name } = def.key as Identifier
-  const abi: IOSTJS.Response.Abi = {
+  const abi: IOST.Response.Abi = {
     name,
     args: new Array(def.value.params.length).fill('string'),
     amount_limit: [],
@@ -118,7 +118,7 @@ const getValidType = (type: string): ParamTypes => {
 const genAbiArr = (
   stat: Declaration,
   comments: Comment[]
-): IOSTJS.Response.Abi[] => {
+): IOST.Response.Abi[] => {
   const abiArr = []
   if (!isClassDecl(stat) || stat.body.type !== 'ClassBody') {
     throw new Error(
@@ -324,7 +324,7 @@ const processContract = (source: string) => {
     tokens: true
   })
 
-  let abiArr: IOSTJS.Response.Abi[] = []
+  let abiArr: IOST.Response.Abi[] = []
   if (
     !ast ||
     ast === null ||
@@ -369,7 +369,7 @@ const processContract = (source: string) => {
     }
   }
 
-  const abi = {} as IOSTJS.Response.Contract
+  const abi = {} as IOST.Response.Contract
   abi['language'] = lang
   abi['version'] = version
   abi['abi' as 'abis'] = abiArr

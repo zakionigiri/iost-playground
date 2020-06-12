@@ -1,6 +1,6 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class Transaction {
-    constructor(iost: IOST)
+    constructor(IOST: IOST)
 
     sendTx: (tx: Tx) => Promise<string>
     getTxByHash: (hash: string) => Promise<string>

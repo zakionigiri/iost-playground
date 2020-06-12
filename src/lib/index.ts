@@ -1,11 +1,12 @@
 import config from './config.json'
 import compiler from './compiler'
+import { Contract } from '../state/features/contract/types'
 
 const TESTNET = 'TESTNET'
 const MAINNET = 'MAINNET'
 const LOCALNET = 'LOCALNET'
 
-const keyPrefix = 'iost_playground_'
+const keyPrefix = 'IOST_playground_'
 
 export const getApiUrl = (network: Network, withScheme?: boolean) => {
   const { host, port, scheme } = config[network]
@@ -76,6 +77,14 @@ export const restoreContract = (code: string) => {
 }
 
 export const compileCode = (code: string) => compiler(code)
+
+// export const getContracts = (contractList: string[]): Contract[] => {
+//   const contracts = []
+//   for (const fileName of contractList) {
+//     const code = getContract(fileName)
+//     const
+//   }
+// }
 
 export const getContractList = (): string[] => {
   const contractListStr = window.localStorage.getItem(keyPrefix + 'contracts')

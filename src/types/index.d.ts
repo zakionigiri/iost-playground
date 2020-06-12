@@ -1,11 +1,11 @@
 interface Window {
   IWalletJS: {
     account: { name: string; network: string }
-    enable: () => Promise<IOSTJS.Account>
-    iost: IOSTJS.IOST
+    enable: () => Promise<IOST.Account>
+    IOST: IOST.IOST
     network: Network
-    newIOST: (i: IOSTJS.IOST) => IOSTJS.IOST
-    rpc: IOSTJS.RPC
+    newIOST: (i: IOST.IOST) => IOST.IOST
+    rpc: IOST.RPC
     setAccount: (param: { account: string; network: string }) => void
   }
 }

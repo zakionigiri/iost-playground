@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class TxHandler {
     public tx: Tx
     public status: 'idle' | 'pending' | 'success' | 'failed'

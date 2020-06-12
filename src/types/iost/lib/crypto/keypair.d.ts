@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class KeyPair {
     public id: string
     public t: string

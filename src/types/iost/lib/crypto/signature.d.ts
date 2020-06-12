@@ -1,4 +1,4 @@
-declare namespace IOSTJS {
+declare namespace IOST {
   class Signature {
     public algorithm?: string
     public pubkey?: string

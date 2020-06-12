@@ -29,7 +29,7 @@ const Notes = () => {
         At the point of writing (2020/06/04),{' '}
         <a
           style={{ color: 'green' }}
-          href="https://github.com/iost-official/go-iost/tree/master/iwallet/contract"
+          href="https://github.com/IOST-official/go-IOST/tree/master/iwallet/contract"
         >
           IOST compiler
         </a>{' '}
@@ -41,7 +41,7 @@ const Notes = () => {
         'number', or 'bool'. Please refer to{' '}
         <a
           style={{ color: 'green' }}
-          href="https://developers.iost.io/docs/en/3-smart-contract/ContractStart.html#abi-interface-definition"
+          href="https://developers.IOST.io/docs/en/3-smart-contract/ContractStart.html#abi-interface-definition"
         >
           the official document
         </a>{' '}
