@@ -17,7 +17,7 @@ export type DialogState =
 export type Notification = {
   id: string
   type: NotificationTypes
-  message: string
+  messageId: string
 }
 
 export type TabState = {

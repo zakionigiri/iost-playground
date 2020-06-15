@@ -43,7 +43,7 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
     dispatch(
       addNotification({
         id: 'some-id',
-        message: formatMessage('compile-success'),
+        messageId: 'compile-success',
         type: 'success'
       })
     )

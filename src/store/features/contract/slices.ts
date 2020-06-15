@@ -98,10 +98,10 @@ const contract = createSlice({
         ({ uid }) => uid === targetContractUid
       )
       state.contracts[index].abiStr = compileCode(code)
-    },
-    importStart: () => {},
-    importSuccess: () => {},
-    importFail: () => {}
+    }
+    // importStart: () => {},
+    // importSuccess: () => {},
+    // importFail: () => {}
   }
 })
 

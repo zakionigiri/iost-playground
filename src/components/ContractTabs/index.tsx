@@ -19,10 +19,9 @@ import NewContractModal from 'components/NewContractModal'
 const TAB_NAME = 'contract-tabs'
 
 const ContractTabs = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const classes = useStyles()
   const { contracts } = useSelector(getContractState)
   const { value: tabValue = 0 } = useSelector(selectTab(TAB_NAME)) || {}
-  const classes = useStyles()
   const { formatMessage } = useLocale()
   const dispatch = useDispatch()
 

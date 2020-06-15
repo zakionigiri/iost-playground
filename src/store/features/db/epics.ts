@@ -1,6 +1,13 @@
-import { Epic } from 'redux-observable'
+import { Epic, StateObservable } from 'redux-observable'
 import { AllActions } from '..'
-import { exhaustMap, mergeMap, map, catchError } from 'rxjs/operators'
+import {
+  exhaustMap,
+  filter,
+  mergeMap,
+  map,
+  catchError,
+  switchMap
+} from 'rxjs/operators'
 import { defer, of } from 'rxjs'
 import { getSavedState, saveStateToDb } from './services'
 import { saveStart, saveFail, saveSuccess } from './slices'
@@ -11,6 +18,9 @@ import {
   initializeContractStateSuccess,
   saveContractSuccess
 } from '../contract/slices'
+import { RootState } from 'store'
+import { DB } from './types'
+import { addNotification } from '../view/slices'
 
 export const getStateEpic: Epic<AllActions, AllActions> = action$ =>
   action$
@@ -27,13 +37,33 @@ export const getStateEpic: Epic<AllActions, AllActions> = action$ =>
       )
     )
 
-export const saveStateEpic: Epic<AllActions, AllActions> = action$ =>
+export const saveStateEpic: Epic<AllActions, AllActions> = (
+  action$,
+  store$: StateObservable<RootState>
+) =>
   action$.ofType<ActionType<typeof saveStart>>(saveStart.type).pipe(
     map(action => action.payload),
-    mergeMap(({ db, data, _rev }) =>
-      defer(() => saveStateToDb(db, data, _rev || undefined)).pipe(
-        mergeMap(res => of(saveSuccess(), saveContractSuccess(res))),
-        catchError(e => of(saveFail()))
+    filter(() => store$.value.db.db != null),
+    switchMap(() =>
+      defer(() =>
+        saveStateToDb(
+          store$.value.db.db as DB,
+          store$.value.contract.contracts,
+          store$.value.contract._rev
+        )
+      ).pipe(
+        mergeMap(res =>
+          of(
+            saveSuccess(),
+            saveContractSuccess(res),
+            addNotification({
+              messageId: 'save-success',
+              type: 'success',
+              id: ''
+            })
+          )
+        ),
+        catchError(e => of(saveFail(e)))
       )
     )
   )

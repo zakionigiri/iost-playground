@@ -6,11 +6,11 @@ import { v4 } from 'uuid'
 const useNotifications = () => {
   const dispatch = useDispatch()
 
-  const notify = (message: string, type: NotificationTypes) => {
+  const notify = (messageId: string, type: NotificationTypes) => {
     dispatch(
       addNotification({
         id: v4(),
-        message,
+        messageId,
         type
       })
     )

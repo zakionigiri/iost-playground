@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteNotification } from 'store/features/view/slices'
 import useStyles from './styles'
 import Alert from '../Alert'
+import useLocale from 'hooks/useLocale'
 
 const Notifications = () => {
   const classes = useStyles()
   const notifications = useSelector(selectNotifications)
   const dispatch = useDispatch()
+  const { formatMessage } = useLocale()
 
   const handleClose = (id: string) => {
     dispatch(deleteNotification(id))
@@ -23,7 +25,7 @@ const Notifications = () => {
         open={true}
       >
         <div className={classes.root}>
-          {notifications.map(({ message, type, id }) => (
+          {notifications.map(({ messageId, type, id }) => (
             <Alert
               severity={type}
               onClose={() => handleClose(id)}
@@ -31,7 +33,7 @@ const Notifications = () => {
             >
               <div>
                 <Typography component="h2" style={{ fontWeight: 'bold' }}>
-                  {message}
+                  {formatMessage(messageId)}
                 </Typography>
               </div>
             </Alert>

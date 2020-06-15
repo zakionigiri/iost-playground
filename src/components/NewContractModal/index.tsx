@@ -12,8 +12,9 @@ import useStyles from './styles'
 import useLocale from '../../hooks/useLocale'
 import { useDispatch } from 'react-redux'
 import { closeDialog } from 'store/features/view/slices'
+import { createContract } from 'store/features/contract/slices'
 
-const NewContractModal: React.FC = () => {
+const NewContractModal = () => {
   const classes = useStyles()
   const [mode, setMode] = useState('create')
   const [userInput, setUserInput] = useState('')
@@ -28,8 +29,13 @@ const NewContractModal: React.FC = () => {
   }
 
   const handleSubmit = () => {
-    // mode === 'create' ? createFn(userInput) : importFn(userInput)
+    mode === 'create'
+      ? dispatch(createContract({ uid: '', fileName: userInput }))
+      : dispatch(createContract({ uid: '', fileName: userInput }))
+    handleClose()
   }
+
+  const handleClose = () => dispatch(closeDialog())
 
   const handleInputChange = (e: any) => {
     setUserInput(e.target.value as string)
@@ -38,7 +44,7 @@ const NewContractModal: React.FC = () => {
   return (
     <Dialog
       open={true}
-      onClose={() => dispatch(closeDialog())}
+      onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>

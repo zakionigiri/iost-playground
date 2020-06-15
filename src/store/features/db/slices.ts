@@ -15,21 +15,14 @@ const dbSlice = createSlice({
       state.db = action.payload
       state.isLoaded = true
     },
-    saveStart: (
-      _state,
-      _action: PayloadAction<{
-        db: DB
-        _rev: string | null
-        data: any
-      }>
-    ) => {
+    saveStart: (_state, _action: PayloadAction<void>) => {
       //
     },
     saveSuccess: (state, action: PayloadAction<void>) => {
       //
     },
-    saveFail: (state, action: PayloadAction<void>) => {
-      //
+    saveFail: (state, action: PayloadAction<any>) => {
+      console.log(action.payload)
     }
   }
 })
