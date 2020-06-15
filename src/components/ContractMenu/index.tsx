@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { useIntl } from 'provider/IntlProvider'
+import useLocale from '../../hooks/useLocale'
 
 type Props = {
   fileNameWithExtension: string
@@ -15,7 +15,7 @@ const ContractMenu: React.FC<Props> = ({
   closeFn,
   anchor
 }) => {
-  const { formatMessage } = useIntl()
+  const { formatMessage } = useLocale()
   return (
     <Menu
       id="contract-menu"

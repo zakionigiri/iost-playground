@@ -1,12 +1,10 @@
 import React from 'react'
 import { List, ListItem, Input } from '@material-ui/core'
 import useStyles from './styles'
-import { IwalletIOST } from '../../provider/AccountProvider'
 import BaseList, { ListItemParams } from '../BaseList/index'
 
 type Props = {
   iost: IOST.IOST
-  setIost: IwalletIOST['setIost']
   network: Network
 }
 
@@ -18,7 +16,7 @@ const getInputType = (key: string) => {
   return 'number'
 }
 
-const IWalletAccountInfo: React.FC<Props> = ({ iost, setIost, network }) => {
+const IWalletAccountInfo: React.FC<Props> = ({ iost, network }) => {
   const classes = useStyles()
 
   const handleConfigChange = (
@@ -34,7 +32,6 @@ const IWalletAccountInfo: React.FC<Props> = ({ iost, setIost, network }) => {
     }
 
     const i = Object.assign({}, iost)
-    setIost(i)
   }
 
   const listItems: ListItemParams[] = [

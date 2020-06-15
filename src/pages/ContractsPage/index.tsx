@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import Layout from '../../components/Layout'
-import ContractTabs from '../../components/ContractTabs/presentation'
+import ContractTabs from '../../components/ContractTabs'
 import { useDispatch, useSelector } from 'react-redux'
-import { getContractState } from 'state/features/contract/selectors'
-import { createContract } from 'state/features/contract/slices'
+import { getContractState } from 'store/features/contract/selectors'
+import { createContract } from 'store/features/contract/slices'
 
 const ContractsPage = () => {
   const dispatch = useDispatch()

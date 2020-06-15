@@ -3,7 +3,7 @@ export type Contract = {
   fileName: string
   contractId: string
   code: string
-  abi: Abi | null
+  abiStr: string
   network: Network | 'CUSTOM' | null
 }
 

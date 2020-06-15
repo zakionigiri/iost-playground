@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import useStyles from './styles'
-import { useIntl } from '../../provider/IntlProvider'
+import useLocale from '../../hooks/useLocale'
 
 type Props = {
   closeFn: () => void
@@ -18,7 +18,7 @@ const DeleteFileModal: React.FC<Props> = ({
   fileName
 }) => {
   const classes = useStyles()
-  const { formatMessage } = useIntl()
+  const { formatMessage } = useLocale()
 
   return (
     <div>
@@ -27,7 +27,13 @@ const DeleteFileModal: React.FC<Props> = ({
           {formatMessage('delete-confirmation', fileName)}{' '}
         </DialogTitle>
         <DialogActions>
-          <Button color="secondary" onClick={handleDeleteFile}>
+          <Button
+            color="secondary"
+            onClick={() => {
+              handleDeleteFile()
+              closeFn()
+            }}
+          >
             {formatMessage('delete-code')}
           </Button>
           <Button color="primary" onClick={closeFn}>

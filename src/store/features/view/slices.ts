@@ -1,9 +1,13 @@
-import { ViewState, DialogInfo, Notification } from './types'
+import { ViewState, Notification } from './types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ActionType } from 'typesafe-actions'
 
 const initialState: ViewState = {
-  dialogs: {},
+  dialogs: {
+    isOpen: false,
+    Component: null
+  },
+  tabs: {},
   notifications: []
 }
 
@@ -13,13 +17,27 @@ const viewSlice = createSlice({
   reducers: {
     openDialog: (
       state,
-      action: PayloadAction<{ id: string; info: DialogInfo }>
+      action: PayloadAction<{
+        element: () => JSX.Element
+      }>
     ) => {
-      const { id, info } = action.payload
-      state.dialogs[id] = info
+      const { element } = action.payload
+      return {
+        ...state,
+        dialogs: {
+          isOpen: true,
+          Component: element
+        }
+      }
     },
-    closeDialog: (state, action: PayloadAction<string>) => {
-      state.dialogs[action.payload].isOpen = false
+    closeDialog: (state, _action: PayloadAction<void>) => {
+      return {
+        ...state,
+        dialogs: {
+          isOpen: false,
+          Component: null
+        }
+      }
     },
     addNotification(state, action: PayloadAction<Notification>) {
       state.notifications.push(action.payload)
@@ -28,6 +46,10 @@ const viewSlice = createSlice({
       state.notifications = state.notifications.filter(
         n => n.id !== action.payload
       )
+    },
+    changeTab(state, action: PayloadAction<{ id: string; value: number }>) {
+      const { id, value } = action.payload
+      state.tabs[id] = { value }
     }
   }
 })
@@ -36,7 +58,8 @@ export const {
   openDialog,
   closeDialog,
   addNotification,
-  deleteNotification
+  deleteNotification,
+  changeTab
 } = viewSlice.actions
 export default viewSlice.reducer
 export type ViewActions = ActionType<typeof viewSlice.actions>

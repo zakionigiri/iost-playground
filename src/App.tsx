@@ -6,14 +6,14 @@ import GlobalCss from './GlobalCss'
 import ApiPage from './pages/ApiPage'
 import ContractsPage from './pages/ContractsPage'
 import SettingsPage from './pages/SetttingPage'
-import IntlProvider from 'provider/IntlProvider'
-import NotificationProvider from './provider/NotificationProvider'
+import Notifications from './components/Notifications'
 import { useDispatch } from 'react-redux'
-import { initializeStart } from './state/features/iost/slices'
-import { initializeDB } from 'state/features/db/slices'
-import { DB_NAME, dbOptions } from 'state/features/db/config'
+import { initializeStart } from './store/features/iost/slices'
+import { initializeDB } from 'store/features/db/slices'
+import { DB_NAME, dbOptions } from 'store/features/db/config'
 import PouchDB from 'pouchdb'
-import { initializeContractStateStart } from 'state/features/contract/slices'
+import { initializeContractStateStart } from 'store/features/contract/slices'
+import Dialog from './components/Dialog'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -29,15 +29,13 @@ const App = () => {
 
   return (
     <Router>
-      <IntlProvider>
-        <NotificationProvider>
-          <GlobalCss />
-          <Route exact path="/" component={ContractsPage} />
-          <Route exact path="/account" component={AccountPage} />
-          <Route exact path="/api" component={ApiPage} />
-          <Route exact path="/settings" component={SettingsPage} />
-        </NotificationProvider>
-      </IntlProvider>
+      <Notifications />
+      <Dialog />
+      <GlobalCss />
+      <Route exact path="/" component={ContractsPage} />
+      <Route exact path="/account" component={AccountPage} />
+      <Route exact path="/api" component={ApiPage} />
+      <Route exact path="/settings" component={SettingsPage} />
     </Router>
   )
 }

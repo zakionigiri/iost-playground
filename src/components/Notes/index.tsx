@@ -1,8 +1,8 @@
 import React from 'react'
-import { useIntl } from 'provider/IntlProvider'
+import useLocale from '../../hooks/useLocale'
 
 const Notes = () => {
-  const { formatMessage } = useIntl()
+  const { formatMessage } = useLocale()
 
   return (
     <div>

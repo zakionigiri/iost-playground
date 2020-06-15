@@ -5,9 +5,9 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { useIntl } from '../../provider/IntlProvider'
 import { renameContract } from '../../lib'
-import { useNotification } from '../../provider/NotificationProvider'
+import useNotifications from 'hooks/useNotifications'
+import useLocale from '../../hooks/useLocale'
 
 type Props = {
   fileNameWithExtension: string
@@ -19,8 +19,8 @@ const RenameContractDialog: React.FC<Props> = ({
   fileNameWithExtension
 }) => {
   const [newName, setNewName] = useState('')
-  const { formatMessage } = useIntl()
-  const { showNotification } = useNotification()
+  const { formatMessage } = useLocale()
+  const { notify } = useNotifications()
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,7 +30,7 @@ const RenameContractDialog: React.FC<Props> = ({
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     renameContract(fileNameWithExtension, newName)
-    showNotification('rename-success', '', 'success')
+    notify(formatMessage('rename-success'), 'success')
   }
 
   return (

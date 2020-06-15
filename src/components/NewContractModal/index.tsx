@@ -9,19 +9,16 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import useStyles from './styles'
-import { useIntl } from '../../provider/IntlProvider'
+import useLocale from '../../hooks/useLocale'
+import { useDispatch } from 'react-redux'
+import { closeDialog } from 'store/features/view/slices'
 
-type Props = {
-  closeFn: () => void
-  createFn: (fileName: string) => void
-  importFn: (contractId: string) => void
-}
-
-const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
+const NewContractModal: React.FC = () => {
   const classes = useStyles()
   const [mode, setMode] = useState('create')
   const [userInput, setUserInput] = useState('')
-  const { formatMessage } = useIntl()
+  const { formatMessage } = useLocale()
+  const dispatch = useDispatch()
 
   const handleRadioChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -31,7 +28,7 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   }
 
   const handleSubmit = () => {
-    mode === 'create' ? createFn(userInput) : importFn(userInput)
+    // mode === 'create' ? createFn(userInput) : importFn(userInput)
   }
 
   const handleInputChange = (e: any) => {
@@ -39,7 +36,11 @@ const NewContractModal: React.FC<Props> = ({ closeFn, createFn, importFn }) => {
   }
 
   return (
-    <Dialog open={true} onClose={closeFn} aria-labelledby="form-dialog-title">
+    <Dialog
+      open={true}
+      onClose={() => dispatch(closeDialog())}
+      aria-labelledby="form-dialog-title"
+    >
       <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
         {formatMessage('new-contract-modal-message')}
       </DialogTitle>

@@ -5,123 +5,74 @@ import { Tabs, Tab, Box, Typography, Button } from '@material-ui/core'
 import useStyles from './styles'
 import DeleteFileModal from 'components/DeleteFileModal'
 import { compileCode, getContract } from '../../lib'
-import { useNotification } from '../../provider/NotificationProvider'
-import { useIntl } from 'provider/IntlProvider'
-import FunctionTab from 'components/FunctionTab'
-import { Contract } from '../../state/features/contract/types'
+import useLocale from '../../hooks/useLocale'
+import { Contract } from '../../store/features/contract/types'
+import TabPanel from '../TabPanel'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectViewState, selectTab } from '../../store/features/view/selectors'
+import {
+  changeTab,
+  openDialog,
+  closeDialog,
+  addNotification
+} from '../../store/features/view/slices'
+import {
+  compileContract,
+  setContractCode,
+  removeContract
+} from 'store/features/contract/slices'
+
+const TAB_NAME = 'code-abi-tab'
 
 type Props = {
   contract: Contract
-  handleDeleteFile: (fileNameWithExtension: Contract['fileName']) => void
-  handleCompile: (uid: Contract['uid'], code: Contract['code']) => void
-  handleCodeChange: (
-    uid: string,
-    data: string,
-    type: 'code' | 'abi'
-  ) => void
-  handleShowDialog: () => 
 }
 
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: any
-  value: any
-}
-
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography component={'div'}>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  )
-}
-
-const a11yProps = (index: any) => {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`
-  }
-}
-
-const Contract: React.FC<Props> = ({
-  contract,
-  handleDeleteFile,
-  handleCompile,
-  handleCodeChange,
-}) => {
+const ContractTab: React.FC<Props> = ({ contract }) => {
   const classes = useStyles()
-  // const [doesFileExist, setDoesFileExit] = useState<boolean>()
-  // const [code, setCode] = useState('')
-  // const [abiStr, setAbiStr] = useState('')
-  // const [value, setValue] = useState(0)
-  // const [showDelDialog, setShowDialog] = useState(false)
-  // const { showNotification } = useNotification()
-  // const { formatMessage } = useIntl()
+  const { value: tabValue = 0 } = useSelector(selectTab(TAB_NAME)) || {}
+  const dispatch = useDispatch()
+  const { formatMessage } = useLocale()
 
-  // const handleShowDialog = () => {
-  //   setShowDialog(!showDelDialog)
-  // }
+  const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
+    dispatch(changeTab({ id: TAB_NAME, value }))
+  }
 
-  // const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-  //   setValue(newValue)
-  // }
+  const handleCompile = (uid: string, code: string) => {
+    dispatch(compileContract({ uid, code }))
+    dispatch(
+      addNotification({
+        id: 'some-id',
+        message: formatMessage('compile-success'),
+        type: 'success'
+      })
+    )
+  }
 
-  // useEffect(() => {
-  //   // Loading default contract
-  //   const contract = getContract(fileNameWithExtension)
-  //   const abiStr = getContract(fileNameWithExtension + '.abi')
+  const handleDeleteFile = (uid: string) => {
+    dispatch(removeContract(uid))
+  }
 
-  //   if (contract == null) {
-  //     return setDoesFileExit(false)
-  //   }
-
-  //   setAbiStr(abiStr || '')
-  //   setCode(contract)
-  //   setDoesFileExit(true)
-  // }, [])
-
-  // const deleteFile = () => {
-  //   handleDeleteFile(fileNameWithExtension)
-  //   setShowDialog(false)
-  //   showNotification(formatMessage('delete-complete'), '', 'success')
-  // }
-
-  // if (doesFileExist === false) {
-  //   return <NoFileExistsMessage fileName={fileNameWithExtension} />
-  // }
+  const handleCodeChange = (
+    uid: string,
+    code: string,
+    type: 'code' | 'abi'
+  ) => {
+    dispatch(setContractCode({ uid, code, type }))
+  }
 
   return (
     <>
       <Tabs
         orientation="horizontal"
         variant="scrollable"
-        value={value}
-        onChange={handleChange}
+        value={tabValue}
+        onChange={handleTabChange}
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab
-          className={classes.tab}
-          label={`${contract.fileName}`}
-          {...a11yProps(0)}
-        />
-        <Tab
-          className={classes.tab}
-          label={`${contract.fileName}.abi`}
-          {...a11yProps(1)}
-        />
+        <Tab className={classes.tab} label={`${contract.fileName}`} />
+        <Tab className={classes.tab} label={`${contract.fileName}.abi`} />
         <Button
           className={classes.compileButton}
           variant="contained"
@@ -134,12 +85,24 @@ const Contract: React.FC<Props> = ({
           className={classes.compileButton}
           variant="contained"
           color="secondary"
-          onClick={handleShowDialog}
+          onClick={() =>
+            dispatch(
+              openDialog({
+                element: () => (
+                  <DeleteFileModal
+                    handleDeleteFile={() => handleDeleteFile(contract.uid)}
+                    fileName={contract.fileName}
+                    closeFn={() => dispatch(closeDialog())}
+                  />
+                )
+              })
+            )
+          }
         >
           {formatMessage('delete-code')}
         </Button>
       </Tabs>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={tabValue} index={0}>
         <Editor
           code={contract.code}
           mode="javascript"
@@ -148,24 +111,17 @@ const Contract: React.FC<Props> = ({
           }
         />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={tabValue} index={1}>
         <Editor
-          code={JSON.stringify(contract.abi, null, 2)}
+          code={contract.abiStr}
           mode="json"
           handleCodeChange={(data: string) =>
             handleCodeChange(contract.uid, data, 'abi')
           }
         />
       </TabPanel>
-      {showDelDialog && (
-        <DeleteFileModal
-          closeFn={handleShowDialog}
-          handleDeleteFile={deleteFile}
-          fileName={contract.fileName}
-        />
-      )}
     </>
   )
 }
 
-export default Contract
+export default ContractTab

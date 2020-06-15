@@ -1,15 +1,13 @@
 import React from 'react'
 import Layout from '../../components/Layout'
-import { useIntl } from 'provider/IntlProvider'
-import Notes from 'components/Notes'
+import Notes from '../../components/Notes'
+import LocaleSelect from '../../components/LocaleSelect'
 
 const SettingsPage = () => {
-  const { langSelect } = useIntl()
-
   return (
     <Layout>
       <>
-        <div>{langSelect()}</div>
+        <LocaleSelect />
         <Notes />
         <footer>©︎ AtsushiMiyazaki 2020- </footer>
       </>

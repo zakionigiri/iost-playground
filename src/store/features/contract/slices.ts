@@ -36,7 +36,6 @@ const contract = createSlice({
     },
     initializeContractStateFail: (state, action: PayloadAction<any>) => {
       state.isReady = false
-      console.log(action.payload)
     },
     saveContractSuccess: (
       state,
@@ -54,13 +53,16 @@ const contract = createSlice({
       action: PayloadAction<{
         uid: Contract['uid']
         code: Contract['code']
+        type: 'code' | 'abi'
       }>
     ) => {
-      const { uid: targetContractUid, code } = action.payload
+      const { uid: targetContractUid, code, type } = action.payload
       const index = state.contracts.findIndex(
         ({ uid }) => uid === targetContractUid
       )
-      state.contracts[index].code = code
+      type === 'code'
+        ? (state.contracts[index].code = code)
+        : (state.contracts[index].abiStr = code)
       state.isSaved = isSaved(state.savedState, state.contracts)
     },
     removeContract: (state, action: PayloadAction<Contract['uid']>) => ({
@@ -82,7 +84,7 @@ const contract = createSlice({
         code: defaultContract,
         contractId: '',
         network: null,
-        abi: null
+        abiStr: ''
       }
       state.contracts.push(contract)
       state.isSaved = isSaved(state.savedState, state.contracts)
@@ -95,14 +97,11 @@ const contract = createSlice({
       const index = state.contracts.findIndex(
         ({ uid }) => uid === targetContractUid
       )
-
-      const abi = compileCode(code)
-
-      state.contracts[index].abi = JSON.parse(abi)
-    }
-    // importStart: () => {},
-    // importSuccess: () => {},
-    // importFail: () => {}
+      state.contracts[index].abiStr = compileCode(code)
+    },
+    importStart: () => {},
+    importSuccess: () => {},
+    importFail: () => {}
   }
 })
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useIntl } from 'provider/IntlProvider'
+import useLocale from '../../hooks/useLocale'
 import { Select, MenuItem, Input } from '@material-ui/core'
 import useStyles from './styles'
 
@@ -19,7 +19,7 @@ const FunctionTab: React.FC<Props> = ({ abiStr }) => {
   const abiObj: Abi = JSON.parse(abiStr || '{"abi": []}')
   const [selectedFn, setSelectedFn] = useState<IOST.Response.Abi>()
   const [args, setArgs] = useState<ArgPrimitives[]>([])
-  const { formatMessage } = useIntl()
+  const { formatMessage } = useLocale()
   const classes = useStyles()
 
   useEffect(() => {

@@ -8,8 +8,8 @@ import AccountInfoList from '../../components/AccountInfoList'
 import Layout from '../../components/Layout'
 import { Divider } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import { selectIostState } from 'state/features/iost/selectors'
-import { ExtensionState } from 'state/features/iost/types'
+import { selectIostState } from 'store/features/iost/selectors'
+import { ExtensionState } from 'store/features/iost/types'
 
 const AccountPage = () => {
   const classes = useStyles()

@@ -1,6 +1,6 @@
 import config from './config.json'
 import compiler from './compiler'
-import { Contract } from '../state/features/contract/types'
+import { Contract } from '../store/features/contract/types'
 
 const TESTNET = 'TESTNET'
 const MAINNET = 'MAINNET'
