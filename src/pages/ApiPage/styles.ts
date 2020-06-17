@@ -8,10 +8,6 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: 'auto',
       padding: 20,
       boxSizing: 'border-box'
-    },
-    helperText: {
-      color: 'white',
-      fontSize: 14
     }
   })
 )

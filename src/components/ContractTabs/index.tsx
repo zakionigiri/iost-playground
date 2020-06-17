@@ -21,7 +21,6 @@ const ContractTabs = () => {
   const classes = useStyles()
   const { contracts } = useSelector(getContractState)
   const { value: tabValue = 1 } = useSelector(selectTab(TAB_NAME)) || {}
-  const { formatMessage } = useLocale()
   const dispatch = useDispatch()
 
   const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
@@ -48,14 +47,6 @@ const ContractTabs = () => {
             label={fileName}
           />
         ))}
-        <Button
-          className={classes.createContractButton}
-          variant="contained"
-          color="primary"
-          onClick={() => dispatch(openNewContractDialogOp())}
-        >
-          {formatMessage('new-contract-button')}
-        </Button>
       </Tabs>
       {contracts.map((contract, index) => (
         <TabPanel

@@ -84,7 +84,8 @@ const contract = createSlice({
         fileName,
         code: defaultContract,
         contractId: '',
-        abiStr: ''
+        abiStr: '',
+        network: null
       }
       state.contracts.push(contract)
       state.isSaved = false
@@ -102,11 +103,18 @@ const contract = createSlice({
     importStart: (state, action: PayloadAction<string>) => {
       state.isPending = true
     },
-    importSuccess: (state, action: PayloadAction<IOST.Response.Contract>) => {
-      const { id, code, abis } = action.payload
+    importSuccess: (
+      state,
+      action: PayloadAction<{
+        network: string
+        contract: IOST.Response.Contract
+      }>
+    ) => {
+      const { id, code, abis } = action.payload.contract
       const contract: Contract = {
         fileName: id,
         contractId: id,
+        network: action.payload.network,
         code: restoreContract(code),
         abiStr: JSON.stringify(
           {

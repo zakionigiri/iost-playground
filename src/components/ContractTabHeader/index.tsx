@@ -1,6 +1,6 @@
 import React from 'react'
 import useStyles from './styles'
-import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile'
+import PostAddIcon from '@material-ui/icons/PostAdd'
 import { useDispatch } from 'react-redux'
 import { openNewContractDialogOp } from 'store/features/view/operations'
 
@@ -18,7 +18,7 @@ const ContractTabHeader = () => {
           className={classes.iconContainer}
           onClick={() => dispatch(openNewContractDialogOp())}
         >
-          <InsertDriveFileIcon />
+          <PostAddIcon />
         </div>
       </div>
     </div>

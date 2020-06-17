@@ -3,6 +3,7 @@ export type Contract = {
   contractId: string
   code: string
   abiStr: string
+  network: string | null
 }
 
 export type Abi = {

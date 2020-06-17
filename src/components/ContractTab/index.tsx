@@ -10,12 +10,7 @@ import { Contract } from '../../store/features/contract/types'
 import TabPanel from '../TabPanel'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectTab } from '../../store/features/view/selectors'
-import {
-  changeTab,
-  openDialog,
-  closeDialog,
-  addNotification
-} from '../../store/features/view/slices'
+import { changeTab, addNotification } from '../../store/features/view/slices'
 import {
   compileContract,
   setContractCode,
@@ -36,21 +31,6 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
 
   const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
     dispatch(changeTab({ id: TAB_NAME, value }))
-  }
-
-  const handleCompile = (fileName: string, code: string) => {
-    dispatch(compileContract({ fileName, code }))
-    dispatch(
-      addNotification({
-        id: 'some-id',
-        messageId: 'compile-success',
-        type: 'success'
-      })
-    )
-  }
-
-  const handleDeleteFile = (fileName: string) => {
-    dispatch(removeContract(fileName))
   }
 
   const handleCodeChange = (

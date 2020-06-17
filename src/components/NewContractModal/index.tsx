@@ -57,7 +57,7 @@ const NewContractModal = () => {
         {formatMessage('new-contract-modal-message')}
       </DialogTitle>
       <DialogContent>
-        {mode === 'import' && <RpcHostSelect />}
+        {mode === 'import' && <RpcHostSelect showTitle={false} color="black" />}
         <TextField
           autoFocus
           margin="dense"

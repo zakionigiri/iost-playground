@@ -11,7 +11,7 @@ import { defer, of } from 'rxjs'
 import { loadAccount, getContract } from './services'
 import { AllActions } from '..'
 import { RootState } from 'store'
-import { addNotification, closeDialog } from '../view/slices'
+import { closeDialog } from '../view/slices'
 import { addNotificationOp } from '../view/operations'
 
 const initializeIOSTEpic: Epic<AllActions, AllActions> = action$ =>
@@ -37,7 +37,10 @@ const importContractEpic: Epic<AllActions, AllActions> = (
       ).pipe(
         mergeMap(res =>
           of(
-            importSuccess(res),
+            importSuccess({
+              contract: res,
+              network: store$.value.settings.rpcHost
+            }),
             addNotificationOp('import-success', 'success'),
             closeDialog()
           )

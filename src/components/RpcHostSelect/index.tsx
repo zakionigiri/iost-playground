@@ -20,8 +20,16 @@ const hosts = Object.keys(config.hosts).map(key => {
 const isCustomMode = (rpcHost: string) =>
   hosts.filter(({ url }) => url === rpcHost).length === 0
 
-const RpcHostSelect = () => {
-  const classes = useStyles()
+type Props = {
+  showTitle?: boolean
+  color?: string
+}
+
+const RpcHostSelect: React.FC<Props> = ({
+  showTitle = true,
+  color = 'white'
+}) => {
+  const classes = useStyles({ color })
   const { rpcHost } = useSelector(selectSettingsState)
   const dispatch = useDispatch()
 
@@ -36,7 +44,7 @@ const RpcHostSelect = () => {
 
   return (
     <>
-      <h2 className={classes.title}>API Host</h2>
+      {showTitle && <h2 className={classes.title}>API Host</h2>}
       <Select
         onChange={handleChange}
         className={classes.hostSelect}
@@ -49,11 +57,14 @@ const RpcHostSelect = () => {
             </MenuItem>
           )
         })}
-        <MenuItem value="">Custom</MenuItem>
+        <MenuItem value="" key="Custom">
+          Custom
+        </MenuItem>
       </Select>
       {isCustomMode(rpcHost) && (
         <div className={classes.customHostContainer}>
           <Input
+            placeholder="custom rpc host url"
             className={classes.customHostInput}
             value={rpcHost}
             type="text"

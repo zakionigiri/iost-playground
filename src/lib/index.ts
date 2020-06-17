@@ -70,14 +70,6 @@ export const restoreContract = (code: string) => {
 
 export const compileCode = (code: string) => compiler(code)
 
-// export const getContracts = (contractList: string[]): Contract[] => {
-//   const contracts = []
-//   for (const fileName of contractList) {
-//     const code = getContract(fileName)
-//     const
-//   }
-// }
-
 export const getContractList = (): string[] => {
   const contractListStr = window.localStorage.getItem(keyPrefix + 'contracts')
 

@@ -15,12 +15,6 @@ const ApiPage = () => {
       <>
         <div className={classes.hostContainer}>
           <RpcHostSelect />
-          {/* {isCustomMode && (
-            <FormHelperText className={classes.helperText}>
-              Do not include the scheme(e.g. http://). Choose one from the
-              'Schemes' select below
-            </FormHelperText>
-          )} */}
         </div>
         <SwaggerUI spec={swaggerConfig} />
       </>

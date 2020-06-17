@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 28
     },
     hostSelect: {
-      color: 'white',
+      color: 'black',
       fontSize: 18,
       width: 300
     },
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     customHostInput: {
       width: 300,
-      color: 'white',
       fontSize: 18
     }
   })
