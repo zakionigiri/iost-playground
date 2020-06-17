@@ -3,16 +3,15 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      background: theme.palette.success.contrastText,
-      minHeight: '100vh',
+      background: theme.palette.background.default,
+      minHeight: '95vh',
       display: 'flex'
     },
     content: {
       flexGrow: 1,
       overflowX: 'scroll',
-      padding: theme.spacing(3),
       color: 'white',
-      minHeight: '100vh'
+      minHeight: '95vh'
     },
     toolbar: {
       display: 'flex',

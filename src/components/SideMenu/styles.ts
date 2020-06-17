@@ -9,7 +9,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       textDecoration: 'none',
-      color: 'black'
+      color: theme.palette.secondary.light
+    },
+    selectedLink: {
+      textDecoration: 'none',
+      color: theme.palette.secondary.light,
+      background: theme.palette.background.default
     },
     drawer: {
       width: drawerWidth,
@@ -17,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       whiteSpace: 'nowrap'
     },
     drawerOpen: {
+      background: theme.palette.primary.light,
       width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -24,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       })
     },
     drawerClose: {
+      background: theme.palette.primary.light,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen

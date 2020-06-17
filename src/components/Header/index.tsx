@@ -7,10 +7,11 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import useStyles from './styles'
 import config from '../../lib/config.json'
+import { DrawerChangeFn } from 'components/Layout'
 
 type Props = {
   isOpen: boolean
-  handleDrawerChange: () => void
+  handleDrawerChange: DrawerChangeFn
 }
 
 const Header: React.FC<Props> = ({ isOpen, handleDrawerChange }) => {
@@ -27,7 +28,7 @@ const Header: React.FC<Props> = ({ isOpen, handleDrawerChange }) => {
         <IconButton
           color="inherit"
           aria-label="open drawer"
-          onClick={handleDrawerChange}
+          onClick={() => handleDrawerChange('isOpen', !isOpen)}
           edge="start"
           className={clsx(classes.menuButton, {
             [classes.hide]: isOpen

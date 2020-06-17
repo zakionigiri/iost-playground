@@ -23,8 +23,8 @@
         "functions": "呼び出し可能な関数",
         "cancel-action": "キャンセル",
         "function-args": "第%s引数",
-        "import-contract-success": "コントラクトのインポートが完了しました",
-        "create-contract-success": "コントラクトの作成が完了しました",
+        "save-success": "コントラクトを保存しました",
+        "import-success": "コントラクトのインポートが完了しました",
         "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
         "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
     }

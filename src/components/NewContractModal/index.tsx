@@ -36,6 +36,7 @@ const NewContractModal = () => {
     if (mode === 'create') {
       dispatch(createContract({ fileName: userInput }))
       handleClose()
+      return
     }
     dispatch(importStart(userInput))
   }

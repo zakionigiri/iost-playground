@@ -31,3 +31,8 @@
 .swagger-ui h2.title {
   color: rgba(255, 255, 255) !important;
 }
+
+.scrollbar:hover {
+    cursor: col-resize
+  }
+

@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tab: {
     textTransform: 'none',
-    fontSize: 18
+    fontSize: 16
   },
   compileButton: {
     marginLeft: 20

@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     display: 'flex',
-    height: 224
+    height: 200
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -13,11 +13,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tab: {
     textTransform: 'none',
-    fontSize: 18
+    fontSize: 16,
+    padding: 10,
+    paddingLeft: 25
   },
   createContractButton: {
+    margin: 'auto',
     marginTop: 20,
-    width: 300
+    width: 300,
+    background: theme.palette.primary.light
   }
 }))
 

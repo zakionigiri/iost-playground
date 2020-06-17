@@ -8,7 +8,7 @@ const endClause = `
 export default decl
 `
 
-const basePath = './src/types/iost'
+const basePath = './node_modules/@types/iost-contract'
 const filePaths = []
 
 const files = fs.readdirSync(basePath)
@@ -23,8 +23,10 @@ const getFilePaths = (basePath, files) => {
     }
 
     const p = [...path, name].join('/')
-    const files = fs.readdirSync(p)
-    getFilePaths(p, files)
+    if (fs.statSync(p).isDirectory()) {
+      const files = fs.readdirSync(p)
+      getFilePaths(p, files)
+    }
   }
 }
 

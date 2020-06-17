@@ -2,7 +2,15 @@ export type ViewState = {
   dialogs: DialogState
   notifications: Notification[]
   tabs: TabState
+  drawer: DrawerState
 }
+
+export type DrawerState = {
+  isOpen: boolean
+  selected: DrawerTabTypes
+}
+
+export type DrawerTabTypes = 'Contracts' | 'Account' | 'API' | 'Settings'
 
 export type DialogState =
   | {

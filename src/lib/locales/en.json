@@ -23,8 +23,8 @@
         "samefile-exists": "file (%s) already exists",
         "cancel-action": "Cancel",
         "function-args": "arg %s",
-        "import-contract-success": "Successfully imported contract",
-        "create-contract-success": "Successfully created contract",
+        "save-success": "Successfully save the contracts",
+        "import-success": "Successfully imported contract",
         "not-logged-in": "It seems that you have not logged in to iWallet chrome extension. <br /> Please login and reload the page",
         "no-extension": "It seems that you don't have iWallet chrome extension installed on your browser. <br /> Go to{' '} <a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\"> iWallet chrome extension </a>{' '} to install the extension"
     }

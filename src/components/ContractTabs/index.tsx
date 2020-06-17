@@ -8,16 +8,19 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import Button from '@material-ui/core/Button'
 import { selectTab } from 'store/features/view/selectors'
-import { changeTab, openDialog } from 'store/features/view/slices'
+import { changeTab } from 'store/features/view/slices'
 import ContractTab from '../ContractTab'
-import NewContractModal from '../../components/NewContractModal'
+import ContractActions from '../../components/ContractActionsTab'
+import { Grid } from '@material-ui/core'
+import { openNewContractDialogOp } from 'store/features/view/operations'
+import ContractTabHeader from '../../components/ContractTabHeader'
 
 const TAB_NAME = 'contract-tabs'
 
 const ContractTabs = () => {
   const classes = useStyles()
   const { contracts } = useSelector(getContractState)
-  const { value: tabValue = 0 } = useSelector(selectTab(TAB_NAME)) || {}
+  const { value: tabValue = 1 } = useSelector(selectTab(TAB_NAME)) || {}
   const { formatMessage } = useLocale()
   const dispatch = useDispatch()
 
@@ -35,9 +38,12 @@ const ContractTabs = () => {
         aria-label="Vertical tabs"
         className={classes.tabs}
       >
+        <div>
+          <ContractTabHeader />
+        </div>
         {contracts.map(({ fileName }, index) => (
           <Tab
-            key={`contract-tab_${index}`}
+            key={`contract-tab_${index + 1}`}
             className={classes.tab}
             label={fileName}
           />
@@ -46,13 +52,7 @@ const ContractTabs = () => {
           className={classes.createContractButton}
           variant="contained"
           color="primary"
-          onClick={() =>
-            dispatch(
-              openDialog({
-                element: () => <NewContractModal />
-              })
-            )
-          }
+          onClick={() => dispatch(openNewContractDialogOp())}
         >
           {formatMessage('new-contract-button')}
         </Button>
@@ -61,12 +61,18 @@ const ContractTabs = () => {
         <TabPanel
           key={`contract-tab-panel_${index}`}
           value={tabValue}
-          index={index}
+          index={index + 1}
         >
-          <ContractTab contract={contract} />
+          <Grid container direction="row">
+            <Grid item>
+              <ContractTab contract={contract} />
+            </Grid>
+            <Grid item>
+              <ContractActions contract={contract} />
+            </Grid>
+          </Grid>
         </TabPanel>
       ))}
-      <div>To test contract</div>
     </div>
   )
 }

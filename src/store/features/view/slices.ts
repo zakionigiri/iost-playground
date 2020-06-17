@@ -8,7 +8,11 @@ const initialState: ViewState = {
     Component: null
   },
   tabs: {},
-  notifications: []
+  notifications: [],
+  drawer: {
+    isOpen: false,
+    selected: 'Contracts'
+  }
 }
 
 const viewSlice = createSlice({
@@ -39,18 +43,31 @@ const viewSlice = createSlice({
         }
       }
     },
-    addNotification(state, action: PayloadAction<Notification>) {
+    addNotification: (state, action: PayloadAction<Notification>) => {
       state.notifications.push(action.payload)
     },
-    deleteNotification(state, action: PayloadAction<string>) {
+    deleteNotification: (state, action: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(
         n => n.id !== action.payload
       )
     },
-    changeTab(state, action: PayloadAction<{ id: string; value: number }>) {
+    changeTab: (
+      state,
+      action: PayloadAction<{ id: string; value: number }>
+    ) => {
       const { id, value } = action.payload
       state.tabs[id] = { value }
-    }
+    },
+    changeDrawer: (
+      state,
+      action: PayloadAction<Partial<ViewState['drawer']>>
+    ) => ({
+      ...state,
+      drawer: {
+        ...state.drawer,
+        ...action.payload
+      }
+    })
   }
 })
 
@@ -59,7 +76,8 @@ export const {
   closeDialog,
   addNotification,
   deleteNotification,
-  changeTab
+  changeTab,
+  changeDrawer
 } = viewSlice.actions
 export default viewSlice.reducer
 export type ViewActions = ActionType<typeof viewSlice.actions>

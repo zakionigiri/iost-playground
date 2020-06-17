@@ -12,13 +12,20 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { Link } from 'react-router-dom'
 import useStyles from './styles'
 import { menuListItems } from './utils'
+import { DrawerChangeFn } from 'components/Layout'
+import { DrawerTabTypes } from 'store/features/view/types'
 
 type Props = {
   isOpen: boolean
-  handleDrawerChange: () => void
+  selected: DrawerTabTypes
+  handleDrawerChange: DrawerChangeFn
 }
 
-const SideMenu: React.FC<Props> = ({ isOpen, handleDrawerChange }) => {
+const SideMenu: React.FC<Props> = ({
+  isOpen,
+  selected,
+  handleDrawerChange
+}) => {
   const classes = useStyles()
 
   return (
@@ -38,15 +45,25 @@ const SideMenu: React.FC<Props> = ({ isOpen, handleDrawerChange }) => {
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerChange}>
+          <IconButton onClick={() => handleDrawerChange('isOpen', !isOpen)}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
         <List>
           {menuListItems.map(({ name, path, Icon }) => (
-            <Link to={`/${path}`} key={name} className={classes.link}>
-              <ListItem button>
+            <Link
+              to={`/${path}`}
+              onClick={() => handleDrawerChange('selected', name)}
+              key={name}
+              className={classes.link}
+            >
+              <ListItem
+                button
+                className={
+                  name === selected ? classes.selectedLink : classes.link
+                }
+              >
                 <ListItemIcon>
                   <Icon />
                 </ListItemIcon>

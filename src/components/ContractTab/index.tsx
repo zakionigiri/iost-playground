@@ -71,36 +71,8 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab className={classes.tab} label={`${contract.fileName}`} />
-        <Tab className={classes.tab} label={`${contract.fileName}.abi`} />
-        <Button
-          className={classes.compileButton}
-          variant="contained"
-          color="primary"
-          onClick={() => handleCompile(contract.fileName, contract.code)}
-        >
-          {formatMessage('compile-code')}
-        </Button>
-        <Button
-          className={classes.compileButton}
-          variant="contained"
-          color="secondary"
-          onClick={() =>
-            dispatch(
-              openDialog({
-                element: () => (
-                  <DeleteFileModal
-                    handleDeleteFile={() => handleDeleteFile(contract.fileName)}
-                    fileName={contract.fileName}
-                    closeFn={() => dispatch(closeDialog())}
-                  />
-                )
-              })
-            )
-          }
-        >
-          {formatMessage('delete-code')}
-        </Button>
+        <Tab className={classes.tab} label="contract" />
+        <Tab className={classes.tab} label="abi" />
       </Tabs>
       <TabPanel value={tabValue} index={0}>
         <Editor

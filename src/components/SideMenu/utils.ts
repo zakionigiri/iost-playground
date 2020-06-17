@@ -5,9 +5,10 @@ import AccessibilityIcon from '@material-ui/icons/Accessibility'
 import HttpIcon from '@material-ui/icons/Http'
 import { OverridableComponent } from '@material-ui/core/OverridableComponent'
 import { SvgIconTypeMap } from '@material-ui/core'
+import { DrawerTabTypes } from 'store/features/view/types'
 
 type ListItemProps = {
-  name: string
+  name: DrawerTabTypes
   path: string
   Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>
 }

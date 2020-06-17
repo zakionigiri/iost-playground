@@ -2142,6 +2142,11 @@
   resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.33.tgz#ec5eec29c63bf5e4ca164e9feb3ef7337cdcbadb"
   integrity sha512-/jUNmS8d4bCKdqslfxW6dg/9Gksfzxz67IYfqApHn+HvHlMVXwYv2zpTDnS/yaK9BB0i0GlBTaYci0EFE62Hmw==
 
+"@types/iost-contract@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@types/iost-contract/-/iost-contract-3.4.1.tgz#8a74959ec1fbc9f618343b11ab71dc606da436f9"
+  integrity sha512-u210M+V77dYfxTKRjGIWfclVKBKKjp3Rl1bQ/NZDpDO6wJLe5aB+GjqEdbpDg/1BbWBMNjodqVUda+r0I2CY7A==
+
 "@types/is-function@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/is-function/-/is-function-1.0.0.tgz#1b0b819b1636c7baf0d6785d030d12edf70c3e83"

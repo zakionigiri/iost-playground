@@ -108,7 +108,15 @@ const contract = createSlice({
         fileName: id,
         contractId: id,
         code: restoreContract(code),
-        abiStr: JSON.stringify(abis, null, 2)
+        abiStr: JSON.stringify(
+          {
+            language: 'javascript',
+            version: '1.0.0',
+            abi: abis
+          },
+          null,
+          2
+        )
       }
       state.contracts.push(contract)
       state.isSaved = false
