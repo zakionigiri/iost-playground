@@ -6,8 +6,7 @@ const GlobalCss = withStyles({
       border: 'none',
       height: 1,
       margin: 0,
-      flexShrink: 0,
-      background: 'rgba(255, 255, 255, 0.20)'
+      flexShrink: 0
     },
     '.MuiList-padding': {
       paddingTop: 0

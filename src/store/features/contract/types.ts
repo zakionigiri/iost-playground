@@ -1,10 +1,8 @@
 export type Contract = {
-  uid: string
   fileName: string
   contractId: string
   code: string
   abiStr: string
-  network: Network | 'CUSTOM' | null
 }
 
 export type Abi = {
@@ -14,6 +12,7 @@ export type Abi = {
 }
 
 export type ContractState = {
+  isPending: boolean
   _rev?: string
   isReady: boolean
   isSaved: boolean

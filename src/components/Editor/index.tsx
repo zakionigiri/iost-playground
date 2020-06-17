@@ -1,10 +1,8 @@
 import React from 'react'
-import AceEditor from 'react-ace'
+import MonacoEditor, { EditorWillMount } from 'react-monaco-editor'
 import useStyles from './styles'
-
-import 'ace-builds/src-noconflict/mode-javascript'
-import 'ace-builds/src-noconflict/mode-json'
-import 'ace-builds/src-noconflict/theme-monokai'
+import { editor } from 'monaco-editor'
+import decl from '../../lib/declaration'
 
 type Mode = 'javascript' | 'json'
 
@@ -14,39 +12,39 @@ type Props = {
   handleCodeChange: (value: string, event?: any) => void
 }
 
+const options: editor.IEditorConstructionOptions = {
+  acceptSuggestionOnEnter: 'on',
+  //   fixedOverflowWidgets: true
+  fontSize: 16,
+  showUnused: true,
+  snippetSuggestions: 'inline'
+}
+
 const Editor: React.FC<Props> = ({ mode, code, handleCodeChange }) => {
   const classes = useStyles()
 
+  const editorWillMount: EditorWillMount = monaco => {
+    monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: false,
+      noSyntaxValidation: false
+    })
+
+    monaco.languages.typescript.javascriptDefaults.addExtraLib(
+      decl,
+      'iost.d.ts'
+    )
+  }
+
   return (
-    <AceEditor
-      className={classes.editor}
-      width="50vw"
+    <MonacoEditor
+      width="55vw"
       height="80vh"
-      placeholder=""
-      mode={mode}
-      theme="monokai"
-      name="blah2"
+      theme="vs"
+      language="javascript"
       onChange={handleCodeChange}
-      onLoad={editor => {
-        const session = editor.getSession()
-        const undoManager = session.getUndoManager()
-        editor.once('change', () => {
-          editor.session.getUndoManager().reset()
-        })
-        session.setUndoManager(undoManager)
-      }}
-      fontSize={14}
-      showPrintMargin={true}
-      showGutter={true}
-      highlightActiveLine={true}
+      options={options}
+      editorWillMount={editorWillMount}
       value={code}
-      setOptions={{
-        enableBasicAutocompletion: false,
-        enableLiveAutocompletion: false,
-        enableSnippets: false,
-        showLineNumbers: true,
-        tabSize: 2
-      }}
     />
   )
 }

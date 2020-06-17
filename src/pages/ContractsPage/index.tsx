@@ -13,8 +13,7 @@ const ContractsPage = () => {
     if (isReady === true && contracts.length === 0) {
       dispatch(
         createContract({
-          uid: 'default',
-          fileName: 'helloWorld'
+          fileName: 'helloWorld.js'
         })
       )
     }

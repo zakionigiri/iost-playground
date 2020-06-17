@@ -7,7 +7,7 @@ const useSaveCode = () => {
 
   const handleSave = (e: KeyboardEvent) => {
     if (
-      e.keyCode == 83 &&
+      e.keyCode === 83 &&
       (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)
     ) {
       e.preventDefault()

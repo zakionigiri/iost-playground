@@ -8,14 +8,6 @@ const LOCALNET = 'LOCALNET'
 
 const keyPrefix = 'IOST_playground_'
 
-export const getApiUrl = (network: Network, withScheme?: boolean) => {
-  const { host, port, scheme } = config[network]
-
-  const url = host + (port !== 0 ? `:${port}` : '')
-
-  return withScheme ? `${scheme}://${url}` : url
-}
-
 export const nets: Network[] = [TESTNET, MAINNET, LOCALNET]
 
 export const getNetName = (net: Network) => {

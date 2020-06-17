@@ -1,10 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getContractState } from '../../store/features/contract/selectors'
-import {
-  removeContract,
-  compileContract
-} from '../../store/features/contract/slices'
 import useStyles from './styles'
 import useLocale from '../../hooks/useLocale'
 import TabPanel from '../TabPanel'
@@ -12,9 +8,9 @@ import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import Button from '@material-ui/core/Button'
 import { selectTab } from 'store/features/view/selectors'
-import { changeTab, openDialog, closeDialog } from 'store/features/view/slices'
+import { changeTab, openDialog } from 'store/features/view/slices'
 import ContractTab from '../ContractTab'
-import NewContractModal from 'components/NewContractModal'
+import NewContractModal from '../../components/NewContractModal'
 
 const TAB_NAME = 'contract-tabs'
 

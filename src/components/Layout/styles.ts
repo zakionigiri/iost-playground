@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      background: '#282c34',
+      background: theme.palette.success.contrastText,
       minHeight: '100vh',
       display: 'flex'
     },

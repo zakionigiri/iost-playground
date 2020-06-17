@@ -35,7 +35,7 @@ const IOSTSlice = createSlice({
     ) => {
       state.extensionState = action.payload.reason
     }
-    // TODO should I use of IOST account without iWallet extension?
+    // TODO should I use IOST account without iWallet extension?
   }
 })
 

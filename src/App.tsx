@@ -16,6 +16,8 @@ import { initializeContractStateStart } from 'store/features/contract/slices'
 import Dialog from './components/Dialog'
 import { getContractState } from 'store/features/contract/selectors'
 import useSaveCode from 'hooks/useSaveCode'
+import { ThemeProvider } from '@material-ui/core'
+import theme from './lib/theme'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -50,13 +52,15 @@ const App = () => {
 
   return (
     <Router>
-      <Notifications />
-      <Dialog />
-      <GlobalCss />
-      <Route exact path="/" component={ContractsPage} />
-      <Route exact path="/account" component={AccountPage} />
-      <Route exact path="/api" component={ApiPage} />
-      <Route exact path="/settings" component={SettingsPage} />
+      <ThemeProvider theme={theme}>
+        <Notifications />
+        <Dialog />
+        <GlobalCss />
+        <Route exact path="/" component={ContractsPage} />
+        <Route exact path="/account" component={AccountPage} />
+        <Route exact path="/api" component={ApiPage} />
+        <Route exact path="/settings" component={SettingsPage} />
+      </ThemeProvider>
     </Router>
   )
 }

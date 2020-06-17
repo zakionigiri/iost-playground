@@ -11,8 +11,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import useStyles from './styles'
 import useLocale from '../../hooks/useLocale'
 import { useDispatch } from 'react-redux'
-import { closeDialog } from 'store/features/view/slices'
-import { createContract } from 'store/features/contract/slices'
+import { closeDialog } from '../../store/features/view/slices'
+import {
+  createContract,
+  importStart
+} from '../../store/features/contract/slices'
+import RpcHostSelect from '../RpcHostSelect'
 
 const NewContractModal = () => {
   const classes = useStyles()
@@ -29,10 +33,11 @@ const NewContractModal = () => {
   }
 
   const handleSubmit = () => {
-    mode === 'create'
-      ? dispatch(createContract({ uid: '', fileName: userInput }))
-      : dispatch(createContract({ uid: '', fileName: userInput }))
-    handleClose()
+    if (mode === 'create') {
+      dispatch(createContract({ fileName: userInput }))
+      handleClose()
+    }
+    dispatch(importStart(userInput))
   }
 
   const handleClose = () => dispatch(closeDialog())
@@ -51,6 +56,7 @@ const NewContractModal = () => {
         {formatMessage('new-contract-modal-message')}
       </DialogTitle>
       <DialogContent>
+        {mode === 'import' && <RpcHostSelect />}
         <TextField
           autoFocus
           margin="dense"

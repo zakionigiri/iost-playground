@@ -3,6 +3,7 @@ export type SettingsState = {
   compile: {
     showConfirmation: boolean
   }
+  rpcHost: string
 }
 
 export type Lang = {

@@ -1,6 +1,6 @@
 import Iost from 'iost'
-import { getApiUrl } from 'lib'
 import { ExtensionState } from './types'
+import axios, { AxiosResponse } from 'axios'
 
 export const loadAccount = async (
   iwallet?: Window['IWalletJS']
@@ -17,11 +17,27 @@ export const loadAccount = async (
     throw new Error('Some unknown error happened')
   })
 
-  const apiHost = getApiUrl(iwallet.network, true)
+  const apiHost = 'https://test.api.iost.io'
   const iost = iwallet.newIOST(Iost)
   const rpc = new IOST.RPC(new IOST.HTTPProvider(apiHost))
   iost.setAccount(account)
   iost.setRPC(rpc)
 
   return iost
+}
+
+export const getContract = async (
+  endpoint: string,
+  id: string,
+  byLongestChain: boolean
+) => {
+  const res: AxiosResponse<IOST.Response.Contract> = await axios.get(
+    `${endpoint}/getContract/${id}/${byLongestChain}`
+  )
+
+  if (res.data == null) {
+    throw new Error('No Contract found')
+  }
+
+  return res.data
 }

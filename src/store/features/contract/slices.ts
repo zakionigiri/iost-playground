@@ -4,9 +4,10 @@ import { ActionType } from 'typesafe-actions'
 import * as _ from 'lodash'
 import defaultContract from '../../../lib/contracts/default'
 import { DB } from '../db/types'
-import { compileCode } from 'lib'
+import { compileCode, restoreContract } from 'lib'
 
 const initialState: ContractState = {
+  isPending: false,
   isReady: false,
   isSaved: true,
   savedState: [],
@@ -51,57 +52,71 @@ const contract = createSlice({
     setContractCode: (
       state,
       action: PayloadAction<{
-        uid: Contract['uid']
+        fileName: Contract['fileName']
         code: Contract['code']
         type: 'code' | 'abi'
       }>
     ) => {
-      const { uid: targetContractUid, code, type } = action.payload
+      const { fileName: targetFileName, code, type } = action.payload
       const index = state.contracts.findIndex(
-        ({ uid }) => uid === targetContractUid
+        ({ fileName }) => fileName === targetFileName
       )
       type === 'code'
         ? (state.contracts[index].code = code)
         : (state.contracts[index].abiStr = code)
       state.isSaved = isSaved(state.savedState, state.contracts)
     },
-    removeContract: (state, action: PayloadAction<Contract['uid']>) => ({
+    removeContract: (state, action: PayloadAction<Contract['fileName']>) => ({
       ...state,
-      contracts: state.contracts.filter(({ uid }) => uid !== action.payload),
+      contracts: state.contracts.filter(
+        ({ fileName }) => fileName !== action.payload
+      ),
       isSaved: isSaved(state.savedState, state.contracts)
     }),
     createContract: (
       state,
       action: PayloadAction<{
-        uid: Contract['uid']
         fileName: Contract['fileName']
       }>
     ) => {
-      const { fileName, uid } = action.payload
+      const { fileName } = action.payload
       const contract: Contract = {
-        uid,
         fileName,
         code: defaultContract,
         contractId: '',
-        network: null,
         abiStr: ''
       }
       state.contracts.push(contract)
-      state.isSaved = isSaved(state.savedState, state.contracts)
+      state.isSaved = false
     },
     compileContract: (
       state,
-      action: PayloadAction<{ uid: string; code: string }>
+      action: PayloadAction<{ fileName: string; code: string }>
     ) => {
-      const { uid: targetContractUid, code } = action.payload
+      const { fileName: targetFileName, code } = action.payload
       const index = state.contracts.findIndex(
-        ({ uid }) => uid === targetContractUid
+        ({ fileName }) => fileName === targetFileName
       )
       state.contracts[index].abiStr = compileCode(code)
+    },
+    importStart: (state, action: PayloadAction<string>) => {
+      state.isPending = true
+    },
+    importSuccess: (state, action: PayloadAction<IOST.Response.Contract>) => {
+      const { id, code, abis } = action.payload
+      const contract: Contract = {
+        fileName: id,
+        contractId: id,
+        code: restoreContract(code),
+        abiStr: JSON.stringify(abis, null, 2)
+      }
+      state.contracts.push(contract)
+      state.isSaved = false
+      state.isPending = false
+    },
+    importFail: (state, action) => {
+      state.isPending = false
     }
-    // importStart: () => {},
-    // importSuccess: () => {},
-    // importFail: () => {}
   }
 })
 
@@ -122,7 +137,10 @@ export const {
   initializeContractStateFail,
   createContract,
   saveContractSuccess,
-  compileContract
+  compileContract,
+  importStart,
+  importFail,
+  importSuccess
 } = contract.actions
 export default contract.reducer
 export type ContractActions = ActionType<typeof contract.actions>

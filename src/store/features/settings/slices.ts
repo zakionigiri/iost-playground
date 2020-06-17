@@ -8,7 +8,8 @@ const initialState: SettingsState = {
   locale: 'ja-JP',
   compile: {
     showConfirmation: true
-  }
+  },
+  rpcHost: 'https://test.api.iost.io'
 }
 
 const settingsSlice = createSlice({
