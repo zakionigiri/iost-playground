@@ -7,7 +7,7 @@ declare namespace IOST {
 
     constructor(trnasaction: Tx)
 
-    on: (msg: Msg, f: Msg) => CallBack
+    on: (msg: Msg, res: Function) => CallBack
     pushMsg: (msg: Msg) => void | null
   }
 

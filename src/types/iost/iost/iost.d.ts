@@ -7,7 +7,7 @@ declare namespace IOST {
 
     constructor(config?: Config)
 
-    callABI: (contract: string, abi: string, args: string[]) => Tx
+    callABI: (contract: string, abi: string, args: ArgTypes[]) => Tx
     transfer: (
       token: string,
       from: string,
@@ -29,6 +29,8 @@ declare namespace IOST {
     setRPC: (rpc: RPC) => Promise<void>
     setAccount: (account: Account) => void
   }
+
+  type ArgTypes = string | number | boolean
 
   interface Config {
     gasRatio: number

@@ -1,17 +1,31 @@
-import { Contract } from '../contract/types'
-
 export type FormState = {
-  contract: ContractForm
-}
-
-export type ContractForm = {
-  type: 'import' | 'create'
-  name: string
+  functions: FunctionForm
 }
 
 export type FunctionForm = {
-  [uid: string]: {
-    // Contract['uid']
-    args: string | number | boolean[]
+  selectedContract: string
+  selectedFunction: string
+  isLoading: boolean
+  results: TransactionResult[]
+  settings: {
+    chainId: number
+    approve: {
+      tokenName: string
+      amount: number
+    }
   }
+  args: {
+    [contractId: string]: {
+      [functionName: string]: ArgTypes[]
+    }
+  }
+}
+
+export type ArgTypes = string | number | boolean
+
+export type TransactionResult = {
+  type: 'success' | 'error'
+  txId: string
+  return: any
+  message: string
 }

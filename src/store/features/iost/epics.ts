@@ -6,13 +6,19 @@ import {
   initializeFail
 } from './slices'
 import { importStart, importSuccess, importFail } from '../contract/slices'
-import { map, exhaustMap, mergeMap, catchError } from 'rxjs/operators'
+import { map, exhaustMap, mergeMap, catchError, filter } from 'rxjs/operators'
 import { defer, of } from 'rxjs'
-import { loadAccount, getContract } from './services'
+import { loadAccount, getContract, sendTransaction } from './services'
 import { AllActions } from '..'
 import { RootState } from 'store'
 import { closeDialog } from '../view/slices'
 import { addNotificationOp } from '../view/operations'
+import {
+  sendFunctionFormStart,
+  sendFunctionFormSuccess,
+  sendFunctionFormFail
+} from '../form/slices'
+import { ActionType } from 'typesafe-actions'
 
 const initializeIOSTEpic: Epic<AllActions, AllActions> = action$ =>
   action$.ofType(initializeStart.type).pipe(
@@ -24,6 +30,42 @@ const initializeIOSTEpic: Epic<AllActions, AllActions> = action$ =>
       )
     )
   )
+
+const sendTransactionEpic: Epic<AllActions, AllActions> = (
+  action$,
+  store$: StateObservable<RootState>
+) =>
+  action$
+    .ofType<ActionType<typeof sendFunctionFormStart>>(
+      sendFunctionFormStart.type
+    )
+    .pipe(
+      map(() => {
+        const {
+          args,
+          selectedContract,
+          selectedFunction,
+          settings
+        } = store$.value.form.functions
+        return {
+          contractId: selectedContract,
+          functionName: selectedFunction,
+          ...settings,
+          args: args[selectedContract][selectedFunction]
+        }
+      }),
+      exhaustMap(params =>
+        defer(() => sendTransaction(store$.value.iost.iost, params)).pipe(
+          mergeMap(res => of(sendFunctionFormSuccess(res))),
+          catchError(e =>
+            of(
+              sendFunctionFormFail(e),
+              addNotificationOp(`${e.txId}: ${e.message}`, 'error')
+            )
+          )
+        )
+      )
+    )
 
 const importContractEpic: Epic<AllActions, AllActions> = (
   action$,
@@ -52,4 +94,4 @@ const importContractEpic: Epic<AllActions, AllActions> = (
     )
   )
 
-export default [initializeIOSTEpic, importContractEpic]
+export default [initializeIOSTEpic, importContractEpic, sendTransactionEpic]

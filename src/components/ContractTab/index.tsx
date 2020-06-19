@@ -10,12 +10,16 @@ import { Contract } from '../../store/features/contract/types'
 import TabPanel from '../TabPanel'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectTab } from '../../store/features/view/selectors'
-import { changeTab, addNotification } from '../../store/features/view/slices'
+import { changeTab, closeDialog } from '../../store/features/view/slices'
 import {
   compileContract,
   setContractCode,
   removeContract
 } from '../../store/features/contract/slices'
+import {
+  addNotificationOp,
+  openDeleteDialogOp
+} from 'store/features/view/operations'
 
 const TAB_NAME = 'code-abi-tab'
 
@@ -28,6 +32,7 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
   const { value: tabValue = 0 } = useSelector(selectTab(TAB_NAME)) || {}
   const dispatch = useDispatch()
   const { formatMessage } = useLocale()
+  const { fileName, code } = contract
 
   const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
     dispatch(changeTab({ id: TAB_NAME, value }))
@@ -39,6 +44,23 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
     type: 'code' | 'abi'
   ) => {
     dispatch(setContractCode({ fileName, code, type }))
+  }
+
+  const handleDeleteFile = (fileName: string) => {
+    dispatch(removeContract(fileName))
+  }
+
+  const handleCompile = (fileName: string, code: string) => {
+    try {
+      dispatch(compileContract({ fileName, code }))
+      dispatch(addNotificationOp('compile-success', 'success'))
+    } catch (e) {
+      dispatch(addNotificationOp('compile-fail', 'error'))
+    }
+  }
+
+  const handleClose = () => {
+    dispatch(closeDialog())
   }
 
   return (
@@ -53,6 +75,24 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
       >
         <Tab className={classes.tab} label="contract" />
         <Tab className={classes.tab} label="abi" />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleCompile(fileName, code)}
+        >
+          {formatMessage('compile-code')}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() =>
+            dispatch(
+              openDeleteDialogOp(fileName, handleDeleteFile, handleClose)
+            )
+          }
+        >
+          {formatMessage('delete-code')}
+        </Button>
       </Tabs>
       <TabPanel value={tabValue} index={0}>
         <Editor
