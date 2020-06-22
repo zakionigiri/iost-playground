@@ -2,13 +2,13 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    functionSelect: {
-      color: 'white'
+    container: {
+      padding: theme.spacing(3),
+      minWidth: 400
     },
-    argInput: {
-      color: 'white',
-      marginLeft: 30,
-      width: '100%'
+    contractInfoTitle: {
+      fontWeight: 'bold',
+      marginTop: theme.spacing(1)
     }
   })
 )

@@ -16,6 +16,7 @@ import {
   Node,
   Declaration
 } from 'estree'
+import { Abi } from 'store/features/contract/types'
 
 type ParamTypes = 'string' | 'number' | 'bool' | 'json'
 
@@ -369,10 +370,11 @@ const processContract = (source: string) => {
     }
   }
 
-  const abi = {} as IOST.Response.Contract
-  abi['language'] = lang
-  abi['version'] = version
-  abi['abi' as 'abis'] = abiArr
+  const abi: Abi = {
+    lang,
+    version,
+    abi: abiArr
+  }
   const abiStr = JSON.stringify(abi, null, 4)
 
   return abiStr

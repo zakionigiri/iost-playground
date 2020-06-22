@@ -7,7 +7,7 @@ export type Contract = {
 }
 
 export type Abi = {
-  language: 'javascript'
+  lang: 'javascript'
   version: '1.0.0'
   abi: IOST.Response.Abi[]
 }

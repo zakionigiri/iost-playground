@@ -8,6 +8,7 @@ import { Locales, Lang } from '../store/features/settings/types'
 import { selectSetting } from '../store/features/settings/selectors'
 import ja from '../lib/locales/ja.json'
 import en from '../lib/locales/en.json'
+import util from 'util'
 
 const messagesByLocal: Record<Locales, Lang> = {
   ['ja-JP']: ja,
@@ -37,6 +38,11 @@ const useLocale = () => {
     }
   }
 
+  const getLang = () => {
+    const { lang } = messagesByLocal[locale]
+    return lang
+  }
+
   const getLocaleInfo = (locale: Locales) => {
     const { lang, name } = messagesByLocal[locale]
     return { lang, name }
@@ -44,13 +50,10 @@ const useLocale = () => {
 
   const formatMessage = (id: string, ...str: string[]) => {
     const { messages } = messagesByLocal[locale]
-    let message = messages[id as keyof typeof messages] || id
-    let num = 0
-
-    while (message.includes('%s') && num < 1000) {
-      message = message.replace(/%s/, str[num] || '')
-      num++
-    }
+    const message = util.format(
+      messages[id as keyof typeof messages] || id,
+      ...str
+    )
 
     return message
   }
@@ -59,7 +62,8 @@ const useLocale = () => {
     locale,
     getLocaleInfo,
     formatMessage,
-    changeLocale
+    changeLocale,
+    getLang
   }
 }
 

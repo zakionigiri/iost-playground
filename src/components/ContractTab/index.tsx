@@ -53,9 +53,9 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
   const handleCompile = (fileName: string, code: string) => {
     try {
       dispatch(compileContract({ fileName, code }))
-      dispatch(addNotificationOp('compile-success', 'success'))
+      dispatch(addNotificationOp('success', 'compile-success'))
     } catch (e) {
-      dispatch(addNotificationOp('compile-fail', 'error'))
+      dispatch(addNotificationOp('error', 'error::compile-fail'))
     }
   }
 

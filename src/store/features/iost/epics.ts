@@ -5,10 +5,20 @@ import {
   initializeSuccess,
   initializeFail
 } from './slices'
-import { importStart, importSuccess, importFail } from '../contract/slices'
+import {
+  importStart,
+  importSuccess,
+  importFail,
+  setContractId
+} from '../contract/slices'
 import { map, exhaustMap, mergeMap, catchError, filter } from 'rxjs/operators'
 import { defer, of } from 'rxjs'
-import { loadAccount, getContract, sendTransaction } from './services'
+import {
+  loadAccount,
+  getContract,
+  sendTransaction,
+  publishContract
+} from './services'
 import { AllActions } from '..'
 import { RootState } from 'store'
 import { closeDialog } from '../view/slices'
@@ -31,42 +41,6 @@ const initializeIOSTEpic: Epic<AllActions, AllActions> = action$ =>
     )
   )
 
-const sendTransactionEpic: Epic<AllActions, AllActions> = (
-  action$,
-  store$: StateObservable<RootState>
-) =>
-  action$
-    .ofType<ActionType<typeof sendFunctionFormStart>>(
-      sendFunctionFormStart.type
-    )
-    .pipe(
-      map(() => {
-        const {
-          args,
-          selectedContract,
-          selectedFunction,
-          settings
-        } = store$.value.form.functions
-        return {
-          contractId: selectedContract,
-          functionName: selectedFunction,
-          ...settings,
-          args: args[selectedContract][selectedFunction]
-        }
-      }),
-      exhaustMap(params =>
-        defer(() => sendTransaction(store$.value.iost.iost, params)).pipe(
-          mergeMap(res => of(sendFunctionFormSuccess(res))),
-          catchError(e =>
-            of(
-              sendFunctionFormFail(e),
-              addNotificationOp(`${e.txId}: ${e.message}`, 'error')
-            )
-          )
-        )
-      )
-    )
-
 const importContractEpic: Epic<AllActions, AllActions> = (
   action$,
   store$: StateObservable<RootState>
@@ -83,15 +57,62 @@ const importContractEpic: Epic<AllActions, AllActions> = (
               contract: res,
               network: store$.value.settings.rpcHost
             }),
-            addNotificationOp('import-success', 'success'),
+            addNotificationOp('success', 'import-success'),
             closeDialog()
           )
         ),
         catchError(e =>
-          of(importFail(e.message), addNotificationOp('import-fail', 'error'))
+          of(
+            importFail(e.message),
+            addNotificationOp('error', 'error::import-fail', contractId)
+          )
         )
       )
     )
   )
+
+const sendTransactionEpic: Epic<AllActions, AllActions> = (
+  action$,
+  store$: StateObservable<RootState>
+) =>
+  action$
+    .ofType<ActionType<typeof sendFunctionFormStart>>(
+      sendFunctionFormStart.type
+    )
+    .pipe(
+      map(action => action.payload),
+      map(({ functionName, contractId, args, fileName = '' }) => {
+        const { settings } = store$.value.form.functions
+        return {
+          fileName,
+          params: {
+            ...settings,
+            contractId,
+            functionName,
+            args
+          }
+        }
+      }),
+      exhaustMap(({ fileName, params }) =>
+        defer(() => sendTransaction(store$.value.iost.iost, params)).pipe(
+          mergeMap(res =>
+            of(
+              sendFunctionFormSuccess(res),
+              addNotificationOp('success', res.message),
+              setContractId({
+                fileName,
+                contractId: JSON.parse(res.result.returns[0])[0]
+              })
+            )
+          ),
+          catchError(e =>
+            of(
+              sendFunctionFormFail(e),
+              addNotificationOp('error', e.message, e.messages || '')
+            )
+          )
+        )
+      )
+    )
 
 export default [initializeIOSTEpic, importContractEpic, sendTransactionEpic]

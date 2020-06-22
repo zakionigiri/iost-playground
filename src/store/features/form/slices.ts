@@ -1,6 +1,12 @@
-import { FormState, ArgTypes, TransactionResult } from './types'
+import {
+  FormState,
+  ArgTypes,
+  TransactionResult,
+  TransactionPayload
+} from './types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ActionType } from 'typesafe-actions'
+import * as _ from 'lodash'
 
 const initialState: FormState = {
   functions: {
@@ -9,7 +15,7 @@ const initialState: FormState = {
     isLoading: false,
     args: {},
     results: [],
-    settings: { approve: { tokenName: 'iost', amount: 0 }, chainId: 1020 }
+    settings: { approve: { tokenName: 'iost', amount: 0 }, chainId: 1024 }
   }
 }
 
@@ -24,13 +30,13 @@ const formSlice = createSlice({
       }
     },
     selectFunction: (state, action: PayloadAction<string>) => {
-      const fn = action.payload
+      const funcName = action.payload
       const contract = state.functions.selectedContract as string
 
-      state.functions.selectedFunction = fn
+      state.functions.selectedFunction = funcName
 
-      if (state.functions.args[contract][fn] == null) {
-        state.functions.args[contract][fn] = []
+      if (state.functions.args[contract][funcName] == null) {
+        state.functions.args[contract][funcName] = []
       }
     },
     setFunctionArgs: (
@@ -51,7 +57,10 @@ const formSlice = createSlice({
       const { contractId, functionName } = action.payload
       state.functions.args[contractId][functionName] = []
     },
-    sendFunctionFormStart: (state, _action: PayloadAction<void>) => {
+    sendFunctionFormStart: (
+      state,
+      _action: PayloadAction<TransactionPayload>
+    ) => {
       state.functions.isLoading = true
     },
     sendFunctionFormSuccess: (
@@ -62,7 +71,10 @@ const formSlice = createSlice({
       state.functions.isLoading = false
     },
     sendFunctionFormFail: (state, action: PayloadAction<TransactionResult>) => {
-      state.functions.results.push(action.payload)
+      if (_.isEmpty(action.payload) === false) {
+        state.functions.results.push(action.payload)
+      }
+
       state.functions.isLoading = false
     }
   }

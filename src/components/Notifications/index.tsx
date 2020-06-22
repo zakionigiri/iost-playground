@@ -25,7 +25,7 @@ const Notifications = () => {
         open={true}
       >
         <div className={classes.root}>
-          {notifications.map(({ messageId, type, id }) => (
+          {notifications.map(({ messageId, type, id, messages = [] }) => (
             <Alert
               severity={type}
               onClose={() => handleClose(id)}
@@ -33,7 +33,7 @@ const Notifications = () => {
             >
               <div>
                 <Typography component="h2" style={{ fontWeight: 'bold' }}>
-                  {formatMessage(messageId)}
+                  {formatMessage(messageId, ...messages)}
                 </Typography>
               </div>
             </Alert>

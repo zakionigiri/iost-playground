@@ -2,6 +2,7 @@
     "name": "日本語",
     "lang": "ja",
     "messages": {
+        "data-type": "データ型",
         "language": "言語",
         "lang-name-en": "英語",
         "lang-name-ja": "日本語",
@@ -12,9 +13,7 @@
         "create-contract": "新規作成",
         "import-contract": "インポート",
         "import-succeeded": "コントラクトのインポートが完了しました",
-        "import-failed": "コントラクト（%s）のインポートに失敗しました",
         "compile-success": "コンパイルが完了しました",
-        "compile-fail": "コンパイルに失敗しました。",
         "compile-code": "コンパイル",
         "delete-confirmation": "%s を削除しますか ?",
         "delete-complete": "削除が完了しました",
@@ -23,9 +22,20 @@
         "functions": "呼び出し可能な関数",
         "cancel-action": "キャンセル",
         "function-args": "第%s引数",
+        "deployed-network": "デプロイ済みネットワーク",
+        "contract-id": "コントラクトID",
         "save-success": "コントラクトを保存しました",
+        "send-tx-button": "トランザクション送信",
         "import-success": "コントラクトのインポートが完了しました",
         "not-logged-in": "iWalletへのログインが確認できませんでした. <br /> ログイン後、ページをリロードしてください",
-        "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください"
+        "no-extension": "お使いのブラウザにiWallet拡張機能がインストールざれていません. <br /> こちらのリンクで（<a href=\"https://chrome.google.com/webstore/detail/iwallet/kncchdigobghenbbaddojjnnaogfppfj?hl=ja\">） iWallet Chrome拡張機能ページ </a>）インストールしてください",
+        "error::compile-fail": "コンパイルに失敗しました。",
+        "error::import-fail": "コントラクト（%s）のインポートに失敗しました",
+        "error::no-iost-instance": "iWalletが見つかりませんでした",
+        "error::no-function-selected": "関数が選択されていません",
+        "error::transaction-fail": "関数(%s)の呼び出しに失敗しました",
+        "transaction-id": "トランザクションID",
+        "transaction-success": "トランザクションが成功しました"
+
     }
 }

@@ -6,7 +6,7 @@ const useNotifications = () => {
   const dispatch = useDispatch()
 
   const notify = (messageId: string, type: NotificationTypes) => {
-    dispatch(addNotificationOp(messageId, type))
+    dispatch(addNotificationOp(type, messageId))
   }
 
   return {

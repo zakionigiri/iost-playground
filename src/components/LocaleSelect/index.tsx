@@ -16,7 +16,7 @@ const LocaleSelect = () => {
       value: unknown
     }>
   ) => {
-    changeLocale(e.currentTarget.value as Locales)
+    changeLocale(e.target.value as Locales)
   }
 
   return (
@@ -28,8 +28,8 @@ const LocaleSelect = () => {
         value={locale}
       >
         {allowedLocales.map(key => {
-          const { lang, name } = getLocaleInfo(key)
-          return <MenuItem value={lang}>{name}</MenuItem>
+          const { name } = getLocaleInfo(key)
+          return <MenuItem value={key}>{name}</MenuItem>
         })}
       </Select>
     </>

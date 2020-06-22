@@ -33,6 +33,7 @@ const NewContractModal = () => {
   }
 
   const handleSubmit = () => {
+    if (!userInput) return
     if (mode === 'create') {
       dispatch(createContract({ fileName: userInput }))
       handleClose()

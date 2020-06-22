@@ -4,7 +4,7 @@ import { ActionType } from 'typesafe-actions'
 import * as _ from 'lodash'
 import defaultContract from '../../../lib/contracts/default'
 import { DB } from '../db/types'
-import { compileCode, restoreContract } from 'lib'
+import { compileCode, restoreContract, getFileNameWithExtension } from 'lib'
 
 const initialState: ContractState = {
   isPending: false,
@@ -81,7 +81,7 @@ const contract = createSlice({
     ) => {
       const { fileName } = action.payload
       const contract: Contract = {
-        fileName,
+        fileName: getFileNameWithExtension(fileName),
         code: defaultContract,
         contractId: '',
         abiStr: '',
@@ -89,6 +89,15 @@ const contract = createSlice({
       }
       state.contracts.push(contract)
       state.isSaved = false
+    },
+    setContractId: (
+      state,
+      action: PayloadAction<{ fileName: string; contractId: string }>
+    ) => {
+      const { fileName, contractId } = action.payload
+      if (!fileName) return
+      const index = state.contracts.findIndex(c => c.fileName === fileName)
+      state.contracts[index].contractId = contractId
     },
     compileContract: (
       state,
@@ -112,13 +121,13 @@ const contract = createSlice({
     ) => {
       const { id, code, abis } = action.payload.contract
       const contract: Contract = {
-        fileName: id,
+        fileName: getFileNameWithExtension(id),
         contractId: id,
         network: action.payload.network,
         code: restoreContract(code),
         abiStr: JSON.stringify(
           {
-            language: 'javascript',
+            lang: 'javascript',
             version: '1.0.0',
             abi: abis
           },
@@ -156,7 +165,8 @@ export const {
   compileContract,
   importStart,
   importFail,
-  importSuccess
+  importSuccess,
+  setContractId
 } = contract.actions
 export default contract.reducer
 export type ContractActions = ActionType<typeof contract.actions>

@@ -26,6 +26,7 @@ export type Notification = {
   id: string
   type: NotificationTypes
   messageId: string
+  messages?: string[]
 }
 
 export type TabState = {

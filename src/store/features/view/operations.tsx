@@ -6,11 +6,16 @@ import { Contract } from '../contract/types'
 import DeleteFileModal from 'components/DeleteFileModal'
 import NewContractModal from 'components/NewContractModal'
 
-export const addNotificationOp = (messageId: string, type: NotificationTypes) =>
+export const addNotificationOp = (
+  type: NotificationTypes,
+  messageId: string,
+  ...messages: string[]
+) =>
   addNotification({
     id: v4(),
+    type,
     messageId,
-    type
+    messages
   })
 
 export const openDeleteDialogOp = (

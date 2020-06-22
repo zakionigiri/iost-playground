@@ -2,6 +2,8 @@ import Iost from 'iost'
 import { ExtensionState } from './types'
 import axios, { AxiosResponse } from 'axios'
 import { ArgTypes, TransactionResult } from '../form/types'
+import { Abi } from '../contract/types'
+import abi from 'lib/contracts/helloWorldAbi'
 
 export const loadAccount = async (
   iwallet?: Window['IWalletJS']
@@ -18,8 +20,10 @@ export const loadAccount = async (
     throw new Error('Some unknown error happened')
   })
 
-  const apiHost = 'https://test.api.iost.io'
+  // const apiHost = 'https://test.api.iost.io'
+  const apiHost = 'http://localhost:30001'
   const iost = iwallet.newIOST(Iost)
+  iost.config.gasLimit = 4000000
   const rpc = new IOST.RPC(new IOST.HTTPProvider(apiHost))
   iost.setAccount(account)
   iost.setRPC(rpc)
@@ -35,15 +39,21 @@ export const sendTransaction = async (
     chainId: number
     approve: {
       tokenName: string
-      amount: number
+      amount: number | 'unlimited'
     }
     args: ArgTypes[]
   }
 ): Promise<TransactionResult> => {
   if (iost === null) {
-    throw new Error('No iost instance found')
+    throw new Error('error::no-iost-instance')
   }
+
   const { chainId, contractId, approve, args, functionName } = params
+
+  if (args == null) {
+    throw new Error('error::no-function-selected')
+  }
+
   const tx = iost.callABI(contractId, functionName, args)
   tx.setChainID(chainId)
   tx.addApprove(approve.tokenName, approve.amount)
@@ -57,19 +67,20 @@ export const sendTransaction = async (
       })
       .on('success', (res: string) => {
         const result: TransactionResult = {
-          return: res,
+          result: res,
           type: 'success',
           txId,
-          message: res
+          message: 'transaction-success'
         }
         resolve(result)
       })
       .on('failed', (res: string) => {
         const result: TransactionResult = {
-          return: res,
+          result: res,
           type: 'error',
           txId,
-          message: 'Transaction failed'
+          message: 'error::transaction-fail',
+          messages: functionName
         }
         reject(result)
       })
@@ -91,3 +102,27 @@ export const getContract = async (
 
   return res.data
 }
+
+export const publishContract = async (
+  iost: IOST.IOST | null,
+  params: {
+    chainId: number
+    code: string
+    abi: Abi
+  }
+) =>
+  sendTransaction(iost, {
+    contractId: 'system.iost',
+    functionName: 'setCode',
+    chainId: params.chainId,
+    approve: {
+      amount: 'unlimited',
+      tokenName: '*'
+    },
+    args: [
+      JSON.stringify({
+        info: params.abi,
+        code: params.code
+      })
+    ]
+  })

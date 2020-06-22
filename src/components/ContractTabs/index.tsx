@@ -12,6 +12,7 @@ import ContractTab from '../ContractTab'
 import ContractActions from '../../components/ContractActionsTab'
 import { Grid } from '@material-ui/core'
 import ContractTabHeader from '../../components/ContractTabHeader'
+import TransactionResult from '../../components/TransactionResult'
 
 const TAB_NAME = 'contract-tabs'
 
@@ -60,6 +61,7 @@ const ContractTabs = () => {
               <ContractActions contract={contract} />
             </Grid>
           </Grid>
+          <TransactionResult />
         </TabPanel>
       ))}
     </div>

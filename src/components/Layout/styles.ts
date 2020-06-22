@@ -4,14 +4,15 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
       background: theme.palette.background.default,
-      minHeight: '95vh',
+      minHeight: '100vh',
+      minWidth: '100vw',
       display: 'flex'
     },
     content: {
       flexGrow: 1,
       overflowX: 'scroll',
       color: 'white',
-      minHeight: '95vh'
+      minHeight: '100vh'
     },
     toolbar: {
       display: 'flex',

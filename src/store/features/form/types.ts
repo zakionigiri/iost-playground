@@ -1,3 +1,5 @@
+import { Abi } from '../contract/types'
+
 export type FormState = {
   functions: FunctionForm
 }
@@ -11,7 +13,7 @@ export type FunctionForm = {
     chainId: number
     approve: {
       tokenName: string
-      amount: number
+      amount: number | 'unlimited'
     }
   }
   args: {
@@ -26,6 +28,14 @@ export type ArgTypes = string | number | boolean
 export type TransactionResult = {
   type: 'success' | 'error'
   txId: string
-  return: any
+  result: any
   message: string
+  messages?: string
+}
+
+export type TransactionPayload = {
+  fileName?: string
+  contractId: string
+  functionName: string
+  args: ArgTypes[]
 }

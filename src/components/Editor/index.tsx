@@ -37,13 +37,13 @@ const Editor: React.FC<Props> = ({ mode, code, handleCodeChange }) => {
   const editorDidMount: EditorDidMount = monaco => {
     monaco.layout({
       width: window.innerWidth * 0.5,
-      height: window.innerHeight * 0.82
+      height: window.innerHeight * 0.75
     })
 
     window.addEventListener('resize', () => {
       monaco.layout({
         width: window.innerWidth * 0.5,
-        height: window.innerHeight * 0.82
+        height: window.innerHeight * 0.75
       })
     })
   }

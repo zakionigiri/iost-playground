@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: 20,
     width: 300,
     background: theme.palette.primary.light
+  },
+  resultContainer: {
+    width: '100%'
   }
 }))
 
