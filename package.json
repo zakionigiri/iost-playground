@@ -15,7 +15,7 @@
     "ace-builds": "^1.4.11",
     "axios": "^0.19.2",
     "iost": "^0.1.22",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "monaco-editor": "^0.20.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
     "pouchdb": "^7.2.1",
