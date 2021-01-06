@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react-monaco-editor": "^0.16.0",
     "ace-builds": "^1.4.11",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "iost": "^0.1.22",
     "lodash": "^4.17.15",
     "monaco-editor": "^0.20.0",
