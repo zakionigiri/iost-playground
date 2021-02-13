@@ -1,23 +1,23 @@
 {
-    "title": "IOST Playground",
-    "hosts": {
-        "TESTNET": {
-            "name": "Test net",
-            "scheme": "https",
-            "host": "test.api.iost.io",
-            "port": 0
-        },
-        "MAINNET": {
-            "name": "Main net",
-            "scheme": "https",
-            "host": "api.iost.io",
-            "port": 0
-        },
-        "LOCALNET": {
-            "name": "Local net",
-            "scheme": "http",
-            "host": "localhost",
-            "port": 30001
-        }
+  "title": "IOST Playground",
+  "hosts": {
+    "TESTNET": {
+      "name": "Test Net",
+      "scheme": "https",
+      "host": "test.api.iost.io",
+      "port": 0
+    },
+    "MAINNET": {
+      "name": "Main Net",
+      "scheme": "https",
+      "host": "api.iost.io",
+      "port": 0
+    },
+    "LOCALNET": {
+      "name": "Default Local Net",
+      "scheme": "http",
+      "host": "localhost",
+      "port": 30001
     }
+  }
 }

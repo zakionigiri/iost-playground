@@ -15,7 +15,7 @@ export const addNotificationOp = (
     id: v4(),
     type,
     messageId,
-    messages
+    messages,
   })
 
 export const openDeleteDialogOp = (
@@ -30,10 +30,10 @@ export const openDeleteDialogOp = (
         fileName={fileName}
         closeFn={closeFn}
       />
-    )
+    ),
   })
 
 export const openNewContractDialogOp = () =>
   openDialog({
-    element: () => <NewContractModal />
+    element: () => <NewContractModal />,
   })

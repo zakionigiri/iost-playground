@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux'
 import { closeDialog } from '../../store/features/view/slices'
 import {
   createContract,
-  importStart
+  importStart,
 } from '../../store/features/contract/slices'
 import RpcHostSelect from '../RpcHostSelect'
 

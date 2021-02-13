@@ -17,14 +17,14 @@ export const argsSelector = createSelector(
       return {
         selectedContract: '',
         selectedFunction: '',
-        args: []
+        args: [],
       }
     }
 
     return {
       selectedContract,
       selectedFunction,
-      args: args[selectedContract][selectedFunction]
+      args: args[selectedContract][selectedFunction],
     }
   }
 )

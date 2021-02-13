@@ -8,20 +8,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: `2px 2px 5px ${theme.palette.primary.dark}`,
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleContainer: {
     width: '100%',
-    paddingLeft: 25
+    paddingLeft: 25,
   },
   iconContainer: {
     width: 24,
     marginRight: 20,
     marginTop: 5,
     '&:hover': {
-      color: theme.palette.primary.light
-    }
-  }
+      color: theme.palette.primary.light,
+    },
+  },
 }))
 
 export default useStyles

@@ -11,29 +11,29 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginBottom: theme.spacing(3),
     marginRight: theme.spacing(2),
     height: 400,
-    overflowY: 'scroll'
+    overflowY: 'scroll',
   },
   textContainer: {
     width: '100%',
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
   },
   successTitle: {
     ...title(theme.spacing(2)),
-    color: 'green'
+    color: 'green',
   },
   errorTitle: {
     ...title(theme.spacing(2)),
-    color: 'red'
+    color: 'red',
   },
   divider: {
     width: '95%',
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 }))
 
 const title = (spacing: number) => ({
   fontSize: 20,
-  marginTop: spacing
+  marginTop: spacing,
 })
 
 export default useStyles

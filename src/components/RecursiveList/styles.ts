@@ -5,28 +5,28 @@ const useStyles = makeStyles((theme: Theme) =>
     listItemContainer: {
       display: 'flex',
       alignItems: 'start',
-      padding: 0
+      padding: 0,
     },
     title: {
       marginTop: 30,
-      fontSize: 24
+      fontSize: 24,
     },
     titleContainer: {
-      minWidth: 200
+      minWidth: 200,
     },
     listItemValue: {
       marginTop: 'auto',
       marginBottom: 'auto',
       paddingLeft: 16,
-      fontSize: 18
+      fontSize: 18,
     },
     listItemTitle: {
       fontSize: 21,
       marginTop: 5,
       marginBottom: 5,
       paddingLeft: 16,
-      marginRight: 10
-    }
+      marginRight: 10,
+    },
   })
 )
 

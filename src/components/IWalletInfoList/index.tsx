@@ -38,12 +38,12 @@ const IWalletAccountInfo: React.FC<Props> = ({ iost, network }) => {
     {
       key: 'network_name',
       title: 'Network',
-      component: network
+      component: network,
     },
     {
       key: 'account_name',
       title: 'Account Name',
-      component: iost.account?.getID() || ''
+      component: iost.account?.getID() || '',
     },
     {
       key: 'config',
@@ -70,8 +70,8 @@ const IWalletAccountInfo: React.FC<Props> = ({ iost, network }) => {
             )
           })}
         </List>
-      )
-    }
+      ),
+    },
   ]
 
   return <BaseList items={listItems} />

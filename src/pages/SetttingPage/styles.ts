@@ -2,15 +2,12 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    radioContainer: {
-      paddingLeft: 20,
-    },
-    dialogTitle: {
-      width: 500,
-    },
-    fileName: {
-      fontWeight: 'bold',
-      fontStyle: 'italic',
+    container: {
+      width: '100%',
+      maxWidth: 1460,
+      margin: 'auto',
+      padding: 20,
+      boxSizing: 'border-box',
     },
   })
 )

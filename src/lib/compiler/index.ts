@@ -14,7 +14,7 @@ import {
   CallExpression,
   ClassDeclaration,
   Node,
-  Declaration
+  Declaration,
 } from 'estree'
 import { Abi } from 'store/features/contract/types'
 
@@ -69,7 +69,7 @@ const genAbi = (
     name,
     args: new Array(def.value.params.length).fill('string'),
     amount_limit: [],
-    description: ''
+    description: '',
   }
   for (let i = comments.length - 1; i >= 0; i--) {
     const comment = comments[i]
@@ -239,7 +239,7 @@ const processOperator = (node: Expression | Node, pnode: Expression) => {
     '>',
     '>=',
     '<',
-    '<='
+    '<=',
   ]
 
   if (node.type === 'AssignmentExpression' && node.operator !== '=') {
@@ -322,7 +322,7 @@ const processContract = (source: string) => {
     range: true,
     loc: false,
     comment: true,
-    tokens: true
+    tokens: true,
   })
 
   let abiArr: IOST.Response.Abi[] = []
@@ -373,7 +373,7 @@ const processContract = (source: string) => {
   const abi: Abi = {
     lang,
     version,
-    abi: abiArr
+    abi: abiArr,
   }
   const abiStr = JSON.stringify(abi, null, 4)
 

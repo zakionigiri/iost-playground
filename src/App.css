@@ -1,35 +1,3 @@
 .App {
   text-align: center;
 }
-.swagger-ui {
-  font-size: large;
-}
-
-.swagger-ui span,
-.swagger-ui td,
-.swagger-ui th,
-.swagger-ui p,
-.swagger-ui div,
-.swagger-ui a {
-  color: rgba(255, 255, 255, 0.7) !important;
-  font-size: large !important;
-}
-
-.swagger-ui .info .base-url  {
-  display: none;
-}
-
-
-.swagger-ui .scheme-container  {
-  background-color: rgb(62,81,181, 0.3) !important;
-}
-
-.swagger-ui a {
-  color: #3bd110 !important;
-}
-
-.swagger-ui h2.title {
-  color: rgba(255, 255, 255) !important;
-}
-
-

@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getContractState } from '../../store/features/contract/selectors'
 import useStyles from './styles'
-import useLocale from '../../hooks/useLocale'
 import TabPanel from '../TabPanel'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
@@ -22,7 +21,7 @@ const ContractTabs = () => {
   const { value: tabValue = 1 } = useSelector(selectTab(TAB_NAME)) || {}
   const dispatch = useDispatch()
 
-  const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
+  const handleTabChange = (_: React.ChangeEvent<any>, value: number) => {
     dispatch(changeTab({ id: TAB_NAME, value }))
   }
 

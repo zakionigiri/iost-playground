@@ -3,5 +3,5 @@ import epics from './epics'
 
 export default {
   reducer,
-  epics
+  epics,
 }

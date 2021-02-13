@@ -2,7 +2,7 @@ import {
   FormState,
   ArgTypes,
   TransactionResult,
-  TransactionPayload
+  TransactionPayload,
 } from './types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ActionType } from 'typesafe-actions'
@@ -15,8 +15,8 @@ const initialState: FormState = {
     isLoading: false,
     args: {},
     results: [],
-    settings: { approve: { tokenName: 'iost', amount: 0 }, chainId: 1024 }
-  }
+    settings: { approve: { tokenName: 'iost', amount: 0 }, chainId: 1024 },
+  },
 }
 
 const formSlice = createSlice({
@@ -76,8 +76,8 @@ const formSlice = createSlice({
       }
 
       state.functions.isLoading = false
-    }
-  }
+    },
+  },
 })
 
 export const {
@@ -87,7 +87,7 @@ export const {
   resetFunctionArgs,
   sendFunctionFormSuccess,
   sendFunctionFormFail,
-  sendFunctionFormStart
+  sendFunctionFormStart,
 } = formSlice.actions
 export default formSlice.reducer
 export type FormActions = ActionType<typeof formSlice.actions>

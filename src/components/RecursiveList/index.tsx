@@ -23,7 +23,7 @@ const RecursiveList: React.FC<Props> = ({ keyName, items }) => {
         return {
           key: `${keyName}_${index}`,
           title: `[${index}]`,
-          component: item
+          component: item,
         }
       })
 
@@ -58,7 +58,7 @@ const RecursiveList: React.FC<Props> = ({ keyName, items }) => {
           const listItems: ListItemParams = {
             key: `${key1}_${index}`,
             title: key1,
-            component: items[key1]
+            component: items[key1],
           }
 
           return <BaseList items={[listItems]} />

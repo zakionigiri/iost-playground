@@ -27,6 +27,8 @@ export const getFileNameWithExtension = (fileName: string) => {
   return extension === 'js' ? fileName : `${fileName}.js`
 }
 
+// this function has not been tested
+// TODO test parsing contract
 export const restoreContract = (code: string) => {
   try {
     let contractCode = code.replace(
@@ -76,11 +78,8 @@ export const getContractList = (): string[] => {
   return contractListStr == null ? [] : JSON.parse(contractListStr)
 }
 
-export const getContract = (fileNameWithExtension: string) => {
-  const fileStr = window.localStorage.getItem(keyPrefix + fileNameWithExtension)
-
-  return fileStr || ''
-}
+export const getContract = (fileNameWithExtension: string) =>
+  window.localStorage.getItem(keyPrefix + fileNameWithExtension) ?? ''
 
 export const renameContract = (oldName: string, newName: string) => {
   const code = getContract(oldName)

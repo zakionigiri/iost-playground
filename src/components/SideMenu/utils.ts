@@ -10,28 +10,28 @@ import { DrawerTabTypes } from 'store/features/view/types'
 type ListItemProps = {
   name: DrawerTabTypes
   path: string
-  Icon: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>
+  Icon: OverridableComponent<SvgIconTypeMap<any, 'svg'>>
 }
 
 export const menuListItems: ListItemProps[] = [
   {
     name: 'Contracts',
     path: '',
-    Icon: FilterNoneIcon
+    Icon: FilterNoneIcon,
   },
   {
     name: 'Account',
     path: 'account',
-    Icon: AccessibilityIcon
+    Icon: AccessibilityIcon,
   },
   {
     name: 'API',
     path: 'api',
-    Icon: HttpIcon
+    Icon: HttpIcon,
   },
   {
     name: 'Settings',
     path: 'settings',
-    Icon: SettingsIcon
-  }
+    Icon: SettingsIcon,
+  },
 ]

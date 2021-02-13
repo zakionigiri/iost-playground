@@ -5,14 +5,14 @@ import { ActionType } from 'typesafe-actions'
 const initialState: ViewState = {
   dialogs: {
     isOpen: false,
-    Component: null
+    Component: null,
   },
   tabs: {},
   notifications: [],
   drawer: {
     isOpen: false,
-    selected: 'Contracts'
-  }
+    selected: 'Contracts',
+  },
 }
 
 const viewSlice = createSlice({
@@ -30,8 +30,8 @@ const viewSlice = createSlice({
         ...state,
         dialogs: {
           isOpen: true,
-          Component: element
-        }
+          Component: element,
+        },
       }
     },
     closeDialog: (state, _action: PayloadAction<void>) => {
@@ -39,8 +39,8 @@ const viewSlice = createSlice({
         ...state,
         dialogs: {
           isOpen: false,
-          Component: null
-        }
+          Component: null,
+        },
       }
     },
     addNotification: (state, action: PayloadAction<Notification>) => {
@@ -65,10 +65,10 @@ const viewSlice = createSlice({
       ...state,
       drawer: {
         ...state.drawer,
-        ...action.payload
-      }
-    })
-  }
+        ...action.payload,
+      },
+    }),
+  },
 })
 
 export const {
@@ -77,7 +77,7 @@ export const {
   addNotification,
   deleteNotification,
   changeTab,
-  changeDrawer
+  changeDrawer,
 } = viewSlice.actions
 export default viewSlice.reducer
 export type ViewActions = ActionType<typeof viewSlice.actions>

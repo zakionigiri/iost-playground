@@ -5,12 +5,12 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: '100%',
       '& > * + *': {
-        marginTop: theme.spacing(0)
-      }
+        marginTop: theme.spacing(0),
+      },
     },
     alert: {
-      marginTop: 20
-    }
+      marginTop: 20,
+    },
   })
 )
 

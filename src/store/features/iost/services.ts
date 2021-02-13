@@ -70,7 +70,7 @@ export const sendTransaction = async (
           result: res,
           type: 'success',
           txId,
-          message: 'transaction-success'
+          message: 'transaction-success',
         }
         resolve(result)
       })
@@ -80,7 +80,7 @@ export const sendTransaction = async (
           type: 'error',
           txId,
           message: 'error::transaction-fail',
-          messages: functionName
+          messages: functionName,
         }
         reject(result)
       })
@@ -117,12 +117,12 @@ export const publishContract = async (
     chainId: params.chainId,
     approve: {
       amount: 'unlimited',
-      tokenName: '*'
+      tokenName: '*',
     },
     args: [
       JSON.stringify({
         info: params.abi,
-        code: params.code
-      })
-    ]
+        code: params.code,
+      }),
+    ],
   })

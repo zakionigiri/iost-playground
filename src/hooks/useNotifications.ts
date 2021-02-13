@@ -10,7 +10,7 @@ const useNotifications = () => {
   }
 
   return {
-    notify
+    notify,
   }
 }
 

@@ -5,11 +5,11 @@ import useStyles from './styles'
 import {
   selectFunction,
   setFunctionArgs,
-  sendFunctionFormStart
+  sendFunctionFormStart,
 } from 'store/features/form/slices'
 import {
   selectedFunctionSelector,
-  argsSelector
+  argsSelector,
 } from 'store/features/form/selectors'
 import { useDispatch, useSelector } from 'react-redux'
 import useLocale from 'hooks/useLocale'
@@ -44,7 +44,7 @@ const FunctionForm: React.FC<Props> = ({ abi }) => {
     dispatch(
       setFunctionArgs({
         index,
-        arg: e.target.value
+        arg: e.target.value,
       })
     )
   }
@@ -54,7 +54,7 @@ const FunctionForm: React.FC<Props> = ({ abi }) => {
       sendFunctionFormStart({
         contractId: selectedContract,
         functionName: selectedFunction,
-        args: currentArgs
+        args: currentArgs,
       })
     )
   }

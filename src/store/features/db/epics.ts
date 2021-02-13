@@ -6,7 +6,7 @@ import {
   mergeMap,
   map,
   catchError,
-  switchMap
+  switchMap,
 } from 'rxjs/operators'
 import { defer, of } from 'rxjs'
 import { getSavedState, saveStateToDb } from './services'
@@ -16,7 +16,7 @@ import {
   initializeContractStateStart,
   initializeContractStateFail,
   initializeContractStateSuccess,
-  saveContractSuccess
+  saveContractSuccess,
 } from '../contract/slices'
 import { RootState } from 'store'
 import { DB } from './types'
@@ -59,7 +59,7 @@ export const saveStateEpic: Epic<AllActions, AllActions> = (
             addNotification({
               messageId: 'save-success',
               type: 'success',
-              id: ''
+              id: '',
             })
           )
         ),

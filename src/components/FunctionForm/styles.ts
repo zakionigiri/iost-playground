@@ -3,30 +3,30 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      color: 'white'
+      color: 'white',
     },
     formContainer: {
-      minHeight: 200
+      minHeight: 200,
     },
     select: {
       width: '100%',
-      color: 'white'
+      color: 'white',
     },
     inputContainer: {
-      width: '100%'
+      width: '100%',
     },
     input: {
       color: 'white',
       minWidth: 50,
-      marginTop: 15
+      marginTop: 15,
     },
     inputLabel: {
       color: 'white',
-      marginTop: 5
+      marginTop: 5,
     },
     sendTxButton: {
-      marginTop: theme.spacing(4)
-    }
+      marginTop: theme.spacing(4),
+    },
   })
 )
 

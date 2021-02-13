@@ -15,7 +15,7 @@ type Props = {
 const DeleteFileModal: React.FC<Props> = ({
   closeFn,
   handleDeleteFile,
-  fileName
+  fileName,
 }) => {
   const classes = useStyles()
   const { formatMessage } = useLocale()

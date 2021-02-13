@@ -13,7 +13,7 @@ const hosts = Object.keys(config.hosts).map(key => {
 
   return {
     name,
-    url: `${scheme}://${host}` + (port !== 0 ? `:${port}` : '')
+    url: `${scheme}://${host}` + (port !== 0 ? `:${port}` : ''),
   }
 })
 
@@ -27,7 +27,7 @@ type Props = {
 
 const RpcHostSelect: React.FC<Props> = ({
   showTitle = true,
-  color = 'white'
+  color = 'white',
 }) => {
   const classes = useStyles({ color })
   const { rpcHost } = useSelector(selectSettingsState)

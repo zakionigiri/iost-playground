@@ -4,7 +4,7 @@ import { ActionType } from 'typesafe-actions'
 
 const initialState: DBState = {
   db: null,
-  isLoaded: false
+  isLoaded: false,
 }
 
 const dbSlice = createSlice({
@@ -18,20 +18,20 @@ const dbSlice = createSlice({
     saveStart: (_state, _action: PayloadAction<void>) => {
       //
     },
-    saveSuccess: (state, action: PayloadAction<void>) => {
+    saveSuccess: (_state, _action: PayloadAction<void>) => {
       //
     },
-    saveFail: (state, action: PayloadAction<any>) => {
+    saveFail: (_state, action: PayloadAction<any>) => {
       console.log(action.payload)
-    }
-  }
+    },
+  },
 })
 
 export const {
   initializeDB,
   saveStart,
   saveSuccess,
-  saveFail
+  saveFail,
 } = dbSlice.actions
 export default dbSlice.reducer
 export type DBActions = ActionType<typeof dbSlice.actions>

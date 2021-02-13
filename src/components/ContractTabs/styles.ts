@@ -4,28 +4,28 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     display: 'flex',
-    height: 200
+    height: 200,
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
     minWidth: 350,
-    height: '85vh'
+    height: '85vh',
   },
   tab: {
     textTransform: 'none',
     fontSize: 16,
     padding: 10,
-    paddingLeft: 25
+    paddingLeft: 25,
   },
   createContractButton: {
     margin: 'auto',
     marginTop: 20,
     width: 300,
-    background: theme.palette.primary.light
+    background: theme.palette.primary.light,
   },
   resultContainer: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 }))
 
 export default useStyles

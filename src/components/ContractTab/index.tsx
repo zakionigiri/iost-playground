@@ -4,7 +4,6 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Button from '@material-ui/core/Button'
 import useStyles from './styles'
-import DeleteFileModal from 'components/DeleteFileModal'
 import useLocale from '../../hooks/useLocale'
 import { Contract } from '../../store/features/contract/types'
 import TabPanel from '../TabPanel'
@@ -14,11 +13,11 @@ import { changeTab, closeDialog } from '../../store/features/view/slices'
 import {
   compileContract,
   setContractCode,
-  removeContract
+  removeContract,
 } from '../../store/features/contract/slices'
 import {
   addNotificationOp,
-  openDeleteDialogOp
+  openDeleteDialogOp,
 } from 'store/features/view/operations'
 
 const TAB_NAME = 'code-abi-tab'
@@ -34,7 +33,7 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
   const { formatMessage } = useLocale()
   const { fileName, code } = contract
 
-  const handleTabChange = (e: React.ChangeEvent<{}>, value: number) => {
+  const handleTabChange = (_: React.ChangeEvent<any>, value: number) => {
     dispatch(changeTab({ id: TAB_NAME, value }))
   }
 
@@ -55,7 +54,7 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
       dispatch(compileContract({ fileName, code }))
       dispatch(addNotificationOp('success', 'compile-success'))
     } catch (e) {
-      dispatch(addNotificationOp('error', 'error::compile-fail'))
+      dispatch(addNotificationOp('error', 'error::compile-fail', e))
     }
   }
 
@@ -70,7 +69,6 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
         variant="scrollable"
         value={tabValue}
         onChange={handleTabChange}
-        aria-label="Vertical tabs example"
         className={classes.tabs}
       >
         <Tab className={classes.tab} label="contract" />
@@ -81,17 +79,6 @@ const ContractTab: React.FC<Props> = ({ contract }) => {
           onClick={() => handleCompile(fileName, code)}
         >
           {formatMessage('compile-code')}
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() =>
-            dispatch(
-              openDeleteDialogOp(fileName, handleDeleteFile, handleClose)
-            )
-          }
-        >
-          {formatMessage('delete-code')}
         </Button>
       </Tabs>
       <TabPanel value={tabValue} index={0}>

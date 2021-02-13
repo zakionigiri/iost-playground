@@ -48,18 +48,17 @@ const AccountPage = () => {
 
   return (
     <Layout>
-      <>
+      <div className={classes.itemContainer}>
+        <ReloadButton loadFunction={reloadExtensionState} />
+        <Divider />
         {iost && (
           <>
-            <div className={classes.itemContainer}>
-              <ReloadButton loadFunction={reloadExtensionState} />
-            </div>
             <h2 className={classes.title}>iWallet Configuration</h2>
-            <Divider />
+            <p>not implemented yet</p>
             <h2 className={classes.title}>Account Info</h2>
           </>
         )}
-      </>
+      </div>
     </Layout>
   )
 }

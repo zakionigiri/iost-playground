@@ -12,7 +12,7 @@ const initialState: ContractState = {
   isSaved: true,
   savedState: [],
   contracts: [],
-  errors: []
+  errors: [],
 }
 
 const contract = createSlice({
@@ -71,7 +71,7 @@ const contract = createSlice({
       contracts: state.contracts.filter(
         ({ fileName }) => fileName !== action.payload
       ),
-      isSaved: isSaved(state.savedState, state.contracts)
+      isSaved: isSaved(state.savedState, state.contracts),
     }),
     createContract: (
       state,
@@ -85,7 +85,7 @@ const contract = createSlice({
         code: defaultContract,
         contractId: '',
         abiStr: '',
-        network: null
+        network: null,
       }
       state.contracts.push(contract)
       state.isSaved = false
@@ -129,11 +129,11 @@ const contract = createSlice({
           {
             lang: 'javascript',
             version: '1.0.0',
-            abi: abis
+            abi: abis,
           },
           null,
           2
-        )
+        ),
       }
       state.contracts.push(contract)
       state.isSaved = false
@@ -141,8 +141,8 @@ const contract = createSlice({
     },
     importFail: (state, action) => {
       state.isPending = false
-    }
-  }
+    },
+  },
 })
 
 const isSaved = (
@@ -166,7 +166,7 @@ export const {
   importStart,
   importFail,
   importSuccess,
-  setContractId
+  setContractId,
 } = contract.actions
 export default contract.reducer
 export type ContractActions = ActionType<typeof contract.actions>

@@ -14,6 +14,7 @@ import useStyles from './styles'
 import { menuListItems } from './utils'
 import { DrawerChangeFn } from 'components/Layout'
 import { DrawerTabTypes } from 'store/features/view/types'
+import useLocale from 'hooks/useLocale'
 
 type Props = {
   isOpen: boolean
@@ -24,56 +25,56 @@ type Props = {
 const SideMenu: React.FC<Props> = ({
   isOpen,
   selected,
-  handleDrawerChange
+  handleDrawerChange,
 }) => {
   const classes = useStyles()
+  const { formatMessage } = useLocale()
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
+    <Drawer
+      variant="permanent"
+      className={clsx(classes.drawer, {
+        [classes.drawerOpen]: isOpen,
+        [classes.drawerClose]: !isOpen,
+      })}
+      classes={{
+        paper: clsx({
           [classes.drawerOpen]: isOpen,
-          [classes.drawerClose]: !isOpen
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: isOpen,
-            [classes.drawerClose]: !isOpen
-          })
-        }}
-      >
-        <div className={classes.toolbar}>
-          <IconButton onClick={() => handleDrawerChange('isOpen', !isOpen)}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {menuListItems.map(({ name, path, Icon }) => (
-            <Link
-              to={`/${path}`}
-              onClick={() => handleDrawerChange('selected', name)}
-              key={name}
-              className={classes.link}
+          [classes.drawerClose]: !isOpen,
+        }),
+      }}
+    >
+      <div className={classes.toolbar}>
+        <IconButton onClick={() => handleDrawerChange('isOpen', !isOpen)}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </div>
+      <Divider />
+      <List>
+        {menuListItems.map(({ name, path, Icon }) => (
+          <Link
+            to={`/${path}`}
+            onClick={() => handleDrawerChange('selected', name)}
+            key={name}
+            className={classes.link}
+          >
+            <ListItem
+              button
+              className={
+                name === selected ? classes.selectedLink : classes.link
+              }
             >
-              <ListItem
-                button
-                className={
-                  name === selected ? classes.selectedLink : classes.link
-                }
-              >
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-                <ListItemText primary={name} />
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-      </Drawer>
-    </div>
+              <ListItemIcon>
+                <Icon />
+              </ListItemIcon>
+              <ListItemText
+                primary={formatMessage('menu:' + name.toLowerCase())}
+              />
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Drawer>
   )
 }
 

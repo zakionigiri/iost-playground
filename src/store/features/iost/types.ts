@@ -9,5 +9,5 @@ export enum ExtensionState {
   NOTINSTALLED = 'not-installed',
   ENABLED = 'enabled',
   DISABLED = 'disabled',
-  LOADING = 'loading'
+  LOADING = 'loading',
 }

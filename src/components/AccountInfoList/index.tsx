@@ -33,43 +33,43 @@ const AccountInfo: React.FC<Props> = ({ account, isDataFetched }) => {
     {
       key: 'name',
       title: 'Account Name',
-      component: account.name
+      component: account.name,
     },
     {
       key: 'balance',
       title: 'Balance',
-      component: '' + account.balance
+      component: '' + account.balance,
     },
     {
       key: 'gas_info',
       title: 'Gas Info',
-      component: account.gas_info
+      component: account.gas_info,
     },
     {
       key: 'ram_info',
       title: 'Ram Info',
-      component: account.ram_info
+      component: account.ram_info,
     },
     {
       key: 'permissions',
       title: 'Permission',
-      component: account.permissions
+      component: account.permissions,
     },
     {
       key: 'groups',
       title: 'Groups',
-      component: account.groups
+      component: account.groups,
     },
     {
       key: 'frozen_balances',
       title: 'Frozen Balance',
-      component: account.frozen_balances
+      component: account.frozen_balances,
     },
     {
       key: 'votes_info',
       title: 'Vote Info',
-      component: account.vote_infos
-    }
+      component: account.vote_infos,
+    },
   ]
 
   return <BaseList items={listItems} />

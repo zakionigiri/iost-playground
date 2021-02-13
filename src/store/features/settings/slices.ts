@@ -7,9 +7,9 @@ export const allowedLocales = ['ja-JP', 'en-US'] as const
 const initialState: SettingsState = {
   locale: 'ja-JP',
   compile: {
-    showConfirmation: true
+    showConfirmation: true,
   },
-  rpcHost: 'https://test.api.iost.io'
+  rpcHost: 'https://test.api.iost.io',
 }
 
 const settingsSlice = createSlice({
@@ -19,15 +19,15 @@ const settingsSlice = createSlice({
     changeSettings: (state, action: PayloadAction<SettingsPayload>) => {
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       }
     },
     resetSettings: (_state, _action) => {
       return {
-        ...initialState
+        ...initialState,
       }
-    }
-  }
+    },
+  },
 })
 
 export const { changeSettings, resetSettings } = settingsSlice.actions

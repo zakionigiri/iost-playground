@@ -21,7 +21,7 @@ export const rootReducer = combineReducers({
   db: db.reducer,
   view: view.reducer,
   settings: settings.reducer,
-  form: form.reducer
+  form: form.reducer,
 })
 
 export const epics = combineEpics(...iost.epics, ...db.epics, ...view.epics)

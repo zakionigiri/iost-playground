@@ -12,7 +12,7 @@ type Props = {
 const ContractMenu: React.FC<Props> = ({
   fileNameWithExtension,
   closeFn,
-  anchor
+  anchor,
 }) => {
   const { formatMessage } = useLocale()
   return (

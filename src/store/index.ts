@@ -2,7 +2,7 @@ import {
   configureStore,
   getDefaultMiddleware,
   PayloadAction,
-  Middleware
+  Middleware,
 } from '@reduxjs/toolkit'
 import { createEpicMiddleware } from 'redux-observable'
 import { createLogger } from 'redux-logger'
@@ -15,14 +15,14 @@ const middlewares: Middleware[] = [epicMiddleware]
 if (process.env.NODE_ENV !== 'production') {
   const loggerMiddleware = createLogger({
     diff: true,
-    collapsed: true
+    collapsed: true,
   })
   middlewares.push(loggerMiddleware)
 }
 
 const store = configureStore({
   reducer: rootReducer,
-  middleware: [...middlewares]
+  middleware: [...middlewares],
 })
 
 epicMiddleware.run(epics)

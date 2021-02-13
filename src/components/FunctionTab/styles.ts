@@ -3,13 +3,13 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     functionSelect: {
-      color: 'white'
+      color: 'white',
     },
     argInput: {
       color: 'white',
       marginLeft: 30,
-      width: '100%'
-    }
+      width: '100%',
+    },
   })
 )
 

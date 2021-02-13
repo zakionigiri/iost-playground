@@ -2,15 +2,13 @@ import React, { useEffect } from 'react'
 import { Contract, Abi } from '../../store/features/contract/types'
 import useLocale from 'hooks/useLocale'
 import FunctionForm from '../FunctionForm'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   selectContract,
-  sendFunctionFormStart
+  sendFunctionFormStart,
 } from '../../store/features/form/slices'
 import { Grid, Button } from '@material-ui/core'
 import useStyles from './styles'
-import { publishContract, sendTransaction } from 'store/features/iost/services'
-import { selectIostState } from 'store/features/iost/selectors'
 
 type Props = {
   contract: Contract
@@ -36,9 +34,9 @@ const ContractActions: React.FC<Props> = ({ contract }) => {
         args: [
           JSON.stringify({
             info: abi,
-            code
-          })
-        ]
+            code,
+          }),
+        ],
       })
     )
   }

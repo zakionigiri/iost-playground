@@ -6,7 +6,7 @@ const initialState: IostState = {
   //   rpcHost: testnet,
   //   network: 'TESTNET',
   iost: null,
-  extensionState: ExtensionState.LOADING
+  extensionState: ExtensionState.LOADING,
 }
 
 export type InitializeActionPayload = {
@@ -34,15 +34,15 @@ const IOSTSlice = createSlice({
       }>
     ) => {
       state.extensionState = action.payload.reason
-    }
+    },
     // TODO should I use IOST account without iWallet extension?
-  }
+  },
 })
 
 export const {
   initializeFail,
   initializeStart,
-  initializeSuccess
+  initializeSuccess,
 } = IOSTSlice.actions
 export default IOSTSlice.reducer
 export type IOSTActions = ActionType<typeof IOSTSlice.actions>

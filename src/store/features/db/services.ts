@@ -11,7 +11,7 @@ export const saveStateToDb = async (
   const res = await db.put({
     _id,
     _rev: _rev || undefined,
-    contracts
+    contracts,
   })
 
   if (res.ok !== true) {
@@ -20,7 +20,7 @@ export const saveStateToDb = async (
 
   return {
     _rev: res.rev,
-    contracts
+    contracts,
   }
 }
 
@@ -39,12 +39,12 @@ export const getSavedState = async (
   if (res == null) {
     return {
       _rev: '',
-      contracts: []
+      contracts: [],
     }
   }
 
   return {
     _rev: res._rev,
-    contracts: res.contracts
+    contracts: res.contracts,
   }
 }

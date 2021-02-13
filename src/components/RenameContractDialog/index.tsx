@@ -16,7 +16,7 @@ type Props = {
 
 const RenameContractDialog: React.FC<Props> = ({
   closeFn,
-  fileNameWithExtension
+  fileNameWithExtension,
 }) => {
   const [newName, setNewName] = useState('')
   const { formatMessage } = useLocale()

@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 1460,
       margin: 'auto',
       padding: 20,
-      boxSizing: 'border-box'
-    }
+      boxSizing: 'border-box',
+    },
   })
 )
 

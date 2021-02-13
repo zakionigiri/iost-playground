@@ -3,13 +3,13 @@ import {
   initializeStart,
   InitializeActionPayload,
   initializeSuccess,
-  initializeFail
+  initializeFail,
 } from './slices'
 import {
   importStart,
   importSuccess,
   importFail,
-  setContractId
+  setContractId,
 } from '../contract/slices'
 import { map, exhaustMap, mergeMap, catchError, filter } from 'rxjs/operators'
 import { defer, of } from 'rxjs'
@@ -17,7 +17,7 @@ import {
   loadAccount,
   getContract,
   sendTransaction,
-  publishContract
+  publishContract,
 } from './services'
 import { AllActions } from '..'
 import { RootState } from 'store'
@@ -26,7 +26,7 @@ import { addNotificationOp } from '../view/operations'
 import {
   sendFunctionFormStart,
   sendFunctionFormSuccess,
-  sendFunctionFormFail
+  sendFunctionFormFail,
 } from '../form/slices'
 import { ActionType } from 'typesafe-actions'
 
@@ -55,7 +55,7 @@ const importContractEpic: Epic<AllActions, AllActions> = (
           of(
             importSuccess({
               contract: res,
-              network: store$.value.settings.rpcHost
+              network: store$.value.settings.rpcHost,
             }),
             addNotificationOp('success', 'import-success'),
             closeDialog()
@@ -89,8 +89,8 @@ const sendTransactionEpic: Epic<AllActions, AllActions> = (
             ...settings,
             contractId,
             functionName,
-            args
-          }
+            args,
+          },
         }
       }),
       exhaustMap(({ fileName, params }) =>
@@ -101,7 +101,7 @@ const sendTransactionEpic: Epic<AllActions, AllActions> = (
               addNotificationOp('success', res.message),
               setContractId({
                 fileName,
-                contractId: JSON.parse(res.result.returns[0])[0]
+                contractId: JSON.parse(res.result.returns[0])[0],
               })
             )
           ),

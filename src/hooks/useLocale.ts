@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   changeSettings,
-  allowedLocales
+  allowedLocales,
 } from '../store/features/settings/slices'
 import { Locales, Lang } from '../store/features/settings/types'
 import { selectSetting } from '../store/features/settings/selectors'
@@ -12,7 +12,7 @@ import util from 'util'
 
 const messagesByLocal: Record<Locales, Lang> = {
   ['ja-JP']: ja,
-  ['en-US']: en
+  ['en-US']: en,
 }
 
 const isValidLocale = (locale: string): locale is Locales =>
@@ -63,7 +63,7 @@ const useLocale = () => {
     getLocaleInfo,
     formatMessage,
     changeLocale,
-    getLang
+    getLang,
   }
 }
 

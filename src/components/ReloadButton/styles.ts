@@ -6,11 +6,12 @@ const useStyles = makeStyles((theme: Theme) =>
       width: 100,
       marginTop: 20,
       padding: 0,
-      color: 'white'
+      color: 'white',
+      background: theme.palette.primary.light,
     },
     reloadIcon: {
-      marginRight: 5
-    }
+      marginRight: 5,
+    },
   })
 )
 
